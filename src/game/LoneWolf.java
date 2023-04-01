@@ -63,6 +63,7 @@ public class LoneWolf extends Actor {
             // HINT 1: How would you attack the enemy with a weapon?
         }
         return actions;
+
     }
 
 
