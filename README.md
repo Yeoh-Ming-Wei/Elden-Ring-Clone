@@ -1,7 +1,7 @@
 # FIT2099 Assignment (Semester 1, 2023)
 # Elden Ring
 
-## FIT2099_Lab03Team06
+## MA_Lab03Team06
 Team members: Lee Sing Yuan, Loo Li Shen, Yeoh Ming Wei
 
 ## Design Rationale
