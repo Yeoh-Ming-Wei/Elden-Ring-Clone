@@ -25,9 +25,10 @@ public class LoneWolf extends Enemy {
 
     public LoneWolf() {
         super("Lone Wolf", 'h', 102);
-        behaviours.put(111, new AttackBehaviour());
-        behaviours.put(999, new WanderBehaviour());
+        behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
+        behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(Status.HOSTILE_TO_ENEMY);
+        this.addCapability(Status.FRIENDLY_TO_WOLF);
     }
 
     /**
@@ -39,23 +40,20 @@ public class LoneWolf extends Enemy {
      * @param display    the I/O object to which messages may be written
      * @return the valid action that can be performed in that iteration or null if no valid action is found
      */
+    // attack action
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        for (Behaviour behaviour : behaviours.values()) {
-            if (behaviour instanceof AttackBehaviour) {
-                Action action = behaviour.getAction(this, map);
-                if (action != null) {
-                    return action;
-                }
+        if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
+            Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+            if (action != null) {
+                return action;
             }
         }
-
-        for (Behaviour behaviour : behaviours.values()) {
-            if (behaviour instanceof WanderBehaviour) {
-                Action action = behaviour.getAction(this, map);
-                if (action != null) {
-                    return action;
-                }
+        else if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
+        {
+            Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
+            if (action != null) {
+                return action;
             }
         }
 

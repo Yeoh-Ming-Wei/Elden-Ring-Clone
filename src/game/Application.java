@@ -65,17 +65,12 @@ public class Application {
 			}
 		}
 
-		// this for spawning enemies
-		for(int i = 0 ; i < map.size() - 1 ; i++) {
-			System.out.println(String.format("length: %d", map.get(i).length()));
-			for(int j = 0 ; j <= map.get(i).length() - 1; j++) {
-				int p = RandomNumberGenerator.getRandomInt(100) ;
-				System.out.println(String.format("x: %d, y: %d", i, j ));
-				if(map.get(i).charAt(j) == 'n' && p < 27 && !gameMap.isAnActorAt(gameMap.at(j, i))) gameMap.at(j, i).addActor(new LoneWolf()) ;
-
-			}
-
-		}
+		gameMap.at(23, 17).addActor(new LoneWolf());
+		gameMap.at(23, 18).addActor(new LoneWolf());
+		gameMap.at(23, 16).addActor(new LoneWolf());
+		gameMap.at(22, 18).addActor(new LoneWolf());
+		gameMap.at(22, 17).addActor(new LoneWolf());
+		gameMap.at(22, 15).addActor(new LoneWolf());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = new Player("Tarnished", '@', 300);
