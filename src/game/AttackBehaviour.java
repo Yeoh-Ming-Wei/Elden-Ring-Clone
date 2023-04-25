@@ -4,6 +4,10 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.weapons.WeaponSkill;
+
+import java.lang.reflect.Array;
 import java.util.Random;
 
 
@@ -43,7 +47,9 @@ public class AttackBehaviour implements Behaviour{
         // get the coordinates of the 8 surrounding tiles
         int currentX = here.x();
         int currentY = here.y();
+
         List<Location> surroundingLocations = new ArrayList<>();
+
         for (int i = currentX-1; i <= currentX+1; i++) {
             for (int j = currentY-1; j <= currentY+1; j++) {
                 // skip the current location
@@ -53,6 +59,13 @@ public class AttackBehaviour implements Behaviour{
                 // get the location at (i,j) from the map
                 Location loc = map.at(i, j);
                 surroundingLocations.add(loc);
+            }
+        }
+
+        // if the actor has the capability then check if he wants to use the skill
+        if ( actor.hasCapability(WeaponSkill.AREA_ATTACK)){
+            if ( random.nextInt(100) < 101) {
+                return new AttackSurroundingAction("surrounding area", surroundingLocations);
             }
         }
 
@@ -66,6 +79,8 @@ public class AttackBehaviour implements Behaviour{
                 }
             }
         }
+
+        // this is to get a random activity
         if (!actions.isEmpty()) {
             return actions.get(random.nextInt(actions.size()));
         }
