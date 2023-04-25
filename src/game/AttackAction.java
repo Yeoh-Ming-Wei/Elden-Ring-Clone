@@ -6,7 +6,8 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-
+import game.enemy.HeavySkeletonSwordsman;
+// asasas
 /**
  * An Action to attack another Actor.
  * Created by:
@@ -81,7 +82,13 @@ public class AttackAction extends Action {
 		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
-		if (!target.isConscious()) {
+
+		if (!target.isConscious() && target.hasCapability(PileOfBones.PILE_OF_BONES)){
+			target.removeCapability(PileOfBones.PILE_OF_BONES);
+
+		}
+
+		else if (!target.isConscious()) {
 			result += new DeathAction(actor).execute(target, map);
 		}
 

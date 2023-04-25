@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.enemy.HeavySkeletonSwordsman;
 import game.enemy.LoneWolf;
 import game.environment.GustOfWind;
 import game.environment.Graveyard;
@@ -65,7 +66,8 @@ public class Application {
 			}
 		}
 
-		gameMap.at(23, 17).addActor(new LoneWolf());
+		gameMap.at(23, 17).addActor(new HeavySkeletonSwordsman());
+
 
 		gameMap.at(23, 18).addActor(new LoneWolf());
 		gameMap.at(23, 16).addActor(new LoneWolf());
@@ -75,7 +77,7 @@ public class Application {
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = new Player("Tarnished", '@', 300);
-		world.addPlayer(player, gameMap.at(21, 17));
+		world.addPlayer(player, gameMap.at(22, 17));
 
 		world.run();
 	}

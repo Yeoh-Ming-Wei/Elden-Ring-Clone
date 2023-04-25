@@ -1,4 +1,101 @@
 package game.enemy;
 
-public class HeavySkeletonSwordsman {
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
+import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.Weapon;
+import game.*;
+import game.weapons.Grossmesser;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class HeavySkeletonSwordsman extends Enemy{
+    private final Map<Integer, Behaviour> behaviours = new HashMap<>();
+    private int counter;
+
+    /**
+     * Constructor.
+     *
+     * @param name        the name of the Actor
+     * @param displayChar the character that will represent the Actor in the display
+     * @param hitPoints   the Actor's starting hit points
+     */
+    public HeavySkeletonSwordsman() {
+        super("Heavy Skeleton Swordsman", 'q', 153);
+        behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
+        behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
+        this.addCapability(Status.HOSTILE_TO_ENEMY);
+        this.addCapability(PileOfBones.PILE_OF_BONES);
+        this.addWeaponToInventory(new Grossmesser());
+    }
+
+    /**
+     * Select and return an action to perform on the current turn.
+     *
+     * @param actions    collection of possible Actions for this Actor
+     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param map        the map containing the Actor
+     * @param display    the I/O object to which messages may be written
+     * @return the Action to be performed
+     */
+
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if (!this.hasCapability(PileOfBones.PILE_OF_BONES)) {
+            this.setDisplayChar('o');
+            counter++;
+            System.out.println(counter);
+
+
+            if (counter == 3) {
+                this.addCapability(PileOfBones.PILE_OF_BONES);
+                this.setDisplayChar('q');
+                this.hitPoints = 153;
+                counter = 0;
+                System.out.println(this.hitPoints);
+
+            }
+
+        }
+        else {
+            System.out.println("hi hi hi");
+            if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
+                Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+                if (action != null) {
+                    return action;
+                }
+            }
+
+            if (behaviours.containsKey(WanderBehaviour.behaviorCode())) {
+                Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
+                if (action != null) {
+                    return action;
+                }
+            }
+
+            return new DoNothingAction();
+        }
+        return new DoNothingAction();
+    }
+    /**
+     * The lone wolf can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
+     *
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return
+     */
+
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction, new Grossmesser()));
+        }
+        return actions;
+    }
 }
