@@ -42,18 +42,29 @@ public class HeavySkeletonSwordsman extends Enemy{
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        // this means that, the HSS has used its skill of pile of bones
+        // so its removed to allow checking of is it dead or still in pile of bones
         if (!this.hasCapability(PileOfBones.PILE_OF_BONES)) {
+
+            // change the display and start the counter
             this.setDisplayChar('o');
             counter++;
-            System.out.println(counter);
 
-
+            // if the HSS has been un - attacked for 3 rounds, revive
             if (counter == 3) {
+
+                // give the HSS his skill back so that can be used again if he died again
                 this.addCapability(PileOfBones.PILE_OF_BONES);
+
+                // reset his display
                 this.setDisplayChar('q');
-                this.hitPoints = 153;
+
+                //resetting his HP
+                this.resetMaxHp(getMaxHp());
+
+                // reset the counter so can be used again
                 counter = 0;
-                System.out.println(this.hitPoints);
 
             }
 
@@ -72,8 +83,6 @@ public class HeavySkeletonSwordsman extends Enemy{
                     return action;
                 }
             }
-
-            return new DoNothingAction();
         }
         return new DoNothingAction();
     }
