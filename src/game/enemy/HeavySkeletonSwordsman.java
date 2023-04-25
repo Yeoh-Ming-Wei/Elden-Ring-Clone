@@ -12,7 +12,7 @@ import game.weapons.Grossmesser;
 
 import java.util.HashMap;
 import java.util.Map;
-
+// hi
 public class HeavySkeletonSwordsman extends Enemy{
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private int counter;
