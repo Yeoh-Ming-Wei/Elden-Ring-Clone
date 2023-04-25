@@ -9,7 +9,9 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.*;
+import game.weapons.WeaponSkill;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,12 +99,23 @@ public class LoneWolf extends Enemy {
         if (otherActor.hasCapability(Status.PLAYER)) {
             if( otherActor.getWeaponInventory().size() > 0 ) {
                 for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
-                    actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(x)));
+                    //getting the weapon
+                    WeaponItem w = otherActor.getWeaponInventory().get(x);
+                    actions.add(new AttackAction(this, direction, w));
+
+                    // if the weapon has a attack surrounding capability need to add it to available actions
+
+                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.AREA_ATTACK) ){
+                        // add the surrounding attack action with correct weapon, because can have multiple
+                        // weapons of the same skill
+                        actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
+                    }
                 }
             }
             else{
                 actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
             }
+
         }
         return actions;
     }
