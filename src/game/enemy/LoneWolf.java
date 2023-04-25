@@ -96,7 +96,9 @@ public class LoneWolf extends Enemy {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.PLAYER)) {
             if( otherActor.getWeaponInventory().size() > 0 ) {
-                actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(0)));
+                for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
+                    actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(x)));
+                }
             }
             else{
                 actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));

@@ -67,11 +67,15 @@ public class AttackBehaviour implements Behaviour{
 
         // if the actor has the capability to use a skill, then check if he wants to use the skill
         if ( actor.hasCapability(WeaponSkill.AREA_ATTACK)){
-            if ( random.nextInt(100) < 101 ) {
 
-                // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                return new AttackSurroundingAction(targets,"surrounding area" ,
-                        actor.getWeaponInventory().size() > 0? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon() );
+            // to make sure that skill is not executed if there is no enemies
+            if ( targets.size() > 0 ) {
+                if (random.nextInt(100) < 50) {
+
+                    // returns a new action with weapon which the actor will use on the targets if actor has weapons
+                    return new AttackSurroundingAction(targets, "surrounding area",
+                            actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
+                }
             }
         }
         // this is to get a random activity
