@@ -46,4 +46,8 @@ public class WanderBehaviour implements Behaviour {
 		}
 
 	}
+
+	public static int behaviorCode(){
+		return 999;
+	}
 }

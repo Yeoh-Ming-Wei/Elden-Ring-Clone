@@ -8,5 +8,8 @@ package game;
 public enum Status {
     HOSTILE_TO_ENEMY,
     RESPAWNABLE,
-    RESTING
+    RESTING,
+    FRIENDLY_TO_WOLF,
+    FRIENDLY_TO_SKELETON,
+    FRIENDLY_TO_CRAB
 }

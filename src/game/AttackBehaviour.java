@@ -75,4 +75,8 @@ public class AttackBehaviour implements Behaviour{
 
     }
 
+    public static int behaviorCode(){
+        return 111;
+    }
+
 }
