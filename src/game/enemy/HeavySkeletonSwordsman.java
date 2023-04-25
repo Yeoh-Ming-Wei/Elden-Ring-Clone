@@ -25,6 +25,7 @@ public class HeavySkeletonSwordsman extends Enemy{
 
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);
+        behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(PileOfBones.PILE_OF_BONES);
@@ -75,6 +76,19 @@ public class HeavySkeletonSwordsman extends Enemy{
         // if the HSS has the skill, means he hasnt died and should perform one of the following actions
         else {
 
+            // follow has the highest precedence
+            // checks if wolf has this behaviour
+            if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
+                Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
+
+                // if the behaviour exist but cant do anything like follow anyone or player
+                // it will return null so that can execute other behaviors
+                if (action != null) {
+                    return action;
+                }
+            }
+
+            // attack has the second highest precedence
             // check if hss if it has this behavior
             if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
 
@@ -88,6 +102,7 @@ public class HeavySkeletonSwordsman extends Enemy{
                 }
             }
 
+            // wander has the lowest precedence
             // check if hss if it has this behavior
             if (behaviours.containsKey(WanderBehaviour.behaviorCode())) {
 

@@ -25,6 +25,7 @@ public class LoneWolf extends Enemy {
 
     public LoneWolf() {
         super("Lone Wolf", 'h', 102);
+        behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(Status.WOLF);
@@ -42,6 +43,19 @@ public class LoneWolf extends Enemy {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+        // follow has the highest precedence
+        // checks if wolf has this behaviour
+        if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
+            Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
+
+            // if the behaviour exist but cant do anything like follow anyone or player
+            // it will return null so that can execute other behaviors
+            if (action != null) {
+                return action;
+            }
+        }
+
+        // attack has the second highest precedence
         // checks if wolf has this behaviour
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
@@ -53,6 +67,7 @@ public class LoneWolf extends Enemy {
             }
         }
 
+        // wander is the lowest precedence
         // checks if wolf has this behaviour
         if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
         {
