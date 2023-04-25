@@ -28,7 +28,6 @@ public class HeavySkeletonSwordsman extends Enemy{
         super("Heavy Skeleton Swordsman", 'q', 153);
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
-        this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(PileOfBones.PILE_OF_BONES);
         this.addWeaponToInventory(new Grossmesser());
     }
@@ -94,7 +93,13 @@ public class HeavySkeletonSwordsman extends Enemy{
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            actions.add(new AttackAction(this, direction, new Grossmesser()));
+            System.out.println(otherActor.getClass());
+            if( otherActor.getWeaponInventory().size() > 0 ) {
+                actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(0)));
+            }
+            else{
+                actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
+            }
         }
         return actions;
     }
