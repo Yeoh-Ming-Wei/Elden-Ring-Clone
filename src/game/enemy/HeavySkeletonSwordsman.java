@@ -20,15 +20,13 @@ public class HeavySkeletonSwordsman extends Enemy{
     /**
      * Constructor.
      *
-     * @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the display
-     * @param hitPoints   the Actor's starting hit points
      */
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(PileOfBones.PILE_OF_BONES);
+        this.addCapability(Status.SKELETON);
         this.addWeaponToInventory(new Grossmesser());
     }
 
@@ -61,7 +59,6 @@ public class HeavySkeletonSwordsman extends Enemy{
 
         }
         else {
-            System.out.println("hi hi hi");
             if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
                 Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
                 if (action != null) {
@@ -92,8 +89,7 @@ public class HeavySkeletonSwordsman extends Enemy{
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            System.out.println(otherActor.getClass());
+        if (otherActor.hasCapability(Status.PLAYER)) {
             if( otherActor.getWeaponInventory().size() > 0 ) {
                 actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(0)));
             }

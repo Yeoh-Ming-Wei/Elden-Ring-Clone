@@ -6,10 +6,10 @@ package game;
  * @author Riordan D. Alfredo
  */
 public enum Status {
-    HOSTILE_TO_ENEMY,
+    PLAYER,
     RESPAWNABLE,
     RESTING,
-    FRIENDLY_TO_WOLF,
-    FRIENDLY_TO_SKELETON,
-    FRIENDLY_TO_CRAB
+    WOLF,
+    SKELETON,
+    CRAB
 }

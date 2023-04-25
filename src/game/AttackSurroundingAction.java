@@ -1,5 +1,6 @@
 package game;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,17 +38,17 @@ public class AttackSurroundingAction extends Action {
     /**
      * the coordinates of the surrounding area
      */
-    private List<Location> surroundingLocations;
+    private List<Actor> targets;
 
     /**
      * Constructor.
      *
      * @param direction the direction where the attack should be performed (only used for display purposes)
      */
-    public AttackSurroundingAction( String direction, Weapon weapon , List<Location> initSurroundingLocation) {
+    public AttackSurroundingAction( List<Actor> initTargets, String direction, Weapon weapon ) {
+        this.targets = initTargets;
         this.direction = direction;
         this.weapon = weapon;
-        this.surroundingLocations = initSurroundingLocation;
     }
 
     /**
@@ -55,9 +56,9 @@ public class AttackSurroundingAction extends Action {
      *
      * @param direction the direction where the attack should be performed (only used for display purposes)
      */
-    public AttackSurroundingAction( String direction, List<Location> initSurroundingLocation) {
+    public AttackSurroundingAction( List<Actor> initTargets, String direction) {
+        this.targets = initTargets;
         this.direction = direction;
-        this.surroundingLocations = initSurroundingLocation;
     }
 
     /**
@@ -77,12 +78,8 @@ public class AttackSurroundingAction extends Action {
 
         String result = "";
 
-        for (Location loc : surroundingLocations) {
-            // check if there is an actor at the location
-            if (map.isAnActorAt(loc)) {
-                Actor otherActor = map.getActorAt(loc);
-                result += new AttackAction(otherActor, "surrounding area",weapon).execute(actor,map) + " ";
-            }
+        for (Actor tar : targets) {
+            result += new AttackAction(tar, "surrounding area",weapon).execute(actor,map) + " ";
         }
 
         return result;

@@ -27,7 +27,7 @@ public class LoneWolf extends Enemy {
         super("Lone Wolf", 'h', 102);
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
-        this.addCapability(Status.FRIENDLY_TO_WOLF);
+        this.addCapability(Status.WOLF);
     }
 
     /**
@@ -72,12 +72,13 @@ public class LoneWolf extends Enemy {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        System.out.println(otherActor.getClass());
-        if( otherActor.getWeaponInventory().size() > 0 ) {
-            actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(0)));
-        }
-        else{
-            actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
+        if (otherActor.hasCapability(Status.PLAYER)) {
+            if( otherActor.getWeaponInventory().size() > 0 ) {
+                actions.add(new AttackAction(this, direction, otherActor.getWeaponInventory().get(0)));
+            }
+            else{
+                actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
+            }
         }
         return actions;
     }
