@@ -41,7 +41,12 @@ public class AttackSurroundingAction extends Action {
     private List<Actor> targets;
 
     /**
-     * Constructor.
+     * if the player wants to use attack surrounding
+     */
+    private Actor player;
+
+    /**
+     * Constructor. for enemies attack behaviour
      *
      * @param direction the direction where the attack should be performed (only used for display purposes)
      */
@@ -62,6 +67,18 @@ public class AttackSurroundingAction extends Action {
     }
 
     /**
+     * Constructor. for player
+     *
+     * @param direction the direction where the attack should be performed (only used for display purposes)
+     */
+    public AttackSurroundingAction( Actor player, String direction, Weapon weapon ) {
+        this.player = player;
+        this.direction = direction;
+        this.weapon = weapon;
+    }
+
+
+    /**
      * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
      * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
      *
@@ -74,6 +91,10 @@ public class AttackSurroundingAction extends Action {
     public String execute(Actor actor, GameMap map) {
         if (weapon == null) {
             weapon = actor.getIntrinsicWeapon();
+        }
+
+        if ( player != null){
+            targets = surroundingCoordinates(player,map);
         }
 
         String result = "";
@@ -96,5 +117,45 @@ public class AttackSurroundingAction extends Action {
     public String menuDescription(Actor actor) {
         return actor + " attacks " + direction + " with " + (weapon != null ? weapon : "Intrinsic Weapon");
     }
+
+    public List<Actor> surroundingCoordinates(Actor player , GameMap map ){
+        Location here = map.locationOf(player);
+
+        // has the list of all actors around the actor ( calling the behaviour )
+        ArrayList<Actor> targets = new ArrayList<>();
+
+        // gets the current position
+        int currentX = here.x();
+        int currentY = here.y();
+
+        // has the list of all possible locations
+        List<Location> surroundingLocations = new ArrayList<>();
+
+        // get the coordinates of the 8 surrounding tiles
+        for (int i = currentX-1; i <= currentX+1; i++) {
+            for (int j = currentY-1; j <= currentY+1; j++) {
+                // skip the current location
+                if (i == currentX && j == currentY) {
+                    continue;
+                }
+                // get the location at (i,j) from the map
+                Location loc = map.at(i, j);
+                surroundingLocations.add(loc);
+            }
+        }
+
+        // check for other actors on the 8 surrounding tiles
+        for (Location loc : surroundingLocations) {
+            // check if there is an actor at the location
+            if (map.isAnActorAt(loc)) {
+
+                // if there is an actor at this position, find who is it and add to the list
+                Actor otherActor = map.getActorAt(loc);
+                targets.add(otherActor);
+            }
+        }
+        return targets;
+    }
+
 }
 
