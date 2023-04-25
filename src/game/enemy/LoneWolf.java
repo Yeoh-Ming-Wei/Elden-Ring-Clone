@@ -49,7 +49,8 @@ public class LoneWolf extends Enemy {
                 return action;
             }
         }
-        else if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
+
+        if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
         {
             Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
             if (action != null) {
