@@ -13,7 +13,7 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 
 /**
  * An Action to attack another Actor.
- * Created by:
+ * Created by: Lee Sing Yuan
  * @author Adrian Kristanto
  * Modified by:
  *
@@ -21,7 +21,7 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 public class AttackSurroundingAction extends Action {
 
     /**
-     * The direction of incoming attack.
+     * The direction of incoming attack. for UI purposes
      */
     private String direction;
 
@@ -78,6 +78,7 @@ public class AttackSurroundingAction extends Action {
 
         String result = "";
 
+        // to loop through all the targets and attack them
         for (Actor tar : targets) {
             result += new AttackAction(tar, "surrounding area",weapon).execute(actor,map) + " ";
         }

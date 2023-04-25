@@ -39,16 +39,21 @@ public class LoneWolf extends Enemy {
      * @param display    the I/O object to which messages may be written
      * @return the valid action that can be performed in that iteration or null if no valid action is found
      */
-    // attack action
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        // checks if wolf has this behaviour
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+
+            // if the behaviour exist but cant do anything like attack anyone,
+            // it will return null so that can execute other behaviors
             if (action != null) {
                 return action;
             }
         }
 
+        // checks if wolf has this behaviour
         if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
         {
             Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
@@ -62,7 +67,9 @@ public class LoneWolf extends Enemy {
 
 
     /**
-     * The lone wolf can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
+     * The lone wolf can be attacked by any actor that has the PLAYER capability
+     *
+     * ONLY USED BY PLAYER
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
