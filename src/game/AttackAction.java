@@ -83,6 +83,7 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
+		// this is for the HSS, because if he dies the first time, he actually uses the skill
 		if (!target.isConscious() && target.hasCapability(PileOfBones.PILE_OF_BONES)){
 			target.removeCapability(PileOfBones.PILE_OF_BONES);
 

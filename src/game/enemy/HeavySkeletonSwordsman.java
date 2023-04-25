@@ -13,14 +13,16 @@ import game.weapons.Grossmesser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *  Spooky, spooky skeleton
+ *  Created by: Loo Li Shen
+ *  Modified by: Lee Sing Yuan
+ */
 public class HeavySkeletonSwordsman extends Enemy{
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private int counter;
 
-    /**
-     * Constructor.
-     *
-     */
+
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
@@ -44,7 +46,7 @@ public class HeavySkeletonSwordsman extends Enemy{
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
         // this means that, the HSS has used its skill of pile of bones
-        // so its removed to allow checking of is it dead or still in pile of bones
+        // so it's removed to allow checking of is it dead or should he become a pile of bones
         if (!this.hasCapability(PileOfBones.PILE_OF_BONES)) {
 
             // change the display and start the counter
@@ -69,16 +71,29 @@ public class HeavySkeletonSwordsman extends Enemy{
             }
 
         }
+
+        // if the HSS has the skill, means he hasnt died and should perform one of the following actions
         else {
+
+            // check if hss if it has this behavior
             if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
+
+                // if it has this behaviour, get the action for this behavior
                 Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+
+                // if the behaviour exist but cant do anything like attack anyone,
+                // it will return null so that can execute other behaviors
                 if (action != null) {
                     return action;
                 }
             }
 
+            // check if hss if it has this behavior
             if (behaviours.containsKey(WanderBehaviour.behaviorCode())) {
+
+                // get the action for this behavior
                 Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
+
                 if (action != null) {
                     return action;
                 }
@@ -87,7 +102,9 @@ public class HeavySkeletonSwordsman extends Enemy{
         return new DoNothingAction();
     }
     /**
-     * The lone wolf can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
+     * The lone wolf can be attacked by any actor that has the PLAYER capability
+     *
+     * ONLY USED BY PLAYER
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
