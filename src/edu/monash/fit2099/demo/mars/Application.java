@@ -67,7 +67,7 @@ public class Application {
         Bug bug = new Bug();
         bug.addItemToInventory(new MartianItem("rock", '*', true));
         bug.behaviours.add(new SpitBehaviour(player));
-        bug.behaviours.add(new FollowBehaviour(player));
+        bug.behaviours.add(new FollowBehaviour());
         gameMap.at(0, 2).addActor(bug);
 
         world.run();
