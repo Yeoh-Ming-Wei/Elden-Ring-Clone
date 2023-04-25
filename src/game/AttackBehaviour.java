@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -42,7 +43,7 @@ public class AttackBehaviour implements Behaviour{
     public Action getAction(Actor actor, GameMap map) {
         // get the current location of the actor
         Location here = map.locationOf(actor);
-        ArrayList<Action> actions = new ArrayList<>();
+        ArrayList<Actor> targets = new ArrayList<>();
 
         // get the coordinates of the 8 surrounding tiles
         int currentX = here.x();
@@ -62,34 +63,35 @@ public class AttackBehaviour implements Behaviour{
             }
         }
 
-        // if the actor has the capability then check if he wants to use the skill
-        if ( actor.hasCapability(WeaponSkill.AREA_ATTACK)){
-            if ( random.nextInt(100) < 101) {
-                return new AttackSurroundingAction("surrounding area", surroundingLocations);
-            }
-        }
-
         // check for other actors on the 8 surrounding tiles
         for (Location loc : surroundingLocations) {
             // check if there is an actor at the location
             if (map.isAnActorAt(loc)) {
                 Actor otherActor = map.getActorAt(loc);
-                if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                    actions.add(new AttackAction(otherActor, "attackActorNearby"));
-                }
+                targets.add(otherActor);
             }
         }
 
+        // if the actor has the capability then check if he wants to use the skill
+        if ( actor.hasCapability(WeaponSkill.AREA_ATTACK)){
+            if ( random.nextInt(100) < 101 ) {
+                return new AttackSurroundingAction(targets,"surrounding area");
+            }
+        }
         // this is to get a random activity
-        if (!actions.isEmpty()) {
-            return actions.get(random.nextInt(actions.size()));
+        else if (!targets.isEmpty()) {
+            Actor target = targets.get(random.nextInt(targets.size()));
+            if ( (actor.hasCapability(Status.SKELETON) && !target.hasCapability(Status.SKELETON)) ||
+                    (actor.hasCapability(Status.WOLF) && !target.hasCapability(Status.WOLF)) ||
+                    (actor.hasCapability(Status.CRAB) && !target.hasCapability(Status.CRAB)))
+            {
+                return new AttackAction(target, "attackActorNearby");
+            }
         }
-        else {
-            return null;
-        }
+
+        return null;
 
     }
-
     public static int behaviorCode(){
         return 111;
     }
