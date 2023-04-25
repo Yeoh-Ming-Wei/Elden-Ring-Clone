@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.weapons.Club;
+import game.weapons.Grossmesser;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -31,6 +32,7 @@ public class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		this.addCapability(Status.PLAYER);
 		this.addWeaponToInventory(new Club());
+		this.addWeaponToInventory(new Grossmesser());
 	}
 
 	@Override
@@ -40,6 +42,7 @@ public class Player extends Actor implements Resettable {
 			return lastAction.getNextAction();
 
 		// return/print the console menu
+		System.out.println(this.printHp());
 		return menu.showMenu(this, actions, display);
 	}
 
