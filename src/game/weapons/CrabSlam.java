@@ -16,6 +16,7 @@ public class CrabSlam extends WeaponItem {
 
     /**
      * Constructor
+     * display character _ means dont drop
      */
     public CrabSlam() {
 

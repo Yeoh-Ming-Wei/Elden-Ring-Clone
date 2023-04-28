@@ -79,7 +79,7 @@ public class HeavySkeletonSwordsman extends Enemy{
         else {
 
             // follow has the highest precedence
-            // checks if wolf has this behaviour
+            // checks if HSS has this behaviour
             if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
                 Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
 
@@ -91,7 +91,7 @@ public class HeavySkeletonSwordsman extends Enemy{
             }
 
             // attack has the second highest precedence
-            // check if hss if it has this behavior
+            // check if HSS if it has this behavior
             if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
 
                 // if it has this behaviour, get the action for this behavior
@@ -105,7 +105,7 @@ public class HeavySkeletonSwordsman extends Enemy{
             }
 
             // wander has the lowest precedence
-            // check if hss if it has this behavior
+            // check if HSS if it has this behavior
             if (behaviours.containsKey(WanderBehaviour.behaviorCode())) {
 
                 // get the action for this behavior
@@ -118,41 +118,6 @@ public class HeavySkeletonSwordsman extends Enemy{
         }
         return new DoNothingAction();
     }
-    /**
-     * The lone wolf can be attacked by any actor that has the PLAYER capability
-     *
-     * ONLY USED BY PLAYER
-     *
-     * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
-     * @param map        current GameMap
-     * @return
-     */
 
-    @Override
-    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-        ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.PLAYER)) {
-            if( otherActor.getWeaponInventory().size() > 0 ) {
-                for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
-                    //getting the weapon
-                    WeaponItem w = otherActor.getWeaponInventory().get(x);
-                    actions.add(new AttackAction(this, direction, w));
-
-                    // if the weapon has a attack surrounding capability need to add it to available actions
-
-                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.AREA_ATTACK) ){
-                        // add the surrounding attack action with correct weapon, because can have multiple
-                        // weapons of the same skill
-                        actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
-                    }
-                }
-            }
-            else{
-                actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
-            }
-        }
-        return actions;
-    }
 }
 

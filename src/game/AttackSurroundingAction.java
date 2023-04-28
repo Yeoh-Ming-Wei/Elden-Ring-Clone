@@ -118,7 +118,7 @@ public class AttackSurroundingAction extends Action {
         return actor + " attacks " + direction + " with " + (weapon != null ? weapon : "Intrinsic Weapon");
     }
 
-    public List<Actor> surroundingCoordinates(Actor player , GameMap map ){
+    public static List<Actor> surroundingCoordinates(Actor player , GameMap map ){
         Location here = map.locationOf(player);
 
         // has the list of all actors around the actor ( calling the behaviour )
