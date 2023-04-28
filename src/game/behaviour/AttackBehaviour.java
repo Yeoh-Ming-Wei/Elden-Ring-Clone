@@ -1,21 +1,19 @@
-package game;
+package game.behaviour;
 
 import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
-import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.AttackAction;
+import game.AttackSurroundingAction;
+import game.Status;
 import game.weapons.WeaponSkill;
 
-import java.lang.reflect.Array;
 import java.util.Random;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AttackBehaviour implements Behaviour{
+public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
 
     /**

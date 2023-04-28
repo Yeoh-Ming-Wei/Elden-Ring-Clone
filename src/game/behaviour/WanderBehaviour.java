@@ -1,4 +1,4 @@
-package game;
+package game.behaviour;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.behaviour.Behaviour;
 
 /**
  * Created by:
