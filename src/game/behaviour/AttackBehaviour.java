@@ -3,10 +3,11 @@ package game.behaviour;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.action.ActorsNearMe;
+import game.action.NearMe;
 import game.action.AttackAction;
 import game.action.AttackSurroundingAction;
 import game.Status;
+import game.enemy.ActorTypes;
 import game.weapon.WeaponSkill;
 
 import java.util.Random;
@@ -34,7 +35,7 @@ public class AttackBehaviour implements Behaviour {
     @Override
     public Action getAction(Actor actor, GameMap map) {
         // has the list of all actors around the actor ( calling the behaviour )
-        List<Actor> targets = ActorsNearMe.surroundingActors(actor,map,1);
+        List<Actor> targets = NearMe.getSurroundingActors(actor,map,1);
 
         // if the actor has the capability to use a skill, then check if he wants to use the skill
         if ( actor.hasCapability(WeaponSkill.AREA_ATTACK) ){
@@ -48,18 +49,21 @@ public class AttackBehaviour implements Behaviour {
                 }
             }
         }
+
         // if an enemy has the skill but decides not to use the skill, can choose to attack
         // individual targets
         // this is to get a random activity
         if (!targets.isEmpty()) {
             Actor target = targets.get(random.nextInt(targets.size()));
-            if ( (actor.hasCapability(Status.SKELETON) && !target.hasCapability(Status.SKELETON)) ||
-                    (actor.hasCapability(Status.WOLF) && !target.hasCapability(Status.WOLF)) ||
-                    (actor.hasCapability(Status.CRAB) && !target.hasCapability(Status.CRAB)))
-            {
-                // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                return new AttackAction(target, "attackActorNearby",
-                        actor.getWeaponInventory().size() > 0? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon() );
+
+            // to loop through all the enum types
+            // .values() make it become a list
+            for ( ActorTypes type : ActorTypes.values() ) {
+                if ( (actor.hasCapability(type) && !target.hasCapability(type)) ) {
+                    // returns a new action with weapon which the actor will use on the targets if actor has weapons
+                    return new AttackAction(target, "attackActorNearby",
+                            actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
+                }
             }
         }
 

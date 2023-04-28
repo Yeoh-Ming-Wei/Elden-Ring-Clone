@@ -30,7 +30,7 @@ public class GiantCrab extends Enemy {
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
-        this.addCapability(Status.CRAB);
+        this.addCapability(ActorTypes.CRAB);
         this.addWeaponToInventory(new CrabSlam());
     }
 

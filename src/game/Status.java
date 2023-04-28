@@ -6,10 +6,6 @@ package game;
  * @author Riordan D. Alfredo
  */
 public enum Status {
-    PLAYER,
     RESPAWNABLE,
     RESTING,
-    WOLF,
-    SKELETON,
-    CRAB
 }
