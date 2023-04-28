@@ -13,7 +13,7 @@ import game.behaviour.Behaviour;
 /**
  * Created by:
  * @author Riordan D. Alfredo
- * Modified by:
+ * Modified by: Lee Sing Yuan
  *
  */
 public class WanderBehaviour implements Behaviour {

@@ -1,4 +1,4 @@
-package game.weapons;
+package game.weapon;
 
 /**
  * Buying and selling are from the player's POV

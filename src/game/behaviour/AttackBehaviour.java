@@ -3,16 +3,23 @@ package game.behaviour;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.AttackAction;
-import game.AttackSurroundingAction;
+import game.action.ActorsNearMe;
+import game.action.AttackAction;
+import game.action.AttackSurroundingAction;
 import game.Status;
-import game.weapons.WeaponSkill;
+import game.weapon.WeaponSkill;
 
 import java.util.Random;
 
 
 import java.util.List;
 
+/**
+ * Created by: Loo Li Shen
+ * @author Riordan D. Alfredo
+ * Modified by: Lee Sing Yuan
+ *
+ */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
 
@@ -27,7 +34,7 @@ public class AttackBehaviour implements Behaviour {
     @Override
     public Action getAction(Actor actor, GameMap map) {
         // has the list of all actors around the actor ( calling the behaviour )
-        List<Actor> targets = AttackSurroundingAction.surroundingCoordinates(actor,map);
+        List<Actor> targets = ActorsNearMe.surroundingActors(actor,map,1);
 
         // if the actor has the capability to use a skill, then check if he wants to use the skill
         if ( actor.hasCapability(WeaponSkill.AREA_ATTACK) ){
