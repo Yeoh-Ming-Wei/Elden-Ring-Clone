@@ -88,7 +88,6 @@ public class FollowBehaviour implements Behaviour {
 					// check if this exit is moving the enemy closer or further away from the player
 					// if move closer this is the new destination
 					if (newDistance < currentDistance) {
-						System.out.println("following player");
 						return new MoveActorAction(destination, exit.getName());
 					}
 				}

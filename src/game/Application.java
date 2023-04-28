@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.enemy.GiantCrab;
 import game.enemy.HeavySkeletonSwordsman;
 import game.enemy.LoneWolf;
 import game.environment.GustOfWind;
@@ -66,10 +67,11 @@ public class Application {
 			}
 		}
 
-		gameMap.at(23, 17).addActor(new HeavySkeletonSwordsman());
+		//gameMap.at(23, 17).addActor(new HeavySkeletonSwordsman());
+		//gameMap.at(23, 18).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(23, 18).addActor(new GiantCrab());
 
-
-		gameMap.at(23, 18).addActor(new LoneWolf());
+		//gameMap.at(23, 18).addActor(new LoneWolf());
 		//gameMap.at(23, 16).addActor(new LoneWolf());
 		//gameMap.at(22, 18).addActor(new LoneWolf());
 		//gameMap.at(22, 15).addActor(new LoneWolf());
