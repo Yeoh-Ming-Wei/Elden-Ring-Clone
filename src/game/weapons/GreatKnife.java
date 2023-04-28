@@ -5,29 +5,35 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 
 /**
- * A weapon used by skeleton
- * It deals 115 damage with 85% hit rate
+ * A knife that can be used to attack the enemy.
+ * It deals 75 damage with 70% hit rate
  * Buying and selling are from the player's POV
  * Created by: Lee Sing Yuan
- * @author Lee Sing Yuan
+ * @author Adrian Kristanto
  * Modified by:
  *
  */
-public class Grossmesser extends WeaponItem implements Sellable{
+public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
+    private int buyingPrice;
     private int sellingPrice;
-
     /**
      * Constructor
      */
-    public Grossmesser() {
+    public GreatKnife() {
+        super("Great Knife", '/', 75, "slashes", 70);
 
-        super("Grossmesser", '?', 115, "slashes", 85);
-        addCapability(WeaponSkill.AREA_ATTACK);
-        sellingPrice = 100;
+        // to not return hardcode values
+        this.buyingPrice = 3500;
+        this.sellingPrice = 350;
     }
 
     @Override
     public void tick(Location currentLocation, Actor actor) {}
+
+    @Override
+    public int getPurchasePrice() {
+        return buyingPrice;
+    }
 
     @Override
     public int getSellingPrice() {
