@@ -10,7 +10,7 @@ import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
-import game.weapons.Grossmesser;
+import game.weapon.Grossmesser;
 
 import java.util.HashMap;
 import java.util.Map;

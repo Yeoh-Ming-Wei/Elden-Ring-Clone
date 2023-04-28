@@ -4,10 +4,10 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.AttackAction;
-import game.AttackSurroundingAction;
+import game.action.AttackAction;
+import game.action.AttackSurroundingAction;
 import game.Status;
-import game.weapons.WeaponSkill;
+import game.weapon.WeaponSkill;
 
 public abstract class Enemy extends Actor {
     /**

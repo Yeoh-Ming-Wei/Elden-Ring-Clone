@@ -16,9 +16,9 @@ import java.util.List;
  * A class to check if the player is nearby and should the enemy follow the actor or not
  * @see edu.monash.fit2099.demo.mars.Application
  *
- * Created by: Lee Sing Yuan
+ * Created by:
  * @author Riordan D. Alfredo
- * Modified by:
+ * Modified by: Lee Sing Yuan
  *
  */
 public class FollowBehaviour implements Behaviour {

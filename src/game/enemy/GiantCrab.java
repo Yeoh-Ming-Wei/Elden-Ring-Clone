@@ -11,7 +11,7 @@ import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
-import game.weapons.CrabSlam;
+import game.weapon.CrabSlam;
 
 import java.util.HashMap;
 import java.util.Map;

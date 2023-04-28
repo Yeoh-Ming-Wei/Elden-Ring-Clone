@@ -1,30 +1,30 @@
-package game.weapons;
+package game.weapon;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 
 /**
- * A simple weapon that can be used to attack the enemy.
- * It deals 103 damage with 80% hit rate
+ * A long katana that can be used to attack the enemy.
+ * It deals 115 damage with 80% hit rate
  * Buying and selling are from the player's POV
- * Created by:
+ * Created by: Lee Sing Yuan
  * @author Adrian Kristanto
- * Modified by: Lee Sing Yuan
+ * Modified by:
  *
  */
-public class Club extends WeaponItem implements Purchasable,Sellable{
+public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
     /**
      * Constructor
      */
-    public Club() {
-        super("Club", '!', 103, "bonks", 80);
+    public Uchigatana() {
+        super("Uchigatana", ')', 115, "slashes", 80);
 
         // to not return hardcode values
-        this.buyingPrice = 600;
-        this.sellingPrice = 100;
+        this.buyingPrice = 5000;
+        this.sellingPrice = 500;
     }
 
     @Override
