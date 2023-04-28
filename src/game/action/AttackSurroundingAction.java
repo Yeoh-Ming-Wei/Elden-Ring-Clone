@@ -90,8 +90,9 @@ public class AttackSurroundingAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-        if ( player != null){
-            targets = ActorsNearMe.surroundingActors(player,map,1);
+        // to allow player to do surrounding attack
+        if ( player != null ){
+            targets = NearMe.getSurroundingActors(player,map,1);
         }
 
         String result = "";

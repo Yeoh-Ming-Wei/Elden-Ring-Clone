@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.Status;
+import game.action.NearMe;
 import game.behaviour.Behaviour;
 
 import java.util.ArrayList;
@@ -24,52 +25,27 @@ import java.util.List;
 public class FollowBehaviour implements Behaviour {
 
 	// null unless the player is present within the following range
-	private Actor player;
 	private Location playerLocation;
 
+	/**
+	 * Decide wheter to follow player or not
+	 * @param actor the Actor acting
+	 * @param map the GameMap containing the Actor
+	 * @return 	an Action object if the player is within range
+	 * 			null if not in range
+	 */
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		// get the current location of the actor
 		Location here = map.locationOf(actor);
 
-		// gets the current position
-		int currentX = here.x();
-		int currentY = here.y();
-
 		// has the list of all possible locations
-		List<Location> surroundingLocations = new ArrayList<>();
+		List<Location> surroundingLocations = NearMe.getSurroundingLocations(actor,map,2);
 
-		// get the coordinates of the 24 surrounding tiles
-		for (int i = currentX-2; i <= currentX+2; i++) {
-			for (int j = currentY-2; j <= currentY+2; j++) {
-				// skip the current location
-				if (i == currentX && j == currentY) {
-					continue;
-				}
-				// get the location at (i,j) from the map
-				Location loc = map.at(i, j);
-				surroundingLocations.add(loc);
-			}
-		}
-
-		// check for other actors on the 24 surrounding tiles
-		for (Location loc : surroundingLocations) {
-			// check if there is an actor at the location
-			if (map.isAnActorAt(loc)) {
-
-				// if there is an actor at this position, find who is it and add to the list
-				Actor otherActor = map.getActorAt(loc);
-
-				// if found the player
-				if ( otherActor.hasCapability(Status.PLAYER) ) {
-					player = otherActor;
-					playerLocation = loc;
-				}
-			}
-		}
+		playerLocation = NearMe.playerInRangeLocation(surroundingLocations,map);
 
 		// if the player is within range, start following else return null
-		if (player != null)
+		if (playerLocation != null)
 		{
 			// get the total distance of the enemy to the player
 			int currentDistance = distance(here,playerLocation);

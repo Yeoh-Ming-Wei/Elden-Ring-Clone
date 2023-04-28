@@ -34,15 +34,21 @@ public abstract class Enemy extends Actor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.PLAYER)) {
+
+        // to only allow player to use this function
+        if (otherActor.hasCapability(ActorTypes.PLAYER)) {
+
+            // if the player has weapons in his inventory
             if( otherActor.getWeaponInventory().size() > 0 ) {
+
+                // let the player choose which weapon to use
                 for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
+
                     //getting the weapon
                     WeaponItem w = otherActor.getWeaponInventory().get(x);
                     actions.add(new AttackAction(this, direction, w));
 
-                    // if the weapon has a attack surrounding capability need to add it to available actions
-
+                    // if the weapon has an attack surrounding capability need to add it to available actions
                     if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.AREA_ATTACK) ){
                         // add the surrounding attack action with correct weapon, because can have multiple
                         // weapons of the same skill
@@ -50,6 +56,8 @@ public abstract class Enemy extends Actor {
                     }
                 }
             }
+
+            // if the player does not have a weapon
             else{
                 actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
             }

@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import game.enemy.ActorTypes;
 import game.weapon.Club;
 import game.weapon.Grossmesser;
 
@@ -30,7 +31,7 @@ public class Player extends Actor implements Resettable {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
-		this.addCapability(Status.PLAYER);
+		this.addCapability(ActorTypes.PLAYER);
 		this.addWeaponToInventory(new Club());
 		this.addWeaponToInventory(new Grossmesser());
 	}

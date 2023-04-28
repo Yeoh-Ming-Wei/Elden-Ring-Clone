@@ -31,7 +31,7 @@ public class HeavySkeletonSwordsman extends Enemy{
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(PileOfBones.PILE_OF_BONES);
-        this.addCapability(Status.SKELETON);
+        this.addCapability(ActorTypes.SKELETON);
         this.addWeaponToInventory(new Grossmesser());
     }
 
