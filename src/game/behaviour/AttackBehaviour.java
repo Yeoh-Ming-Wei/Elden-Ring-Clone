@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
+    private int skillChance = 50;
 
     /**
      * Decides whether an enemy should attack another actor or not
@@ -42,7 +43,8 @@ public class AttackBehaviour implements Behaviour {
 
             // to make sure that skill is not executed if there is no enemies
             if ( targets.size() > 0 ) {
-                if (random.nextInt(100) < 50) {
+
+                if (random.nextInt(100) < skillChance) {
                     // returns a new action with weapon which the actor will use on the targets if actor has weapons
                     return new AttackSurroundingAction(targets, "surrounding area",
                             actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
