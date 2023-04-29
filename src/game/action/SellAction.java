@@ -3,15 +3,8 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.Weapon;
-import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.PileOfBones;
-import game.weapon.Club;
-import game.weapon.GreatKnife;
-import game.weapon.Purchasable;
-import game.weapon.Uchigatana;
+import game.weapon.*;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -23,7 +16,7 @@ import java.util.Scanner;
  * Modified by:
  *
  */
-public class PurchaseAction extends Action {
+public class SellAction extends Action {
 
 	/**
 	 * The Actor that is to be attacked
@@ -47,7 +40,7 @@ public class PurchaseAction extends Action {
 	 * @param trader the Actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)
 	 */
-	public PurchaseAction(Actor trader, String direction) {
+	public SellAction(Actor trader, String direction) {
 		this.trader = trader;
 		this.direction = direction;
 	}
@@ -77,21 +70,21 @@ public class PurchaseAction extends Action {
 
 		// return
 		// will be changed if player bought something
-		String result = "Bought nothing";
+		String result = "Sold nothing";
 
 		// to store the arrayList of weapons
-		ArrayList<Purchasable> inventory = new ArrayList<>();
+		ArrayList<Sellable> inventory = new ArrayList<>();
 
-		// adding all the available weapons
-		inventory.add(new Uchigatana());
-		inventory.add(new GreatKnife());
-		inventory.add(new Club());
+		// adding all the available weapons from player that he or she can sell
+		for ( int x = 0 ; x < actor.getWeaponInventory().size() ; x++ ){
+			inventory.add( (Sellable) actor.getWeaponInventory().get(x) );
+		}
 
 
 		// exit number
 		int exit = inventory.size() + start ;
 
-		System.out.println("Please select what you want to buy:");
+		System.out.println("Please select what you want to sell:");
 
 		// to print out all the available options
 		for ( int x = 0 ; x < inventory.size()  ; x++ ){
@@ -120,7 +113,7 @@ public class PurchaseAction extends Action {
 			// if the player did select a weapon
 			// will be moved to checking if the player can buy or not
 			if ( choice != exit ) {
-				result = "You bought: " + inventory.get(choice - start) + " for " + inventory.get(choice - start).getPurchasePrice();
+				result = "Your sold: " + inventory.get(choice - start) + " for " + inventory.get(choice - start).getSellingPrice();
 			}
 
 			// if we choose a number smaller than the available options or bigger then the exit, continue looping
@@ -141,6 +134,6 @@ public class PurchaseAction extends Action {
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " buys from " + trader;
+		return actor + " sells to " + trader;
 	}
 }
