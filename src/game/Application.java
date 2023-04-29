@@ -2,15 +2,10 @@ package game;
 
 import java.util.Arrays;
 import java.util.List;
-
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.World;
-import game.enemy.GiantCrab;
-import game.enemy.HeavySkeletonSwordsman;
-import game.enemy.LoneWolf;
-import game.environment.GustOfWind;
+import edu.monash.fit2099.engine.positions.World;import game.environment.GustOfWind;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
 
@@ -66,17 +61,6 @@ public class Application {
 				exception.printStackTrace();
 			}
 		}
-
-		/*
-		gameMap.at(23, 17).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(23, 18).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(23, 19).addActor(new GiantCrab());
-
-		gameMap.at(22, 17).addActor(new LoneWolf());
-		gameMap.at(22, 18).addActor(new LoneWolf());
-		
-		 */
-		//gameMap.at(24, 17).addActor(new LoneWolf());
 
 		gameMap.at(21, 17).addActor(new Trader());
 		// HINT: what does it mean to prefer composition to inheritance?
