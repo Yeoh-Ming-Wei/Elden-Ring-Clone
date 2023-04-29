@@ -39,10 +39,8 @@ public class FollowBehaviour implements Behaviour {
 		// get the current location of the actor
 		Location here = map.locationOf(actor);
 
-		// has the list of all possible locations
-		List<Location> surroundingLocations = NearMe.getSurroundingLocations(actor,map,2);
-
-		playerLocation = NearMe.playerInRangeLocation(surroundingLocations,map);
+		// to see if player is near this actor
+		playerLocation = NearMe.playerInRangeLocation(actor,map,2);
 
 		// if the player is within range, start following else return null
 		if (playerLocation != null)
