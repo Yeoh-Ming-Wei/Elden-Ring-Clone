@@ -93,10 +93,11 @@ public class AttackSurroundingAction extends Action {
         // to allow player to do surrounding attack
         if ( player != null ){
             targets = NearMe.getSurroundingActors(player,map,1);
+
         }
 
         // just to make the UI prettier
-        String result = "Attacking surrounding area \n[";
+        String result = actor.toString() + " attacks the surrounding \n[";
 
         // to loop through all the targets and attack them
         for (Actor tar : targets) {
