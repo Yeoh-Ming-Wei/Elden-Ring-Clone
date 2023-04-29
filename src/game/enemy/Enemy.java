@@ -24,7 +24,7 @@ public abstract class Enemy extends Actor {
     /**
      * The enemies can be attacked by actors with the PLAYER capability
      *
-     * ONLY USED BY PLAYER
+     * THIS FUNCTION IS ONLY USED BY PLAYER
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor

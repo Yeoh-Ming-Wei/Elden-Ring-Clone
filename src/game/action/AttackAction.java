@@ -7,12 +7,12 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.PileOfBones;
-// asasas
+
 /**
  * An Action to attack another Actor.
  * Created by:
  * @author Adrian Kristanto
- * Modified by:
+ * Modified by: Lee Sing Yuan
  *
  */
 public class AttackAction extends Action {
