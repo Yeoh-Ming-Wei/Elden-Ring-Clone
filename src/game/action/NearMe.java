@@ -79,16 +79,19 @@ public class NearMe {
 
     /**
      * if the player is in the actor's range, returns the location of the player
-     * @param initLocations the list of possible locations
+     * @param actor the list of possible locations
      * @param map the map itself
+     * @param radius the radius of the search
      * @return  Location object which is the location of the player
      *          null if there is no player
      */
-    public static Location playerInRangeLocation(List<Location> initLocations,GameMap map){
+    public static Location playerInRangeLocation(Actor actor,GameMap map,int radius){
         Location playerLocation = null;
 
+        List<Location> locations = getSurroundingLocations(actor,map,radius);
+
         // check the surrouding of the actor
-        for (Location loc : initLocations) {
+        for (Location loc : locations) {
             // check if there is an actor at the location
 
             // if there is an actor at that location
