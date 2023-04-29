@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.action.AttackAction;
 import game.action.AttackSurroundingAction;
 import game.action.PurchaseAction;
+import game.action.SellAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
@@ -60,7 +61,8 @@ public class Trader extends Actor {
 
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-            actions.add(new PurchaseAction(this," near me "));
+            actions.add(new PurchaseAction(this,"near me"));
+            actions.add(new SellAction(this,"near me"));
         }
         return actions;
     }
