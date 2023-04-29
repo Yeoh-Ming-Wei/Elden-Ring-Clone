@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.positions.Ground;
 import game.RandomNumberGenerator;
 import edu.monash.fit2099.engine.positions.Location;
 import game.enemy.HeavySkeletonSwordsman;
-import game.enemy.LoneWolf;
 
 public class Graveyard extends Ground {
 	
