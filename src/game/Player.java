@@ -9,8 +9,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.enemy.ActorTypes;
-import game.weapon.Club;
-import game.weapon.Grossmesser;
+import game.weapon.*;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
