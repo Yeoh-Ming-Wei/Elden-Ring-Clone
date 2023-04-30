@@ -7,10 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.enemy.ActorTypes;
-import game.weapon.Club;
-import game.weapon.GreatKnife;
-import game.weapon.Grossmesser;
-import game.weapon.Uchigatana;
+import game.weapon.*;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -38,6 +35,7 @@ public class Player extends Actor implements Resettable {
 		this.addWeaponToInventory(new Grossmesser());
 		this.addWeaponToInventory(new Uchigatana());
 		this.addWeaponToInventory(new GreatKnife());
+		this.addWeaponToInventory(new Scimitar());
 	}
 
 	@Override
