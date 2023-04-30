@@ -5,7 +5,9 @@ import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.World;import game.environment.GustOfWind;
+import edu.monash.fit2099.engine.positions.World;
+import game.enemy.HeavySkeletonSwordsman;
+import game.environment.GustOfWind;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
 
@@ -71,13 +73,15 @@ public class Application {
 		gameMap.at(22, 18).addActor(new LoneWolf());
 		gameMap.at(22, 19).addActor(new LoneWolf());
 		 */
-		gameMap.at(0, 0).addActor(new LoneWolf());
 
 		//gameMap.at(0, 17).addActor(new Trader());
+		gameMap.at(18, 10).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(18, 11).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(18, 9).addActor(new HeavySkeletonSwordsman());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = new Player("Tarnished", '@', 300);
-		world.addPlayer(player, gameMap.at(0, 1));
+		world.addPlayer(player, gameMap.at(15, 15));
 
 		world.run();
 	}

@@ -97,14 +97,12 @@ public class AttackSurroundingAction extends Action {
         }
 
         // just to make the UI prettier
-        String result = actor.toString() + " attacks the surrounding \n[";
+        String result = actor.toString() + " attacks their surrounding! \n";
 
         // to loop through all the targets and attack them
         for (Actor tar : targets) {
-            result += "\n" + new AttackAction(tar, "surrounding area",weapon).execute(actor,map) ;
+            result += new AttackAction(tar, "surrounding area",weapon).execute(actor,map) + "\n" ;
         }
-        result += "\n]";
-
         return result;
     }
 

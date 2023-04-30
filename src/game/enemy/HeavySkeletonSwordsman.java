@@ -23,6 +23,8 @@ import java.util.Map;
 public class HeavySkeletonSwordsman extends Enemy{
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private int counter;
+    private final int counterReset;
+    private final int counterMax;
 
 
     public HeavySkeletonSwordsman() {
@@ -33,6 +35,12 @@ public class HeavySkeletonSwordsman extends Enemy{
         this.addCapability(PileOfBones.PILE_OF_BONES);
         this.addCapability(ActorTypes.SKELETON);
         this.addWeaponToInventory(new Grossmesser());
+
+        counterReset = -1;
+        counterMax = 3;
+
+        // -1 cause immediate increment at playTurn if want actual 3 rounds of visible pileOfBones
+        counter = counterReset;
     }
 
     /**
@@ -53,11 +61,11 @@ public class HeavySkeletonSwordsman extends Enemy{
         if (!this.hasCapability(PileOfBones.PILE_OF_BONES)) {
 
             // change the display and start the counter
-            this.setDisplayChar('o');
+            this.setDisplayChar('X');
             counter++;
 
             // if the HSS has been un - attacked for 3 rounds, revive
-            if (counter == 3) {
+            if (counter == counterMax) {
 
                 // give the HSS his skill back so that can be used again if he died again
                 this.addCapability(PileOfBones.PILE_OF_BONES);
@@ -69,7 +77,7 @@ public class HeavySkeletonSwordsman extends Enemy{
                 this.resetMaxHp(getMaxHp());
 
                 // reset the counter so can be used again
-                counter = 0;
+                counter = counterReset;
 
             }
 

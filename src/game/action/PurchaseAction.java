@@ -102,7 +102,6 @@ public class PurchaseAction extends Action {
 		// telling what number to press to exit
 		System.out.println("" + exit + ") Exit");
 
-		// allows multi buy until want to exit ( choice < start || choice != exit )
 		// allows single buy  ( choice > exit || choice < start )
 		do {
 			// if the user did not put a number
