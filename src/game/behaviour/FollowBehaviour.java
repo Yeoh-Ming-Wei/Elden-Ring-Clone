@@ -63,6 +63,7 @@ public class FollowBehaviour implements Behaviour {
 
 					// check if this exit is moving the enemy closer or further away from the player
 					// if move closer this is the new destination
+					// if enemy cannot go to player as in there is a wall in between, will return null
 					if (newDistance < currentDistance) {
 						return new MoveActorAction(destination, exit.getName());
 					}

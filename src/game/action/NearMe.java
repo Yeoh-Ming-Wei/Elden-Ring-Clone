@@ -59,19 +59,29 @@ public class NearMe {
         int currentX = here.x();
         int currentY = here.y();
 
+        // border check
+        int xLowerBound = map.getXRange().min();
+        int xUpperBound = map.getXRange().max();
+        int yLowerBound = map.getYRange().min();
+        int yUpperBound = map.getYRange().max();
+
         // has the list of all possible locations
         List<Location> surroundingLocations = new ArrayList<>();
 
-        // get the coordinates of the 8 surrounding tiles
-        for (int i = currentX-radius; i <= currentX+radius; i++) {
-            for (int j = currentY-radius; j <= currentY+radius; j++) {
+        // get the coordinates of the surrounding tiles
+        for (int x = currentX-radius; x <= currentX+radius; x++) {
+            for (int y = currentY-radius; y <= currentY+radius; y++) {
                 // skip the current location
-                if (i == currentX && j == currentY) {
+                if (x == currentX && y == currentY) {
                     continue;
                 }
-                // get the location at (i,j) from the map
-                Location loc = map.at(i, j);
-                surroundingLocations.add(loc);
+                // get the location at (x,y) from the map
+                // only add them to the list if these are accessible locations
+                // accessible as in, x and y is within range
+                if ( ( ( x >= xLowerBound ) && ( x <= xUpperBound ) && ( y >= yLowerBound ) && ( y <= yUpperBound ) ) ) {
+                    Location loc = map.at(x, y);
+                    surroundingLocations.add(loc);
+                }
             }
         }
         return surroundingLocations;
