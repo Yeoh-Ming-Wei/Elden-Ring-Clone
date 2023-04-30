@@ -56,7 +56,7 @@ public class AttackBehaviour implements Behaviour {
 
                     // check if there exist an enemy which is of a different type
                     // so that this actor can use the attackSurrounding
-                    if ((actor.hasCapability(type) && !target.hasCapability(type))) {
+                    if ( (actor.hasCapability(type) && !target.hasCapability(type)) && (!target.hasCapability(ActorTypes.TRADER)) ) {
 
                         // check the chances
                         if (random.nextInt(100) < skillChance) {
@@ -79,7 +79,7 @@ public class AttackBehaviour implements Behaviour {
             // to loop through all the enum types
             // .values() make it become a list
             for ( ActorTypes type : ActorTypes.values() ) {
-                if ( (actor.hasCapability(type) && !target.hasCapability(type)) ) {
+                if ( (actor.hasCapability(type) && !target.hasCapability(type)) && (!target.hasCapability(ActorTypes.TRADER)) ) {
                     // returns a new action with weapon which the actor will use on the targets if actor has weapons
                     return new AttackAction(target, "attackActorNearby",
                             actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
