@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
-    private int skillChance = 100;
+    private int skillChance = 50;
 
     /**
      * Decides whether an enemy should attack another actor or not
