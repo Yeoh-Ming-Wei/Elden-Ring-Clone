@@ -76,13 +76,13 @@ public class Application {
 		gameMap.at(22, 18).addActor(new LoneWolf());
 		gameMap.at(22, 19).addActor(new LoneWolf());
 		 */
-		//gameMap.at(24, 17).addActor(new LoneWolf());
+		gameMap.at(0, 0).addActor(new LoneWolf());
 
-		gameMap.at(21, 17).addActor(new Trader());
+		//gameMap.at(0, 17).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = new Player("Tarnished", '@', 300);
-		world.addPlayer(player, gameMap.at(20, 17));
+		world.addPlayer(player, gameMap.at(0, 1));
 
 		world.run();
 	}
