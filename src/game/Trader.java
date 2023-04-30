@@ -28,6 +28,7 @@ public class Trader extends Actor {
      */
     public Trader() {
         super("Merchant Kale", 'K', 999);
+        this.addCapability(ActorTypes.TRADER);
     }
 
 

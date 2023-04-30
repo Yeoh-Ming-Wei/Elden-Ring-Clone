@@ -4,5 +4,6 @@ public enum ActorTypes {
     PLAYER,
     WOLF,
     CRAB,
-    SKELETON
+    SKELETON,
+    TRADER
 }
