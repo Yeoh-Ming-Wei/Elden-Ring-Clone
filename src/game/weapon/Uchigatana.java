@@ -22,6 +22,9 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
     public Uchigatana() {
         super("Uchigatana", ')', 115, "slashes", 80);
 
+        // adding the ability
+        this.addCapability(WeaponSkill.UNSHEATHE);
+
         // to not return hardcode values
         this.buyingPrice = 5000;
         this.sellingPrice = 500;

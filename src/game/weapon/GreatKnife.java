@@ -25,6 +25,9 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
         // to not return hardcode values
         this.buyingPrice = 3500;
         this.sellingPrice = 350;
+
+        // adding the capability
+        this.addCapability(WeaponSkill.QUICKSTEP);
     }
 
     @Override
