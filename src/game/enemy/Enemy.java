@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.action.AttackAction;
 import game.action.AttackSurroundingAction;
 import game.Status;
+import game.action.QuickStepAction;
+import game.action.UnsheatheAction;
 import game.weapon.WeaponSkill;
 
 public abstract class Enemy extends Actor {
@@ -49,6 +51,20 @@ public abstract class Enemy extends Actor {
                         // add the surrounding attack action with correct weapon, because can have multiple
                         // weapons of the same skill
                         actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
+                    }
+
+                    // checks if player has weapon that can do Unsheathe action
+                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.UNSHEATHE) ){
+                        // add the Unsheathe action with correct weapon, because can have multiple
+                        // weapons of the same skill
+                        actions.add(new UnsheatheAction(this,direction , w));
+                    }
+
+                    // checks if player has weapon that can do Quick Step action
+                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.QUICKSTEP) ){
+                        // add the Quick step action with correct weapon, because can have multiple
+                        // weapons of the same skill
+                        actions.add(new QuickStepAction(this,direction , w));
                     }
                 }
                 // adding the intrinsic weapon choice
