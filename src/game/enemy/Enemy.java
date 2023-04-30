@@ -37,10 +37,6 @@ public abstract class Enemy extends Actor {
 
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-
-            // if the player has weapons in his inventory
-            if( otherActor.getWeaponInventory().size() > 0 ) {
-
                 // let the player choose which weapon to use
                 for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
 
@@ -55,14 +51,9 @@ public abstract class Enemy extends Actor {
                         actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
                     }
                 }
+                // adding the intrinsic weapon choice
+                actions.add(new AttackAction(this, direction));
             }
-
-            // if the player does not have a weapon
-            else{
-                actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
-            }
-
-        }
         return actions;
     }
 }
