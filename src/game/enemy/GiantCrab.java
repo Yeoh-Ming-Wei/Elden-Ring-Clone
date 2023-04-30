@@ -27,10 +27,9 @@ public class GiantCrab extends Enemy {
 
     public GiantCrab() {
         super("Giant Crab", 'C', 407);
-        // behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
-        // behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
-        // behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
-        this.behaviours.put(777, new WanderBehaviour());
+        behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
+        behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
+        behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(ActorTypes.CRAB);
         this.addWeaponToInventory(new CrabSlam());
     }
@@ -47,50 +46,38 @@ public class GiantCrab extends Enemy {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // // follow has the highest precedence
-        // // checks if giant crab has this behaviour
-        // if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
-        //     Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
+        // follow has the highest precedence
+        // checks if giant crab has this behaviour
+        if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
+            Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
 
-        //     // if the behaviour exist but cant do anything like follow anyone or player
-        //     // it will return null so that can execute other behaviors
-        //     if (action != null) {
-        //         return action;
-        //     }
-        // }
-
-        // // attack has the second highest precedence
-        // // checks if giant crab has this behaviour
-        // if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
-        //     Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
-
-        //     // if the behaviour exist but cant do anything like attack anyone,
-        //     // it will return null so that can execute other behaviors
-        //     if (action != null) {
-        //         return action;
-        //     }
-        // }
-
-        // // wander is the lowest precedence
-        // // checks if giant crab has this behaviour
-        // if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
-        // {
-        //     Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
-        //     if (action != null) {
-        //         return action;
-        //     }
-        // }
-
-        // for (Behaviour behaviour : behaviours.values()) {
-        //     Action action = behaviour.getAction(this, map);
-        //     if(action != null)
-        //         return action;
-        // }
-
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if(action != null)
+            // if the behaviour exist but cant do anything like follow anyone or player
+            // it will return null so that can execute other behaviors
+            if (action != null) {
                 return action;
+            }
+        }
+
+        // attack has the second highest precedence
+        // checks if giant crab has this behaviour
+        if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
+            Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+
+            // if the behaviour exist but cant do anything like attack anyone,
+            // it will return null so that can execute other behaviors
+            if (action != null) {
+                return action;
+            }
+        }
+
+        // wander is the lowest precedence
+        // checks if giant crab has this behaviour
+        if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
+        {
+            Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
+            if (action != null) {
+                return action;
+            }
         }
 
         return new DoNothingAction();
