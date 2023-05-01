@@ -47,7 +47,7 @@ public class DeathAction extends Action {
         for (Action drop : dropActions)
             drop.execute(target, map);
         if (attacker.hasCapability(ActorTypes.PLAYER))
-            RuneManager.addRune(attacker, dropRune(100, 500)) ;
+            RuneManager.addRune(attacker, target.getDisplayChar()) ;
         // remove actor
         map.removeActor(target);
         result += System.lineSeparator() + menuDescription(target);
