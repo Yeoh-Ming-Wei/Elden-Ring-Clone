@@ -22,7 +22,6 @@ import game.weapon.*;
 public class Player extends Actor implements Resettable {
 
 	private final Menu menu = new Menu();
-	private int rune = 0 ;
 
 	/**
 	 * Constructor.
@@ -36,11 +35,6 @@ public class Player extends Actor implements Resettable {
 		this.addCapability(ActorTypes.PLAYER);
 		this.addWeaponToInventory(new Club());
 		this.addWeaponToInventory(new Grossmesser());
-		this.rune = 0 ;
-	}
-
-	public int getRune() {
-		return this.rune ;
 	}
 
 	@Override
@@ -50,9 +44,14 @@ public class Player extends Actor implements Resettable {
 			return lastAction.getNextAction();
 
 		// to print the HP before printing all the available options
-		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), getRune()) ;
+		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.returnRune()) ;
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	@Override
