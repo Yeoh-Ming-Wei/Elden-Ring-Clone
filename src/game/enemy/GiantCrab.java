@@ -24,11 +24,10 @@ import java.util.Map;
  * Created by: Adrian Kristanto
  * Modified by:
  */
-public class GiantCrab extends Enemy {
+public class GiantCrab extends Crab {
 
     public GiantCrab() {
         super("Giant Crab", 'C', 407);
-        this.addCapability(ActorTypes.CRAB);
         this.addWeaponToInventory(new CrabSlam());
     }
 
