@@ -4,10 +4,14 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.enemy.ActorTypes;
 import game.weapon.*;
+import potion.ConsumeAction;
+import potion.FlaskOfCrimsonTears;
+import potion.Heal;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -36,6 +40,7 @@ public class Player extends Actor implements Resettable {
 		this.addWeaponToInventory(new Uchigatana());
 		this.addWeaponToInventory(new GreatKnife());
 		this.addWeaponToInventory(new Scimitar());
+		this.addItemToInventory(new FlaskOfCrimsonTears());
 	}
 
 	@Override
@@ -44,12 +49,30 @@ public class Player extends Actor implements Resettable {
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
-		// to print the HP before printing all the available options
+		// Create a new action to consume a potion if the player has one in their inventory
+		for (Item potion : this.getItemInventory()) {
+			actions.add(new ConsumeAction(potion));
+
+		}
+
+		// Print the player's health points before displaying the menu
 		System.out.println(this.printHp());
-		// return/print the console menu
+
+		// Return/print the console menu
 		return menu.showMenu(this, actions, display);
+
 	}
 
+
 	@Override
-	public void reset() {}
+	public String toString() {
+		return name;
+	}
+
+
+	@Override
+	public void reset() {
+
+	}
 }
+
