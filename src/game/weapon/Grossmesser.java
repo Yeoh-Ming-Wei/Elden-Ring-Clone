@@ -15,6 +15,7 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
  */
 public class Grossmesser extends WeaponItem implements Sellable{
     private int sellingPrice;
+    private static boolean isSellableAdded = false;
 
     /**
      * Constructor
@@ -24,6 +25,11 @@ public class Grossmesser extends WeaponItem implements Sellable{
         super("Grossmesser", '?', 115, "slashes", 85);
         addCapability(WeaponSkill.AREA_ATTACK);
         sellingPrice = 100;
+
+        if ( isSellableAdded == false ) {
+            isSellableAdded = true;
+            WeaponPurchaseSellInfo.addSellableWeapon(new Grossmesser());
+        }
     }
 
     @Override

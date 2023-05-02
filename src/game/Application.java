@@ -11,6 +11,8 @@ import game.enemy.LoneWolf;
 import game.environment.GustOfWind;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
+import game.weapon.Club;
+import game.weapon.WeaponPurchaseSellInfo;
 
 /**
  * The main class to start the game.
@@ -80,12 +82,13 @@ public class Application {
 		 */
 
 
-		// gameMap.at(15, 14).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(15, 16).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(15, 14).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = new Player("Tarnished", '@', 300);
 		world.addPlayer(player, gameMap.at(15, 15));
+
 
 		world.run();
 	}

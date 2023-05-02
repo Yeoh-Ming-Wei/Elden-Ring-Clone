@@ -34,7 +34,9 @@ public class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addWeaponToInventory(new Club());
-		this.addWeaponToInventory(new Grossmesser());
+		Grossmesser g = new Grossmesser();
+		this.addWeaponToInventory(g);
+		this.addWeaponToInventory(g);
 	}
 
 	@Override
