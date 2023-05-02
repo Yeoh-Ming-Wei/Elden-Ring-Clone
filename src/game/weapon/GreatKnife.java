@@ -16,6 +16,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
+    private static boolean isPurchaseAdded = false;
+    private static boolean isSellableAdded = false;
     /**
      * Constructor
      */
@@ -28,6 +30,17 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
 
         // adding the capability
         this.addCapability(WeaponSkill.QUICKSTEP);
+
+        if ( isPurchaseAdded == false ){
+            isPurchaseAdded = true;
+            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new GreatKnife());
+            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new GreatKnife());
+        }
+
+        if ( isSellableAdded == false ) {
+            isSellableAdded = true;
+            WeaponPurchaseSellInfo.addSellableWeapon(new GreatKnife());
+        }
     }
 
     @Override

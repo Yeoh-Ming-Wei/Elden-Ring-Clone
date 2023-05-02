@@ -3,10 +3,11 @@ import java.util.Scanner;
 
 public class TradeActionInput {
 
-    public static int getChoiceMenu(int start, int exit){
+    public static int getChoiceMenu(int exit){
         // to receive input
         Scanner sel = new Scanner(System.in);
 
+        int start = 0;
         int choice = start - 1;
         // allows single buy  ( choice > exit || choice < start )
         do {

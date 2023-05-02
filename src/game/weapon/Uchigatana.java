@@ -16,6 +16,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
+    private static boolean isPurchaseAdded = false;
+    private static boolean isSellableAdded = false;
     /**
      * Constructor
      */
@@ -28,6 +30,17 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         // to not return hardcode values
         this.buyingPrice = 5000;
         this.sellingPrice = 500;
+
+        if ( isPurchaseAdded == false ){
+            isPurchaseAdded = true;
+            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Uchigatana());
+            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Uchigatana());
+        }
+
+        if ( isSellableAdded == false ) {
+            isSellableAdded = true;
+            WeaponPurchaseSellInfo.addSellableWeapon(new Uchigatana());
+        }
     }
 
     @Override
