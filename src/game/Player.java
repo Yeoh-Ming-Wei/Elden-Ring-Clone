@@ -44,7 +44,7 @@ public class Player extends Actor implements Resettable {
 			return lastAction.getNextAction();
 
 		// to print the HP before printing all the available options
-		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.returnRune()) ;
+		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
 	}
