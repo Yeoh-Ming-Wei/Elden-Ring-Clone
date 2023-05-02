@@ -15,7 +15,9 @@ import game.behaviour.AttackBehaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.enemy.ActorTypes;
-import game.weapon.WeaponSkill;
+import game.weapon.*;
+
+import java.util.ArrayList;
 
 /**
  * A class for trader
@@ -60,9 +62,17 @@ public class Trader extends Actor {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
 
+        // to store the arrayList of weapons that can be bought
+        ArrayList<Purchasable> inventory = new ArrayList<>();
+
+        // adding all the available weapons
+        inventory.add(new Uchigatana());
+        inventory.add(new GreatKnife());
+        inventory.add(new Club());
+
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-            actions.add(new PurchaseAction(this,"near me"));
+            actions.add(new PurchaseAction(this,"near me",inventory));
             actions.add(new SellAction(this,"near me"));
         }
         return actions;

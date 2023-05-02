@@ -18,7 +18,7 @@ public class RuneManager{
 
     private RuneManager() {
         rune = new Rune() ;
-    } ;
+    }
 
     public static RuneManager getInstance() {
         if (rm == null) 
@@ -33,18 +33,22 @@ public class RuneManager{
             case 'C' -> value = RandomNumberGenerator.getRandomInt(GIANT_CRAB_MIN_RUNE, GIANT_CRAB_MAX_RUNE) ;
             case 'X' -> value = RandomNumberGenerator.getRandomInt(HSS_MIN_RUNE, HSS_MAX_RUNE) ;
         }
-        rune.setRune(rune.getRune() + value) ;
-        System.out.println(menuDescription(player, "increased", value)) ;
+        addRune(player,value) ;
     }
 
     public void deductRune(Actor player, int value) {
         rune.setRune(rune.getRune() - value) ;
-        System.out.println(menuDescription(player, "decreased", value)) ;
+        System.out.println(menuDescription(player, "decreased by", value)) ;
         
     }
 
     public int returnRune() {
         return rune.getRune() ;
+    }
+
+    public void addRune(Actor player, int value){
+        rune.setRune(rune.getRune() + value) ;
+        System.out.println(menuDescription(player, "increased by", value)) ;
     }
 
     public String menuDescription(Actor player, String verb, int value) {
