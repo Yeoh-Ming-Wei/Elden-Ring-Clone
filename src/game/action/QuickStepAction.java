@@ -80,7 +80,7 @@ public class QuickStepAction extends Action {
 		}
 
 		else if (!target.isConscious()) {
-			result += new DeathAction(actor).execute(target, map);
+			result += new DeathAction(actor, target).execute(target, map);
 		}
 
 		// repositioning actor

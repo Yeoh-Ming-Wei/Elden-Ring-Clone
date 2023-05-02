@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.*;
+import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
@@ -66,6 +67,10 @@ public class LoneWolf extends Enemy {
             if (action != null) {
                 return action;
             }
+        }
+
+        if (RandomNumberGenerator.getRandomInt(100) < 10) {
+            return new DespawnAction(this) ;
         }
 
         // wander is the lowest precedence

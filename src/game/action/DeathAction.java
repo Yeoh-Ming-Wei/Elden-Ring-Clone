@@ -6,6 +6,9 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.RandomNumberGenerator;
+import game.RuneManager;
+import game.enemy.ActorTypes;
 
 /**
  * An action executed if an actor is killed.
@@ -15,10 +18,12 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
  *
  */
 public class DeathAction extends Action {
-    private Actor attacker;
+    private Actor attacker ;
+    private Actor killer ;
 
-    public DeathAction(Actor actor) {
-        this.attacker = actor;
+    public DeathAction(Actor actor, Actor killer) {
+        this.attacker = actor ;
+        this.killer = killer ;
     }
 
     /**
@@ -38,9 +43,11 @@ public class DeathAction extends Action {
         for (Item item : target.getItemInventory())
             dropActions.add(item.getDropAction(target));
         for (WeaponItem weapon : target.getWeaponInventory())
-            dropActions.add(weapon.getDropAction(target));
+            dropActions.add(weapon.getDropAction(target)); 
         for (Action drop : dropActions)
             drop.execute(target, map);
+        if (attacker.hasCapability(ActorTypes.PLAYER))
+            RuneManager.getInstance().addRuneEnemy(attacker, target.getDisplayChar()) ;
         // remove actor
         map.removeActor(target);
         result += System.lineSeparator() + menuDescription(target);
@@ -50,5 +57,10 @@ public class DeathAction extends Action {
     @Override
     public String menuDescription(Actor actor) {
         return actor + " is killed.";
+    }
+
+    public int dropRune(int min, int max) {
+        int drop = RandomNumberGenerator.getRandomInt(min, max) ;
+        return drop ;
     }
 }

@@ -12,6 +12,8 @@ import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.weapon.CrabSlam;
+import game.RandomNumberGenerator;
+import game.action.DespawnAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +60,10 @@ public class GiantCrab extends Enemy {
             }
         }
 
+        if (RandomNumberGenerator.getRandomInt(100) < 10) {
+            return new DespawnAction(this) ;
+        }
+
         // attack has the second highest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
@@ -82,6 +88,7 @@ public class GiantCrab extends Enemy {
 
         return new DoNothingAction();
     }
+
 
     // same as weapon
     @Override

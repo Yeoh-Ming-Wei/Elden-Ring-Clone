@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.*;
+import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
@@ -96,6 +97,10 @@ public class HeavySkeletonSwordsman extends Enemy{
                 if (action != null) {
                     return action;
                 }
+            }
+
+            if (RandomNumberGenerator.getRandomInt(100) < 10) {
+                return new DespawnAction(this) ;
             }
 
             // attack has the second highest precedence
