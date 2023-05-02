@@ -58,13 +58,6 @@ public class Player extends Actor implements Resettable {
 
 	}
 
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-
 	@Override
 	public String toString() {
 		return name;
