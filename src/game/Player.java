@@ -6,10 +6,14 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.enemy.ActorTypes;
 import game.weapon.*;
+import potion.ConsumeAction;
+import potion.FlaskOfCrimsonTears;
+import potion.Heal;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -34,9 +38,11 @@ public class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addWeaponToInventory(new Club());
-		Grossmesser g = new Grossmesser();
-		this.addWeaponToInventory(g);
-		this.addWeaponToInventory(g);
+		this.addWeaponToInventory(new Grossmesser());
+		this.addWeaponToInventory(new Uchigatana());
+		this.addWeaponToInventory(new GreatKnife());
+		this.addWeaponToInventory(new Scimitar());
+		this.addItemToInventory(new FlaskOfCrimsonTears());
 	}
 
 	@Override
@@ -49,7 +55,15 @@ public class Player extends Actor implements Resettable {
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
+
 	}
+
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 
 	@Override
 	public String toString() {
@@ -59,3 +73,4 @@ public class Player extends Actor implements Resettable {
 	@Override
 	public void reset() {}
 }
+
