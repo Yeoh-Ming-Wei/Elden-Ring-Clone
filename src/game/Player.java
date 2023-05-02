@@ -51,17 +51,15 @@ public class Player extends Actor implements Resettable {
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
+		for (Item potion : this.getItemInventory()){
+			actions.add(new ConsumeAction(potion));
+		}
+
 		// to print the HP before printing all the available options
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
 
-	}
-
-
-	@Override
-	public String toString() {
-		return name;
 	}
 
 
