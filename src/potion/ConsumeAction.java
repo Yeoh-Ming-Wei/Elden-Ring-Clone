@@ -5,7 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 
+import java.util.HashMap;
+
 import static potion.FlaskOfCrimsonTears.action;
+import static potion.PotionItem.potionName;
 
 public class ConsumeAction extends Action {
     private Item potion;
@@ -23,16 +26,20 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        int usesLeft = FlaskOfCrimsonTears.getUsesLeft();
-        if (usesLeft == 0) {
-            System.out.println("This potion is empty.");
-        } else {
-            System.out.println(usesLeft);
-            System.out.println(actor + " drinks " + FlaskOfCrimsonTears.getName() + ", restoring " + action + " health.");
-            actor.heal(action);
+        //if it's flask of crimson tears then the following codes will be executed,
+        // use the hashmap from FlaskOfCrimsonTears.java and PotionItem.java
+        if (FlaskOfCrimsonTears.potionCode() == FlaskOfCrimsonTears.class) {
+            int usesLeft = FlaskOfCrimsonTears.getUsesLeft();
+            if (usesLeft == 0) {
+                System.out.println("This potion is empty.");
+            } else {
+                System.out.println(usesLeft);
+                System.out.println(actor + " drinks " + FlaskOfCrimsonTears.getName() + ", restoring " + action + " health.");
+                actor.heal(action);
 
-            FlaskOfCrimsonTears.setUsesLeft(usesLeft - 1);
-            System.out.println(FlaskOfCrimsonTears.getUsesLeft());
+                FlaskOfCrimsonTears.setUsesLeft(usesLeft - 1);
+                System.out.println(FlaskOfCrimsonTears.getUsesLeft());
+            }
         }
 
         return menuDescription(actor);

@@ -3,6 +3,8 @@ package potion;
 import edu.monash.fit2099.engine.items.Item;
 import game.Player;
 
+import static potion.PotionItem.potionName;
+
 public class FlaskOfCrimsonTears extends Item {
     private static int maxUses = 2;
     static int action = 250;
@@ -19,6 +21,7 @@ public class FlaskOfCrimsonTears extends Item {
         super("Flask Of Crimson Tears", 'C', false);
         usesLeft = maxUses;
         this.addCapability(Heal.HEAL);
+        potionName.put(FlaskOfCrimsonTears.potionCode(), 250);
     }
 
     /**
@@ -59,10 +62,10 @@ public class FlaskOfCrimsonTears extends Item {
 
     /**
      * Returns a code representing this potion.
-     * @return a code representing this potion
+     * @return
      */
-    public static int potionCode() {
-        return 123;
+    public static Class<? extends Item> potionCode() {
+        return FlaskOfCrimsonTears.class;
     }
 
 }
