@@ -93,7 +93,6 @@ public class AttackSurroundingAction extends Action {
         // to allow player to do surrounding attack
         if ( player != null ){
             targets = NearMe.getSurroundingActors(player,map,1);
-
         }
 
         // just to make the UI prettier
