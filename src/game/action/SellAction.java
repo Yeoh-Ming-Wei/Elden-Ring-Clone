@@ -3,6 +3,8 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.RuneManager;
 import game.weapon.*;
 
 import java.util.ArrayList;
@@ -33,6 +35,10 @@ public class SellAction extends Action {
 	 */
 	private Random rand = new Random();
 
+	/**
+	 *  The selling price
+	 */
+	private int sellingPrice;
 
 	/**
 	 * Constructor.
@@ -56,11 +62,14 @@ public class SellAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
-		// to receive input
-		Scanner sel = new Scanner(System.in);
+		RuneManager runeManager = RuneManager.getInstance();
+		Sellable sellableWeapon;
+
+		int sellingPrice;
+		int playerRunes;
 
 		// the variable to store the choice
-		int choice = 0;
+		int choice;
 
 		// starting number
 		// this is so that we can make the available numbers to press only from start
@@ -70,7 +79,7 @@ public class SellAction extends Action {
 
 		// return
 		// will be changed if player bought something
-		String result = "Sold nothing";
+		String result;
 
 		// to store the arrayList of weapons
 		ArrayList<Sellable> inventory = new ArrayList<>();
@@ -79,7 +88,6 @@ public class SellAction extends Action {
 		for ( int x = 0 ; x < actor.getWeaponInventory().size() ; x++ ){
 			inventory.add( (Sellable) actor.getWeaponInventory().get(x) );
 		}
-
 
 		// exit number
 		int exit = inventory.size() + start ;
@@ -95,33 +103,20 @@ public class SellAction extends Action {
 		// telling what number to press to exit
 		System.out.println("" + exit + ") Exit");
 
-		// allows multi buy until want to exit ( choice < start || choice != exit )
-		// allows single buy  ( choice > exit || choice < start )
-		do {
-			// if the user did not put a number
-			try {
-				choice = Integer.parseInt(sel.nextLine());
-			} catch (NumberFormatException e) {
-				System.out.println("Please input a number");
-			}
+		choice = TradeActionInput.getChoiceMenu(start,exit);
 
-			// if number exceed options, tell the player to choose again
-			if ( choice > exit || choice < start ){
-				System.out.println("Please input a number that is available");
-			}
+		if ( choice == exit ){
+			result = "Sold nothing";
+			return result;
+		}
 
-			// if the player did select a weapon
-			// will be moved to checking if the player can buy or not
-			if ( choice != exit ) {
-				result = "Your sold: " + inventory.get(choice - start) + " for " + inventory.get(choice - start).getSellingPrice();
-			}
+		sellableWeapon = inventory.get(choice);
+		sellingPrice = sellableWeapon.getSellingPrice();
 
-			// if we choose a number smaller than the available options or bigger then the exit, continue looping
-		} while ( choice > exit || choice < start );
-
+		runeManager.addRune(actor, sellingPrice);
+		actor.removeWeaponFromInventory( actor.getWeaponInventory().get(choice) );
+		result = actor + " sold " + inventory.get(choice);
 		// check the player runes here if they can buy or not
-
-
 
 		return result;
 	}
