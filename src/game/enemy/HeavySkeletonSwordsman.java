@@ -21,71 +21,10 @@ import java.util.Map;
  *  Created by: Loo Li Shen
  *  Modified by: Lee Sing Yuan
  */
-public class HeavySkeletonSwordsman extends Enemy{
-    private int counter;
-    private final int counterReset;
-    private final int counterMax;
-
-
+public class HeavySkeletonSwordsman extends Skeleton{
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);
-        this.addCapability(PileOfBones.PILE_OF_BONES);
-        this.addCapability(ActorTypes.SKELETON);
         this.addWeaponToInventory(new Grossmesser());
-
-        counterReset = -1;
-        counterMax = 3;
-
-        // -1 cause immediate increment at playTurn if want actual 3 rounds of visible pileOfBones
-        counter = counterReset;
     }
-
-    /**
-     * Select and return an action to perform on the current turn.
-     *
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return the Action to be performed
-     */
-
-    @Override
-    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-
-        // this means that, the HSS has used its skill of pile of bones
-        // so it's removed to allow checking of is it dead or should he become a pile of bones
-        if (!this.hasCapability(PileOfBones.PILE_OF_BONES)) {
-
-            // change the display and start the counter
-            this.setDisplayChar('X');
-            counter++;
-
-            // if the HSS has been un - attacked for 3 rounds, revive
-            if (counter == counterMax) {
-
-                // give the HSS his skill back so that can be used again if he died again
-                this.addCapability(PileOfBones.PILE_OF_BONES);
-
-                // reset his display
-                this.setDisplayChar('q');
-
-                //resetting his HP
-                this.resetMaxHp(getMaxHp());
-
-                // reset the counter so can be used again
-                counter = counterReset;
-
-            }
-
-        }
-
-        // if the HSS has the skill, means he hasnt died and should perform one of the following actions
-        else {
-            return super.playTurn(actions,lastAction,map,display);
-        }
-        return new DoNothingAction();
-    }
-
 }
 

@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by: Adrian Kristanto
  * Modified by:
  */
-public class LoneWolf extends Enemy {
+public class LoneWolf extends Dog {
     public LoneWolf() {
         super("Lone Wolf", 'h', 102);
         this.addCapability(ActorTypes.WOLF);
