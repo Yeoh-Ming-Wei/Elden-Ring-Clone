@@ -1,5 +1,7 @@
 package game;
 
+import java.text.Format;
+
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -49,16 +51,9 @@ public class Player extends Actor implements Resettable {
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
-		// Create a new action to consume a potion if the player has one in their inventory
-		for (Item potion : this.getItemInventory()) {
-			actions.add(new ConsumeAction(potion));
-
-		}
-
-		// Print the player's health points before displaying the menu
-		System.out.println(this.printHp());
-
-		// Return/print the console menu
+		// to print the HP before printing all the available options
+		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
+		// return/print the console menu
 		return menu.showMenu(this, actions, display);
 
 	}
@@ -71,8 +66,11 @@ public class Player extends Actor implements Resettable {
 
 
 	@Override
-	public void reset() {
-
+	public String toString() {
+		return name;
 	}
+
+	@Override
+	public void reset() {}
 }
 

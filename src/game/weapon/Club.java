@@ -16,6 +16,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 public class Club extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
+    private static boolean isPurchaseAdded = false;
+    private static boolean isSellableAdded = false;
     /**
      * Constructor
      */
@@ -25,6 +27,17 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
         // to not return hardcode values
         this.buyingPrice = 600;
         this.sellingPrice = 100;
+
+        if ( isPurchaseAdded == false ){
+            isPurchaseAdded = true;
+            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Club());
+            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Club());
+        }
+
+        if ( isSellableAdded == false ) {
+            isSellableAdded = true;
+            WeaponPurchaseSellInfo.addSellableWeapon(new Club());
+        }
     }
 
     @Override
@@ -39,4 +52,6 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
     public int getSellingPrice() {
         return sellingPrice;
     }
+
+
 }

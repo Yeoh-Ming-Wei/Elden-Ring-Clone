@@ -86,12 +86,12 @@ public class AttackAction extends Action {
 		// this is for the HSS, because if he dies the first time, he actually uses the skill
 		if (!target.isConscious() && target.hasCapability(PileOfBones.PILE_OF_BONES)){
 			target.removeCapability(PileOfBones.PILE_OF_BONES);
-			System.out.println(target + " turns to a pile of bones!");
+			result += "\n" + target + " turns to a pile of bones!";
 
 		}
 
 		else if (!target.isConscious()) {
-			result += new DeathAction(actor).execute(target, map);
+			result += new DeathAction(actor, target).execute(target, map);
 		}
 
 		return result;

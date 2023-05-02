@@ -15,7 +15,9 @@ import game.behaviour.AttackBehaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.enemy.ActorTypes;
-import game.weapon.WeaponSkill;
+import game.weapon.*;
+
+import java.util.ArrayList;
 
 /**
  * A class for trader

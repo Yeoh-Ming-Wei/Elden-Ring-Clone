@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.*;
+import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
@@ -21,7 +22,6 @@ import java.util.Map;
  *  Modified by: Lee Sing Yuan
  */
 public class HeavySkeletonSwordsman extends Enemy{
-    private final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private int counter;
     private final int counterReset;
     private final int counterMax;
@@ -29,9 +29,6 @@ public class HeavySkeletonSwordsman extends Enemy{
 
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);
-        behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
-        behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
-        behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
         this.addCapability(PileOfBones.PILE_OF_BONES);
         this.addCapability(ActorTypes.SKELETON);
         this.addWeaponToInventory(new Grossmesser());
@@ -85,44 +82,7 @@ public class HeavySkeletonSwordsman extends Enemy{
 
         // if the HSS has the skill, means he hasnt died and should perform one of the following actions
         else {
-
-            // follow has the highest precedence
-            // checks if HSS has this behaviour
-            if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
-                Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
-
-                // if the behaviour exist but cant do anything like follow anyone or player
-                // it will return null so that can execute other behaviors
-                if (action != null) {
-                    return action;
-                }
-            }
-
-            // attack has the second highest precedence
-            // check if HSS if it has this behavior
-            if (behaviours.containsKey(AttackBehaviour.behaviorCode())) {
-
-                // if it has this behaviour, get the action for this behavior
-                Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
-
-                // if the behaviour exist but cant do anything like attack anyone,
-                // it will return null so that can execute other behaviors
-                if (action != null) {
-                    return action;
-                }
-            }
-
-            // wander has the lowest precedence
-            // check if HSS if it has this behavior
-            if (behaviours.containsKey(WanderBehaviour.behaviorCode())) {
-
-                // get the action for this behavior
-                Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
-
-                if (action != null) {
-                    return action;
-                }
-            }
+            return super.playTurn(actions,lastAction,map,display);
         }
         return new DoNothingAction();
     }

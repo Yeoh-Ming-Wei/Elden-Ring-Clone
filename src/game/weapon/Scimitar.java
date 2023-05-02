@@ -16,6 +16,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 public class Scimitar extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
+    private static boolean isPurchaseAdded = false;
+    private static boolean isSellableAdded = false;
 
     /**
      * Constructor
@@ -26,6 +28,17 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
         addCapability(WeaponSkill.AREA_ATTACK);
         buyingPrice = 600;
         sellingPrice = 100;
+
+        if ( isPurchaseAdded == false ){
+            isPurchaseAdded = true;
+            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Scimitar());
+            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Scimitar());
+        }
+
+        if ( isSellableAdded == false ) {
+            isSellableAdded = true;
+            WeaponPurchaseSellInfo.addSellableWeapon(new Scimitar());
+        }
     }
 
     @Override

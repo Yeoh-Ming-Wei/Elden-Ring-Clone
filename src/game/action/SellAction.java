@@ -3,11 +3,11 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.RuneManager;
 import game.weapon.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * An Action to allow trading between player and trader
@@ -50,78 +50,117 @@ public class SellAction extends Action {
 	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
 	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
 	 *
+	 * Approach description:
+	 * 		1) get the weapon inventory of the player
+	 * 		2) loop through the weapon inventory of the player
+	 * 		3) check if the weapon item is sellable by using the name as key and checking if it in the sellable map
+	 * 			if returns an object, its sellable
+	 * 			if returns null, its not sellable
+	 * 		4) get the index of the weapon and the name of the weapon, store in the input mapping
+	 * 		5) get the number input ( which is actually the index of the weapon item in the weapon inventory )
+	 * 		6) go to the input mapping to find the weapon name
+	 * 		7) use the weapon name to find the selling price in the static sellable mapping
+	 * 		8) add the selling price to the player runes, and remove the weapon from the player weapon inventory using the
+	 * 			user input as index to find the weapon in the player weapon inventory
+	 *
+	 *
 	 * @param actor The player
 	 * @param map The map the actor is on.
 	 * @return the result of the trading
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
-		// to receive input
-		Scanner sel = new Scanner(System.in);
 
-		// the variable to store the choice
-		int choice = 0;
+		// get the runemanager
+		RuneManager runeManager = RuneManager.getInstance();
 
-		// starting number
-		// this is so that we can make the available numbers to press only from start
-		// if want to change the starting number change here only
-		// everywhere else will change automatically
-		int start = 0;
+		// to make it more readable
+		String sellableWeaponKey;
+		Sellable sellableWeapon;
+
+		int sellingPrice;
+
+		// stores
+		// 1) the index of the choice
+		// 2) the position of the item in the player inventory
+		int choice;
+
 
 		// return
 		// will be changed if player bought something
-		String result = "Sold nothing";
+		String result;
 
-		// to store the arrayList of weapons
-		ArrayList<Sellable> inventory = new ArrayList<>();
+		// to store a mapping of all available weapons that can be sold
+		// from player inventory
+		HashMap<Integer,String> inputMapping = new HashMap<>();
 
-		// adding all the available weapons from player that he or she can sell
+		// for every item in player inventory
 		for ( int x = 0 ; x < actor.getWeaponInventory().size() ; x++ ){
-			inventory.add( (Sellable) actor.getWeaponInventory().get(x) );
+
+			// get the name
+			String key = actor.getWeaponInventory().get(x).toString();
+
+			// check if it exist in the sellable map
+			// if it dosent exist means its not sellable
+			if ( WeaponPurchaseSellInfo.sellableWeaponMap.get(key) != null ) {
+
+				// if the weapon is sellable it will be in the hashmap
+				// so then only add it to the inputMapping
+				inputMapping.put(x, key);
+			}
+
 		}
 
-
 		// exit number
-		int exit = inventory.size() + start ;
+		// must use player weapon inventory size
+		// cause what happens if there is duplicate weapons
+		int exit = actor.getWeaponInventory().size() ;
 
 		System.out.println("Please select what you want to sell:");
 
-		// to print out all the available options
-		for ( int x = 0 ; x < inventory.size()  ; x++ ){
-			// x+start cause these are the numbers we allow
-			System.out.println( "" + (x + start) + ") " + inventory.get(x) );
+		// to print out all the available options that can be sold
+		for ( int x = 0 ; x < actor.getWeaponInventory().size()  ; x++ ){
+
+			// cause some weapons are not sellable but still in weapon inventory, they will be null
+			if ( inputMapping.get(x) != null ) {
+				// to print out the name of the weapon using the index of the item in the player inventory
+				System.out.println("" + x + ") " + inputMapping.get(x));
+			}
 		}
 
 		// telling what number to press to exit
 		System.out.println("" + exit + ") Exit");
 
-		// allows multi buy until want to exit ( choice < start || choice != exit )
-		// allows single buy  ( choice > exit || choice < start )
-		do {
-			// if the user did not put a number
-			try {
-				choice = Integer.parseInt(sel.nextLine());
-			} catch (NumberFormatException e) {
-				System.out.println("Please input a number");
-			}
+		// the choice will be
+		//the index of the element in the player inventory and the item to delete
+		choice = TradeActionInput.getChoiceMenu(exit);
 
-			// if number exceed options, tell the player to choose again
-			if ( choice > exit || choice < start ){
-				System.out.println("Please input a number that is available");
-			}
+		if ( choice == exit ){
+			result = "Sold nothing";
+			return result;
+		}
 
-			// if the player did select a weapon
-			// will be moved to checking if the player can buy or not
-			if ( choice != exit ) {
-				result = "Your sold: " + inventory.get(choice - start) + " for " + inventory.get(choice - start).getSellingPrice();
-			}
+		// if the user input a number that is printed out
+		if ( inputMapping.get(choice) != null ) {
+			// get the weapon name which acts as a key
+			sellableWeaponKey = inputMapping.get(choice);
 
-			// if we choose a number smaller than the available options or bigger then the exit, continue looping
-		} while ( choice > exit || choice < start );
+			// use the name of the weapon to find the price of the weapon
+			sellableWeapon = WeaponPurchaseSellInfo.sellableWeaponMap.get(sellableWeaponKey);
+			sellingPrice = sellableWeapon.getSellingPrice();
 
-		// check the player runes here if they can buy or not
+			// add the runes
+			runeManager.addRune(actor, sellingPrice);
 
-
+			// remove the weapon based on the index of the weapon in the player weapon inventory
+			actor.removeWeaponFromInventory(actor.getWeaponInventory().get(choice));
+			result = actor + " sold " + sellableWeaponKey;
+			// check the player runes here if they can buy or not
+		}
+		// if the number inputted was for an item that did not exist in the print
+		else{
+			result = "Inputted unknown item number";
+		}
 
 		return result;
 	}
