@@ -5,9 +5,10 @@ import game.RuneManager;
 import game.weapon.CrayFishSlam;
 
 /**
- * BEHOLD, DOG!
+ * Is crayFish yummy? I dont know, I only knows its dangerous
  *
- * Created by: Adrian Kristanto
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  * Modified by:
  */
 public class GiantCrayFish extends Crab {

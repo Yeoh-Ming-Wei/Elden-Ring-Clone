@@ -3,7 +3,6 @@ package game.action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Status;
 import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
@@ -20,7 +19,14 @@ public class NearMe {
 
     /**
      * Given an actor, find all the actors near it
-     * @param actor the person we want to base on
+     *
+     * Approach description:
+     *      1) gets the surrounding locations
+     *      2) iterate through the surrounding locations
+     *      3) check if an Actor exist at that location
+     *      4) if an actor exist, add the actor the list
+     *
+     * @param actor the Actor we want the surrounding of
      * @param map the map
      * @param radius the radius of the surrounding
      * @return the list of actors around the actor
@@ -48,7 +54,14 @@ public class NearMe {
 
     /**
      * given an actor, find all the locations around it
-     * @param actor the person we want to base on
+     *
+     * Approach description:
+     *      1) get the current Location of the actor calling this method
+     *      2) get the boundaries of the map
+     *      3) loop through all possible coordinates within the boundary
+     *      4) add it to the list
+     *
+     * @param actor the Actor we want the surrounding of
      * @param map the map
      * @param radius the radius of the surrounding
      * @return a list of locations around the actor
@@ -89,6 +102,14 @@ public class NearMe {
 
     /**
      * if the player is in the actor's range, returns the location of the player
+     *
+     * Approach description:
+     *      1) get the surrounding locations
+     *      2) check if there is an actor there
+     *              if yes, get the actor there
+     *                  if the actor there is player
+     *                         return this location
+     *
      * @param actor the list of possible locations
      * @param map the map itself
      * @param radius the radius of the search

@@ -23,6 +23,10 @@ public class WanderBehaviour implements Behaviour {
 	/**
 	 * Returns a MoveAction to wander to a random location, if possible.  
 	 * If no movement is possible, returns null.
+	 *
+	 * Approach description:
+	 * 		1) get all the available locations the actor can go
+	 * 		2) choose a random location
 	 * 
 	 * @param actor the Actor enacting the behaviour
 	 * @param map the map that actor is currently on

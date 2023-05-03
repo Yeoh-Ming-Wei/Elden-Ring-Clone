@@ -4,9 +4,11 @@ import game.*;
 import game.weapon.Grossmesser;
 
 /**
- *  Spooky, spooky skeleton
- *  Created by: Loo Li Shen
- *  Modified by: Lee Sing Yuan
+ * Spooky, spooky skeleton
+ *
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Lee Sing Yuan
  */
 public class HeavySkeletonSwordsman extends Skeleton{
 

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by: Loo Li Shen
- * @author Riordan D. Alfredo
+ * @author Loo Li Shen
  * Modified by: Lee Sing Yuan
  *
  */
@@ -28,16 +28,19 @@ public class AttackBehaviour implements Behaviour {
     /**
      * Decides whether an enemy should attack another actor or not
      *
-     * to use the skill:
-     *      1) check if the actor has the skill
-     *      2) check everyone in the surrounding
-     *      3) check if there is anyone in the surrounding that is of different type
-     *      4) get the chance
+     * Approach description:
+     *      1) get the list of targets
+     *      2) check if the actor performing the behaviour has the capability to perform the attack surrounding skill
+     *              check everyone in the surrounding
+     *              check if there is anyone in the surrounding that is of different type so that can have reason to execute skill
+     *                  get the chance
+     *                      if chance is yes, return AttackSurroundingAction
+     *      3) else, just get a random actor to attack
+     *      4) check the types, if not same, only return AttackAction
      *
      * @param actor the Actor acting
      * @param map   the GameMap containing the Actor
      * @return an Action that actor can perform, or null if actor can't do this.
-     * @author Riordan D. Alfredo
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
@@ -72,7 +75,7 @@ public class AttackBehaviour implements Behaviour {
 
         // if an enemy has the skill but decides not to use the skill, can choose to attack
         // individual targets
-        // this is to get a random activity
+        // this is to get a random action
         if (!targets.isEmpty()) {
             Actor target = targets.get(random.nextInt(targets.size()));
 

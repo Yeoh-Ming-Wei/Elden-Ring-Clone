@@ -5,8 +5,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 
 /**
- * A weapon used by crab to slam the area
+ * A weapon used by GiantCrab to slam the area
  * It deals 208 damage with 90% hit rate
+ * not droppable
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  * Modified by:

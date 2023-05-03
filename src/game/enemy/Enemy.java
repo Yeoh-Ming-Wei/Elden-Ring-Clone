@@ -29,15 +29,21 @@ public abstract class Enemy extends Actor {
      */
     public Enemy(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
+
+        // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
     }
 
     /**
-     * The enemies can be attacked by actors with the PLAYER capability
+     * This function has been made to be only called by an actor which is a player
      *
-     * THIS FUNCTION IS ONLY USED BY PLAYER
+     * Approach description:
+     *      1) check if the otherActor is the player
+     *      2) if yes, loop through inventory and provide all possible attack actions that could be done
+     *
+     * Note: Could not change to static like others cause param types are different
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor
@@ -86,6 +92,16 @@ public abstract class Enemy extends Actor {
 
     /**
      * At each turn, select a valid action to perform.
+     *
+     * Approach description:
+     *      1) check if the actor has the FollowBehaviour
+     *              if yes, check if can follow
+     *      2) check if the actor has the AttackBehaviour
+     *              if yes, check if can attack anyone
+     *      3) since despawning should not be done if the actor can fight or follow,
+     *              it has the 3rd highest precedence
+     *      4) if actor was not despawned, check if actor has the WanderBehaviour
+     *              if yes, roam around the map
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()

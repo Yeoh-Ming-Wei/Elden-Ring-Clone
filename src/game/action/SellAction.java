@@ -28,11 +28,6 @@ public class SellAction extends Action {
 	 */
 	private String direction;
 
-	/**
-	 * Random number generator
-	 */
-	private Random rand = new Random();
-
 
 	/**
 	 * Constructor.
@@ -47,9 +42,6 @@ public class SellAction extends Action {
 
 
 	/**
-	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
-	 *
 	 * Approach description:
 	 * 		1) get the weapon inventory of the player
 	 * 		2) loop through the weapon inventory of the player
@@ -133,7 +125,7 @@ public class SellAction extends Action {
 
 		// the choice will be
 		//the index of the element in the player inventory and the item to delete
-		choice = ChoiceInput.getChoiceMenu(exit);
+		choice = ChoiceInput.getChoiceInput(exit);
 
 		if ( choice == exit ){
 			result = "Sold nothing";

@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * An Action to attack another Actor.
- * Created by:
- * @author Adrian Kristanto
- * Modified by: Lee Sing Yuan
+ * An Action to attack another Actor with some dodging maneuver .
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
+ * Modified by:
  *
  */
 public class QuickStepAction extends Action {
@@ -45,6 +45,7 @@ public class QuickStepAction extends Action {
 	 *
 	 * @param target the Actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)
+	 * @param weapon the weapon used to perform this skill
 	 */
 	public QuickStepAction(Actor target, String direction, Weapon weapon) {
 		this.target = target;
@@ -53,8 +54,10 @@ public class QuickStepAction extends Action {
 	}
 
 	/**
-	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
+	 * Approach description:
+	 * 		1) perform normal attacking
+	 * 		2) then relocate the player by getting all the exits
+	 * 		3) choosing a random exit to go to
 	 *
 	 * @param actor The Player
 	 * @param map The map the actor is on.
@@ -87,18 +90,32 @@ public class QuickStepAction extends Action {
 		// code taken from wander behavior
 		ArrayList<Action> actions = new ArrayList<>();
 
+		// an arraylist just to make the UI inform where the player is going to
+		ArrayList<Location> locations = new ArrayList<>();
+
 		// gets the possible exits
 		for (Exit exit : map.locationOf(actor).getExits()) {
 			Location destination = exit.getDestination();
+
+			// check if the actor can enter this area
 			if (destination.canActorEnter(actor)) {
 				actions.add(exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()));
+
+				// adding it to the locations list to make the UI more informative
+				locations.add(exit.getDestination());
 			}
 		}
 
 		// choosing a random position to go to after moving
 		if (!actions.isEmpty()) {
+			// choose a random number
 			int chosen = rand.nextInt(actions.size());
-			result += "\n" + actions.get(chosen).execute(actor,map);
+
+			// execute a random action
+			actions.get(chosen).execute(actor,map);
+
+			// return where the actor moves to
+			result += "\n" + actor + " moves to ( " + locations.get(chosen).x() + " , " + locations.get(chosen).y() + " )";
 		}
 		else {
 			result += "\n" + "Cant move anywhere";

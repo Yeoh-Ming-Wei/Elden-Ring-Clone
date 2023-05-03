@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * A class to check if the player is nearby and should the enemy follow the actor or not
- * @see edu.monash.fit2099.demo.mars.Application
  *
  * Created by:
  * @author Riordan D. Alfredo
@@ -29,6 +28,16 @@ public class FollowBehaviour implements Behaviour {
 
 	/**
 	 * Decide wheter to follow player or not
+	 *
+	 * Apporach description:
+	 * 		1) get the current location of the actor
+	 * 		2) check if the player is within my Follow range
+	 * 				if yes, get the current distance between player and actor
+	 * 				loop through all the possible exits that the actor can go to
+	 * 					get the new distance
+	 * 					compare if the new distance is shorter compared to the current distance
+	 * 						if yes, return the new Move Action
+	 *
 	 * @param actor the Actor acting
 	 * @param map the GameMap containing the Actor
 	 * @return 	an Action object if the player is within range

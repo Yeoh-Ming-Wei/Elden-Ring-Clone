@@ -61,8 +61,17 @@ public class AttackAction extends Action {
 	}
 
 	/**
-	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
+	 * Approach description:
+	 * 		1) check if weapon is null
+	 * 				if null, use intrinsic
+	 * 				else, use weapon
+	 * 		2) check if miss the target
+	 * 				if miss, return miss
+	 * 				else, continue to hurt
+	 * 		3) hurt the target
+	 * 		4) check if the target is dead and has skill pileOfBones
+	 * 				if yes, remove pile of bones capability ( simulates usage of skill )
+	 * 				if no allow normal death action
 	 *
 	 * @param actor The actor performing the attack action.
 	 * @param map The map the actor is on.

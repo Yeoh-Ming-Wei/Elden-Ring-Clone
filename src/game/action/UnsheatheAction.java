@@ -38,6 +38,9 @@ public class UnsheatheAction extends Action {
 	 */
 	private Weapon weapon;
 
+	/**
+	 * the chance of the skill for every actor
+	 */
 	private int skillChance;
 
 	/**
@@ -55,8 +58,9 @@ public class UnsheatheAction extends Action {
 	}
 
 	/**
-	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
+	 * Apporach description:
+	 * 		1) do normal AttackAction
+	 * 		2) but when dealing the damage, we double it
 	 *
 	 * @param actor The Player
 	 * @param map The map the actor is on.

@@ -9,9 +9,11 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 
 /**
- * An Action to attack another Actor.
+ * An Action to allow the actor to perfom a surrounding attack on other Actors within the area.
+ * Acts like a wrapper that wraps a lot of other actions together
+ *
  * Created by: Lee Sing Yuan
- * @author Adrian Kristanto
+ * @author Lee Sing Yuan
  * Modified by:
  *
  */
@@ -21,11 +23,6 @@ public class AttackSurroundingAction extends Action {
      * The direction of incoming attack. for UI purposes
      */
     private String direction;
-
-    /**
-     * Random number generator
-     */
-    private Random rand = new Random();
 
     /**
      * Weapon used for the attack
@@ -45,7 +42,9 @@ public class AttackSurroundingAction extends Action {
     /**
      * Constructor. for enemies attack behaviour
      *
+     * @param initTargets is the list of targets around the area
      * @param direction the direction where the attack should be performed (only used for display purposes)
+     * @param weapon the weapon used to attack the surrounding area
      */
     public AttackSurroundingAction( List<Actor> initTargets, String direction, Weapon weapon ) {
         this.targets = initTargets;
@@ -54,19 +53,11 @@ public class AttackSurroundingAction extends Action {
     }
 
     /**
-     * Constructor with intrinsic weapon as default
-     *
-     * @param direction the direction where the attack should be performed (only used for display purposes)
-     */
-    public AttackSurroundingAction( List<Actor> initTargets, String direction) {
-        this.targets = initTargets;
-        this.direction = direction;
-    }
-
-    /**
      * Constructor. for player
      *
+     * @param player the player
      * @param direction the direction where the attack should be performed (only used for display purposes)
+     * @param weapon the weapon used to attack the surrounding area
      */
     public AttackSurroundingAction( Actor player, String direction, Weapon weapon ) {
         this.player = player;
@@ -74,15 +65,21 @@ public class AttackSurroundingAction extends Action {
         this.weapon = weapon;
     }
 
-
     /**
-     * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-     * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
+     * Approach description:
+     *      1) check if weapon is null
+     *              if null, use intrinsic weapon
+     *              else, use weapon
+     *      2) check if its player who called this class
+     *              if yes, get surrounding actors around player
+     *              if no, continue
+     *      3) iterate through all targets, create an AttackAction for each and every target
+     *              also execute the AttackAction
      *
      * @param actor The actor performing the attack action.
      * @param map The map the actor is on.
      * @return the result of the attack, e.g. whether the target is killed, etc.
-     * @see DeathAction
+     * @see AttackAction
      */
     @Override
     public String execute(Actor actor, GameMap map) {

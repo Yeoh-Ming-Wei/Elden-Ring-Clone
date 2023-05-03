@@ -15,6 +15,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
  */
 public class Grossmesser extends WeaponItem implements Sellable{
     private int sellingPrice;
+
+    // to check whether the class has been added to the static mapping or not
     private static boolean isSellableAdded = false;
 
     /**
@@ -26,6 +28,7 @@ public class Grossmesser extends WeaponItem implements Sellable{
         addCapability(WeaponSkill.AREA_ATTACK);
         sellingPrice = 100;
 
+        // adding to the static mapping if haven't added
         if ( isSellableAdded == false ) {
             isSellableAdded = true;
             WeaponPurchaseSellInfo.addSellableWeapon(new Grossmesser());

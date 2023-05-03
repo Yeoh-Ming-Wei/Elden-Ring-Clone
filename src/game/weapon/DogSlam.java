@@ -6,7 +6,7 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 
 /**
  * A weapon used by crab to slam the area
- * It deals 208 damage with 90% hit rate
+ * It deals 314 damage with 90% hit rate
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  * Modified by:
