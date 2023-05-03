@@ -18,9 +18,22 @@ import game.enemy.ActorTypes;
  *
  */
 public class DeathAction extends Action {
+
+    /**
+     * An actor which is the attacker.
+     */
     private Actor attacker ;
+
+    /**
+     * An actor which is already dead.
+     */
     private Actor deadBody ;
 
+    /**
+     * A constructor to for DeathAction class. 
+     * @param actor An actor which is the attacker.
+     * @param deadBody An actor which is already dead.
+     */
     public DeathAction(Actor actor, Actor deadBody) {
         this.attacker = actor ;
         this.deadBody = deadBody ;
@@ -47,19 +60,17 @@ public class DeathAction extends Action {
         for (Action drop : dropActions)
             drop.execute(target, map);
         if (attacker.hasCapability(ActorTypes.PLAYER))
-            RuneManager.getInstance().addRuneEnemy(attacker, deadBody) ;
+            RuneManager.getInstance().addRuneEnemy(attacker, deadBody) ; // Add rune when the enemy is dead.
         map.removeActor(target);
         result += System.lineSeparator() + menuDescription(target);
         return result;
     }
 
+    /**
+     * A method to show description which an actor is killed.
+     */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " is killed.";
-    }
-
-    public int dropRune(int min, int max) {
-        int drop = RandomNumberGenerator.getRandomInt(min, max) ;
-        return drop ;
     }
 }
