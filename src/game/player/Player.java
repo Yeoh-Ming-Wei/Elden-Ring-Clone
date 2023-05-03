@@ -9,13 +9,15 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import game.ResetManager;
 import game.Resettable;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
 import game.environment.SiteOfLostGrace;
-import potion.ConsumeAction;
-import potion.FlaskOfCrimsonTears;
-import potion.Heal;
+import game.potion.ConsumeAction;
+import game.potion.FlaskOfCrimsonTears;
+import game.potion.Heal;
+import game.rune.RuneManager;
 
 import static game.ResetManager.map;
 

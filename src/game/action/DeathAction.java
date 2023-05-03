@@ -9,9 +9,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
 import game.ResetManager;
-import game.RuneManager;
 import game.enemy.ActorTypes;
 import game.environment.SiteOfLostGrace;
+import game.rune.RuneManager;
 
 import static game.ResetManager.map;
 

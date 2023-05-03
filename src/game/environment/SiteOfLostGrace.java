@@ -25,10 +25,10 @@ public class SiteOfLostGrace extends Ground{
             if (location.containsAnActor()) {
                 // Reset the game
                 isVisited = true;
-                ResetManager.run();
+                ResetManager.run(location.map());
             }
         }
-        ResetManager.run();
+        ResetManager.run(location.map());
 
     }
 }

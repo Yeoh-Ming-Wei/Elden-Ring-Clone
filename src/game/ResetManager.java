@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.player.Player;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ResetManager {
         System.out.println(resettables);
     }
 
-    public static void run() {
+    public static void run(GameMap map) {
         for (Resettable resettable : resettables){
             if (resettable != null) {
                 resettable.reset(map);
