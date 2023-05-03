@@ -4,9 +4,10 @@ import game.weapon.Grossmesser;
 import game.weapon.Scimitar;
 
 /**
- *  Spooky, spooky skeleton
- *  Created by: Loo Li Shen
- *  Modified by: Lee Sing Yuan
+ * Cool guy
+ *
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  */
 public class SkeletalBandit extends Skeleton{
     public SkeletalBandit() {

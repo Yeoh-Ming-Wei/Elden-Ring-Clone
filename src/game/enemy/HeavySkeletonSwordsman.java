@@ -17,9 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  Spooky, spooky skeleton
- *  Created by: Loo Li Shen
- *  Modified by: Lee Sing Yuan
+ * Spooky, spooky skeleton
+ *
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Lee Sing Yuan
  */
 public class HeavySkeletonSwordsman extends Skeleton{
     public HeavySkeletonSwordsman() {

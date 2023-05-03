@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * weapons must be added to both arrays manually cause cant type cast
- * they must be in same order
+ * This class is to have the mapping of the weapons and their purchasable
+ * Because we wanted to avoid downcasting and adhere to open close as much as possible
+ * and because the child can go in both HashMaps
  */
 public class WeaponPurchaseSellInfo {
 

@@ -28,11 +28,6 @@ public class PurchaseAction extends Action {
 	 */
 	private String direction;
 
-	/**
-	 * Random number generator
-	 */
-	private Random rand = new Random();
-
 
 	/**
 	 * Constructor.
@@ -47,16 +42,13 @@ public class PurchaseAction extends Action {
 
 
 	/**
-	 * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-	 * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
-	 *
 	 * Apporach description:
 	 * 		1) get all the purchasable weapons
 	 * 		2) use a counter as a key and put the purchasable weapons as value in the input mapping
 	 * 		3) get the user choice
 	 * 		4) use the choice as key to find the name in the input mapping
 	 * 		5) use the name to find the buying price
-	 * 		6) check if can buy
+	 * 		6) check if player has sufficient runes to buy
 	 * 		7) if can buy, use the name as key to find in the weapon item mapping,
 	 * 		8) put the weapon inside the player inventory
 	 *
@@ -113,7 +105,7 @@ public class PurchaseAction extends Action {
 		// telling what number to press to exit
 		System.out.println("" + exit + ") Exit");
 
-		choice = ChoiceInput.getChoiceMenu(exit);
+		choice = ChoiceInput.getChoiceInput(exit);
 
 		if ( choice == exit ){
 			result = "Bought nothing";
@@ -130,6 +122,7 @@ public class PurchaseAction extends Action {
 		// get the purchase price
 		buyingPrice = purchasableWeapon.getPurchasePrice();
 
+		// get the runes
 		playerRunes = runeManager.returnRune();
 
 		// see if player can buy the weapon
@@ -139,10 +132,8 @@ public class PurchaseAction extends Action {
 			runeManager.deductRune(actor, purchasableWeapon.getPurchasePrice());
 
 			// to add the weapon using the weapon item in the map using the name
-			// it will be addresses to the same object, but it's ok cause it will be new objects that
-			// are only used by the player
-			// and since the player dosent drop the weapon, it dosent matter which weapon object
 			actor.addWeaponToInventory( WeaponPurchaseSellInfo.purchasableWeaponItem.get(name) );
+
 			result = actor + " bought " + name;
 		}
 		// check the player runes here if they can buy or not

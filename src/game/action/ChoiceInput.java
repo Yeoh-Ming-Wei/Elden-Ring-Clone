@@ -1,9 +1,28 @@
 package game.action;
 import java.util.Scanner;
 
+/**
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
+ *
+ * A class to accept and verify input.
+ * To make player and tester's life easier instead of having to type names
+ */
 public class ChoiceInput {
 
-    public static int getChoiceMenu(int exit){
+    /**
+     * Approach description:
+     *      1) set the start and choice
+     *      2) let the user input a number
+     *      3) if the input is not a number
+     *              tell the user and allow user to retype
+     *      4) if the number exceeds the range
+     *              tell the user and allow user to retype
+     *
+     * @param exit the exit number, depends on the size of the Collections that this choiceInput is user for
+     * @return an int which is the choice chosen
+     */
+    public static int getChoiceInput(int exit){
         // to receive input
         Scanner sel = new Scanner(System.in);
 

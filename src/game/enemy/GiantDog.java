@@ -7,7 +7,7 @@ import game.weapon.DogSlam;
  * BEHOLD, DOG!
  *
  * Created by: Adrian Kristanto
- * Modified by:
+ * Modified by: Lee Sing Yuan
  */
 public class GiantDog extends Dog {
     public GiantDog() {

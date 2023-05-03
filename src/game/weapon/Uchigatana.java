@@ -16,6 +16,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
     private int buyingPrice;
     private int sellingPrice;
+
+    // to check whether the class has been added to the static mapping or not
     private static boolean isPurchaseAdded = false;
     private static boolean isSellableAdded = false;
     /**
@@ -31,12 +33,14 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         this.buyingPrice = 5000;
         this.sellingPrice = 500;
 
+        // adding to the static mapping if haven't added
         if ( isPurchaseAdded == false ){
             isPurchaseAdded = true;
             WeaponPurchaseSellInfo.addPurchasableWeapon(new Uchigatana());
             WeaponPurchaseSellInfo.addPurchasableWeaponItem(new Uchigatana());
         }
 
+        // adding to the static mapping if haven't added
         if ( isSellableAdded == false ) {
             isSellableAdded = true;
             WeaponPurchaseSellInfo.addSellableWeapon(new Uchigatana());

@@ -19,9 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * BEHOLD, DOG!
+ * Crab here and there and everywhere!
  *
- * Created by: Adrian Kristanto
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  * Modified by:
  */
 public class GiantCrab extends Crab {

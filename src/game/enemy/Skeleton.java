@@ -9,9 +9,11 @@ import game.PileOfBones;
 import game.weapon.Grossmesser;
 
 /**
- *  Spooky, spooky skeleton
- *  Created by: Loo Li Shen
- *  Modified by: Lee Sing Yuan
+ * Spooky, spooky skeleton
+ *
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
+ *
  */
 public abstract class Skeleton extends Enemy{
     private int counter;
@@ -33,6 +35,12 @@ public abstract class Skeleton extends Enemy{
 
     /**
      * Select and return an action to perform on the current turn.
+     *
+     * Approach description:
+     *      1) check if the actor has the ability pile of bones
+     *              if no, then start counter and change to pile of bones
+     *                  if counter == max number of counter,
+     *                      revive
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()

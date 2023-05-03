@@ -17,9 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * BEHOLD, DOG!
+ * BEHOLD, Awoooo!
  *
- * Created by: Adrian Kristanto
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  * Modified by:
  */
 public class LoneWolf extends Dog {
