@@ -1,7 +1,7 @@
 package potion;
 
 import edu.monash.fit2099.engine.items.Item;
-import game.Player;
+import game.player.Player;
 
 import static potion.PotionItem.potionName;
 
@@ -13,9 +13,6 @@ public class FlaskOfCrimsonTears extends Item {
 
     /**
      * Constructor.
-     * @param name the name of this Item
-     * @param displayChar the character to use to represent this item if it is on the ground
-     * @param portable true if and only if the Item can be picked up
      */
     public FlaskOfCrimsonTears() {
         super("Flask Of Crimson Tears", 'C', false);

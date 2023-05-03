@@ -3,11 +3,9 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RuneManager;
 import game.weapon.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -115,7 +113,7 @@ public class PurchaseAction extends Action {
 		// telling what number to press to exit
 		System.out.println("" + exit + ") Exit");
 
-		choice = TradeActionInput.getChoiceMenu(exit);
+		choice = ChoiceInput.getChoiceMenu(exit);
 
 		if ( choice == exit ){
 			result = "Bought nothing";

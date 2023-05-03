@@ -24,7 +24,7 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
      */
     public Scimitar() {
 
-        super("Scimitar", 'S', 185, "slashes", 88);
+        super("Scimitar", 's', 118, "slashes", 88);
         addCapability(WeaponSkill.AREA_ATTACK);
         buyingPrice = 600;
         sellingPrice = 100;
