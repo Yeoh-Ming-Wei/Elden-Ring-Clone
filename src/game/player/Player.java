@@ -9,9 +9,9 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.Resettable;
-import game.RuneManager;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
+import game.rune.RuneManager;
 import potion.FlaskOfCrimsonTears;
 
 /**
