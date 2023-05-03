@@ -1,6 +1,6 @@
 package game.enemy;
 
-import game.RuneManager;
+import game.rune.RuneManager;
 import game.weapon.Scimitar;
 
 /**

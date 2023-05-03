@@ -1,7 +1,7 @@
 package game.enemy;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.RuneManager;
+import game.rune.RuneManager;
 import game.weapon.DogSlam;
 
 /**

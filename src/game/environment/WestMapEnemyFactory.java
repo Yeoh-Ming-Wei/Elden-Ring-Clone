@@ -7,19 +7,37 @@ import game.enemy.GiantCrab;
 import game.enemy.HeavySkeletonSwordsman;
 import game.enemy.LoneWolf;
 
+/**
+ * This Enemy Factory helps to spawn enemies that belongs to West side
+ * of the map. 
+ * @author Yeoh Ming Wei
+ */
 public class WestMapEnemyFactory extends EnemyFactory {
     
-    private static WestMapEnemyFactory eastFactory = null;
+    /**
+     * An null assignment for westFactory.
+     */
+    private static WestMapEnemyFactory westFactory = null;
 
+    /**
+     * The private constructor for westFactory.
+     */
     private WestMapEnemyFactory() {
     }
 
+    /**
+     * A method to assign new WestMapEnemyFactory.
+     * @return A new WestMapEnemFactory class
+     */
     public static WestMapEnemyFactory getInstance() {
-        if (eastFactory == null) 
-            eastFactory = new WestMapEnemyFactory() ;
-        return eastFactory ;
+        if (westFactory == null) 
+            westFactory = new WestMapEnemyFactory() ;
+        return westFactory ;
     }
 
+    /**
+     * A method to add new West side enemy into the map.
+     */
     public void addEnemy(Ground ground, Location location) {
         int p = RandomNumberGenerator.getRandomInt(100) ;
 

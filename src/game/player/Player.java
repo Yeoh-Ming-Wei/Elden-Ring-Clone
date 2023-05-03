@@ -8,13 +8,11 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
-import edu.monash.fit2099.engine.positions.Location;
-import game.ResetManager;
 import game.Resettable;
-import game.RuneManager;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
-import potion.FlaskOfCrimsonTears;
+import game.potion.FlaskOfCrimsonTears;
+import game.rune.RuneManager;
 
 /**
  * Class representing the Player. It implements the Resettable interface.

@@ -8,9 +8,12 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.enemy.HeavySkeletonSwordsman;
 import game.environment.GustOfWind;
+import game.environment.Dirt;
+import game.environment.Floor;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
 import game.environment.SiteOfLostGrace;
+import game.environment.Wall;
 import game.player.Player;
 
 /**
@@ -66,22 +69,6 @@ public class Application {
 			}
 		}
 
-		/*
-		gameMap.at(23, 17).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(23, 18).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(23, 19).addActor(new GiantCrab());
-
-		gameMap.at(22, 17).addActor(new LoneWolf());
-		gameMap.at(22, 18).addActor(new LoneWolf());
-		gameMap.at(22, 19).addActor(new LoneWolf());
-
-
-		gameMap.at(18, 10).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(18, 11).addActor(new HeavySkeletonSwordsman());
-		 */
-
-
-		gameMap.at(15, 16).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(15, 14).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?

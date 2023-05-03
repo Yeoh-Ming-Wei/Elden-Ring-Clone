@@ -1,12 +1,12 @@
-package potion;
+package game.potion;
+
+import static game.potion.PotionItem.potionName;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.Resettable;
 import game.player.Player;
-
-import static potion.PotionItem.potionName;
 
 public class FlaskOfCrimsonTears extends Item implements Resettable {
     private static int maxUses = 2;
