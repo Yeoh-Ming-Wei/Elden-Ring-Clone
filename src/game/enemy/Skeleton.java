@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.PileOfBones;
-import game.weapon.Grossmesser;
 
 /**
  *  Spooky, spooky skeleton

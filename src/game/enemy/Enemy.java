@@ -9,7 +9,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
 import game.action.*;
-import game.Status;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;

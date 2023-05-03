@@ -1,8 +1,5 @@
 package game.enemy;
 
-import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.weapon.DogSlam;
-
 /**
  * BEHOLD, DOG!
  *
@@ -14,4 +11,5 @@ public abstract class Dog extends Enemy {
         super(initName,initDisplay,initHp);
         this.addCapability(ActorTypes.WOLF);
     }
+
 }
