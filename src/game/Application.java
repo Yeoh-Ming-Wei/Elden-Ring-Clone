@@ -73,7 +73,7 @@ public class Application {
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = Player.getInstance();
-		world.addPlayer(player, gameMap.at(13, 15));
+		world.addPlayer(player, gameMap.at(25, 8));
 
 
 		world.run();

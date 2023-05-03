@@ -23,12 +23,11 @@ public class SiteOfLostGrace extends Ground{
         if (Player.getInstance().isConscious()) {
             // Check if the player is standing on this ground
             if (location.containsAnActor()) {
-                // Reset the game
+                // Reset the game 
                 isVisited = true;
                 ResetManager.run(location.map());
             }
         }
-        ResetManager.run(location.map());
 
     }
 }

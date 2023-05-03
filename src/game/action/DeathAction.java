@@ -74,11 +74,12 @@ public class DeathAction extends Action {
 
         if (target.hasCapability(ActorTypes.PLAYER)){
             if(!target.isConscious() && SiteOfLostGrace.isVisited){
+                ResetManager.run(map);
                 Location lostGrace = map.at(39,10);
                 lostGrace.addActor(target);
             }
         }
-        ResetManager.run();
+        
         return result;
     }
 
