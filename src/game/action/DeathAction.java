@@ -19,11 +19,11 @@ import game.enemy.ActorTypes;
  */
 public class DeathAction extends Action {
     private Actor attacker ;
-    private Actor killer ;
+    private Actor deadBody ;
 
-    public DeathAction(Actor actor, Actor killer) {
+    public DeathAction(Actor actor, Actor deadBody) {
         this.attacker = actor ;
-        this.killer = killer ;
+        this.deadBody = deadBody ;
     }
 
     /**
@@ -47,8 +47,7 @@ public class DeathAction extends Action {
         for (Action drop : dropActions)
             drop.execute(target, map);
         if (attacker.hasCapability(ActorTypes.PLAYER))
-            RuneManager.getInstance().addRuneEnemy(attacker, target.getDisplayChar()) ;
-        // remove actor
+            RuneManager.getInstance().addRuneEnemy(attacker, deadBody) ;
         map.removeActor(target);
         result += System.lineSeparator() + menuDescription(target);
         return result;
