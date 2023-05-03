@@ -1,11 +1,14 @@
 package potion;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.Resettable;
 import game.player.Player;
 
 import static potion.PotionItem.potionName;
 
-public class FlaskOfCrimsonTears extends Item {
+public class FlaskOfCrimsonTears extends Item implements Resettable {
     private static int maxUses = 2;
     static int action = 250;
 
@@ -31,13 +34,13 @@ public class FlaskOfCrimsonTears extends Item {
 
     /**
      * Use this potion, restoring the player's health by a fixed amount.
-     * @param player the player who is using the potion
+     * @param actor the player who is using the potion
      */
-    public void use(Player player) {
+    public void use(Actor actor) {
         if (usesLeft == 0) {
             return;
         }
-        player.heal(action);
+        actor.heal(action);
         usesLeft--;
     }
 
@@ -65,4 +68,8 @@ public class FlaskOfCrimsonTears extends Item {
         return FlaskOfCrimsonTears.class;
     }
 
+    @Override
+    public void reset(GameMap map) {
+        setUsesLeft(maxUses);
+    }
 }

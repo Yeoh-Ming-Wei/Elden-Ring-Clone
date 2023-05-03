@@ -10,6 +10,7 @@ import game.enemy.HeavySkeletonSwordsman;
 import game.environment.GustOfWind;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
+import game.environment.SiteOfLostGrace;
 import game.player.Player;
 
 /**
@@ -25,7 +26,7 @@ public class Application {
 
 		World world = new World(new Display());
 
-		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater());
+		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace());
 
 		List<String> map = Arrays.asList(
 		    "..nnnn................................................~~~~~~~~~~~~~~~~~~~~~",
@@ -38,7 +39,7 @@ public class Application {
 				"...........................................................................",
 				"~~~~~~~~~~~.......................###___###................................",
 				"~~~~~~~~~~~~......................________#....nnnn........................",
-				"~~~~~~~~~~~~~.....................#________................................",
+				"~~~~~~~~~~~~~.....................#___U____................................",
 				"~~~~~~~~~~~~......................#_______#....nnnn........................",
 				"~~~~~~~~~~~.......................###___###................................",
 				"~~~~~~~~~~..........................#___#..................................",
@@ -85,7 +86,7 @@ public class Application {
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = Player.getInstance();
-		world.addPlayer(player, gameMap.at(15, 15));
+		world.addPlayer(player, gameMap.at(35, 11));
 
 
 		world.run();

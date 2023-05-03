@@ -53,6 +53,6 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " uses " + potion;
+        return actor + " uses " + potion + " and have " + FlaskOfCrimsonTears.getUsesLeft() + " left ";
     }
 }

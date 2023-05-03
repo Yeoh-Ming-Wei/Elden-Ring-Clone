@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
+import game.ResetManager;
+import game.Resettable;
 import game.action.*;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
@@ -18,7 +20,7 @@ import game.weapon.WeaponSkill;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Enemy extends Actor {
+public abstract class Enemy extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
      * Constructor.
@@ -34,6 +36,8 @@ public abstract class Enemy extends Actor {
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
+
+        ResetManager.registerResettable(this);
     }
 
     /**
@@ -112,6 +116,7 @@ public abstract class Enemy extends Actor {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+        ResetManager.addGameMap(map);
         // follow has the highest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
@@ -151,5 +156,13 @@ public abstract class Enemy extends Actor {
         }
 
         return new DoNothingAction();
+    }
+
+    public void reset(GameMap map) {
+        //add despawn action
+        behaviours.clear();
+        DespawnAction despawnAction = new DespawnAction(this);
+        despawnAction.execute(this, map);
+
     }
 }
