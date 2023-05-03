@@ -6,8 +6,8 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.RuneManager;
 import game.enemy.ActorTypes;
+import game.rune.RuneManager;
 
 /**
  * An action executed if an actor is killed.
