@@ -17,6 +17,8 @@ public abstract class Skeleton extends Enemy{
     private int counter;
     private final int counterReset;
     private final int counterMax;
+    private final int SKELETON_MIN_RUNE = 35 ;
+    private final int SKELETON_MAX_RUNE = 892 ;
 
 
     public Skeleton(String initName, char initDisplay, int initHp) {
@@ -76,6 +78,14 @@ public abstract class Skeleton extends Enemy{
             return super.playTurn(actions,lastAction,map,display);
         }
         return new DoNothingAction();
+    }
+
+    public int getMinRune() {
+        return SKELETON_MIN_RUNE ;
+    }
+
+    public int getMaxRune() {
+        return SKELETON_MAX_RUNE ;
     }
 
 }

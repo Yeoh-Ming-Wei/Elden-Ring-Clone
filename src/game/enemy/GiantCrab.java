@@ -26,9 +26,14 @@ import java.util.Map;
  */
 public class GiantCrab extends Crab {
 
+    private final int GIANT_CRAB_MIN_RUNE = 318 ;
+    private final int GIANT_CRAB_MAX_RUNE = 4961 ;
+
     public GiantCrab() {
         super("Giant Crab", 'C', 407);
         this.addWeaponToInventory(new CrabSlam());
+
+        RuneManager.addEnemyDropRune(name, GIANT_CRAB_MIN_RUNE, GIANT_CRAB_MAX_RUNE) ;
     }
 
     // same as weapon
