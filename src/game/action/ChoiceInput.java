@@ -1,7 +1,7 @@
 package game.action;
 import java.util.Scanner;
 
-public class TradeActionInput {
+public class ChoiceInput {
 
     public static int getChoiceMenu(int exit){
         // to receive input

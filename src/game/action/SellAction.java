@@ -133,7 +133,7 @@ public class SellAction extends Action {
 
 		// the choice will be
 		//the index of the element in the player inventory and the item to delete
-		choice = TradeActionInput.getChoiceMenu(exit);
+		choice = ChoiceInput.getChoiceMenu(exit);
 
 		if ( choice == exit ){
 			result = "Sold nothing";

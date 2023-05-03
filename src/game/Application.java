@@ -7,12 +7,10 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.enemy.HeavySkeletonSwordsman;
-import game.enemy.LoneWolf;
 import game.environment.GustOfWind;
 import game.environment.Graveyard;
 import game.environment.PuddleOfWater;
-import game.weapon.Club;
-import game.weapon.WeaponPurchaseSellInfo;
+import game.player.Player;
 
 /**
  * The main class to start the game.
@@ -86,7 +84,7 @@ public class Application {
 		gameMap.at(15, 14).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
-		Player player = new Player("Tarnished", '@', 300);
+		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(15, 15));
 
 
