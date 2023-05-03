@@ -12,6 +12,9 @@ import game.weapon.CrayFishSlam;
  */
 public class GiantCrayFish extends Crab {
 
+    private final int GIANT_CF_MIN_RUNE = 35 ;
+    private final int GIANT_CF_MAX_RUNE = 892 ;
+
     public GiantCrayFish() {
         super("Giant Cray Fish", 'R', 4803);
         this.addWeaponToInventory(new CrayFishSlam());
