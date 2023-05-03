@@ -1,4 +1,4 @@
-package potion;
+package game.potion;
 
 
 import edu.monash.fit2099.engine.items.Item;
