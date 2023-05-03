@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.PileOfBones;
+import game.Resettable;
 
 /**
  * Spooky, spooky skeleton
@@ -14,7 +15,7 @@ import game.PileOfBones;
  * @author Lee Sing Yuan
  *
  */
-public abstract class Skeleton extends Enemy{
+public abstract class Skeleton extends Enemy implements Resettable {
     private int counter;
     private final int counterReset;
     private final int counterMax;

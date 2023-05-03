@@ -8,10 +8,13 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
+import game.ResetManager;
 import game.Resettable;
 import game.RuneManager;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
+import potion.FlaskOfCrimsonTears;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -23,7 +26,6 @@ import game.enemy.ActorTypes;
  */
 public abstract class Player extends Actor implements Resettable {
 	private final Menu menu = new Menu();
-
 	// the 1 and only player in the game
 	private static Player player;
 
@@ -37,6 +39,7 @@ public abstract class Player extends Actor implements Resettable {
 	protected Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
+		this.addItemToInventory(new FlaskOfCrimsonTears());
 	}
 
 	/**
@@ -87,6 +90,7 @@ public abstract class Player extends Actor implements Resettable {
 		return player;
 
 
+
 	}
 
 	@Override
@@ -101,11 +105,25 @@ public abstract class Player extends Actor implements Resettable {
 		return menu.showMenu(this, actions, display);
 	}
 
+	public static int counter(){
+		int deathCounter = 0;
+		if (player.hitPoints <= 0){
+			deathCounter = 1;
+//			Location destination = map.at(15,16);
+//			destination.addActor(player);
+			return deathCounter;
+		}
+		return deathCounter;
+	}
+
 	@Override
 	public String toString() {
 		return name;
 	}
 
 	@Override
-	public void reset() {}
+	public void reset(GameMap map) {
+		this.resetMaxHp(getMaxHp());
+	}
+
 }
