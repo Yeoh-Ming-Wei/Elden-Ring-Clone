@@ -36,7 +36,6 @@ public abstract class Enemy extends Actor implements Resettable {
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
-
         ResetManager.registerResettable(this);
     }
 

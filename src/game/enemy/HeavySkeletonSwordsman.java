@@ -19,5 +19,6 @@ public class HeavySkeletonSwordsman extends Skeleton{
 
         RuneManager.addEnemyDropRune(name, super.getMinRune(), super.getMaxRune()) ;
     }
+
 }
 
