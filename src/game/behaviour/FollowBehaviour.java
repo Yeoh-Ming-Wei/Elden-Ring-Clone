@@ -6,12 +6,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
-import game.Status;
 import game.action.NearMe;
-import game.behaviour.Behaviour;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class to check if the player is nearby and should the enemy follow the actor or not

@@ -2,30 +2,37 @@ package game.environment;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.RandomNumberGenerator;
-import game.enemy.GiantDog;
-import game.enemy.LoneWolf;
 
+/**
+ * A wind environment called GustOfWind, so windy!
+ * @author Yeoh Ming Wei
+ */
 public class GustOfWind extends Ground {
     
+	/**
+	 * A constructor for the GustOfWind class
+	 */
     public GustOfWind() {
+		// The display character for GustofWind
 		super('&');
 	}
 
-	@Override
+	/**
+	 * A method that manaage the enemy spawning every turn. The "if" conditional
+	 * will determine if it is east side or west side. 
+	 */
+	@Override	
 	public void tick(Location location) {
 		super.tick(location) ;
 
-			int p = RandomNumberGenerator.getRandomInt(100) ;
-			int mid = location.map().getXRange().max() / 2 ;
+		int mid = location.map().getXRange().max() / 2 ;
+		
+		if (location.x() < mid) {
+			WestMapEnemyFactory.getInstance().addEnemy(this, location) ;
+		} else {
+			EastMapEnemyFactory.getInstance().addEnemy(this, location) ;
+		}
 			
-			if (p < 33 && !location.map().isAnActorAt(location)) {
-				if (location.x() < mid) {
-					location.map().at(location.x(), location.y()).addActor(new LoneWolf()) ;
-				} else {
-					location.map().at(location.x(), location.y()).addActor(new GiantDog()) ;
-				}
-			}
 	}
 }
 

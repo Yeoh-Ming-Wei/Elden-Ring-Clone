@@ -1,4 +1,4 @@
-package potion;
+package game.potion;
 
 public enum Heal {
     HEAL

@@ -1,14 +1,14 @@
-package potion;
+package game.potion;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 
-import java.util.HashMap;
+import static game.potion.FlaskOfCrimsonTears.action;
+import static game.potion.PotionItem.potionName;
 
-import static potion.FlaskOfCrimsonTears.action;
-import static potion.PotionItem.potionName;
+import java.util.HashMap;
 
 public class ConsumeAction extends Action {
     private Item potion;

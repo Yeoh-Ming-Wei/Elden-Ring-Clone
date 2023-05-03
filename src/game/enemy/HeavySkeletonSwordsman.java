@@ -1,6 +1,7 @@
 package game.enemy;
 
 import game.*;
+import game.rune.RuneManager;
 import game.weapon.Grossmesser;
 
 /**

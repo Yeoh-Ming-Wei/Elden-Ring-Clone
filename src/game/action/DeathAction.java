@@ -23,9 +23,22 @@ import static game.ResetManager.map;
  *
  */
 public class DeathAction extends Action {
+
+    /**
+     * An actor which is the attacker.
+     */
     private Actor attacker ;
+
+    /**
+     * An actor which is already dead.
+     */
     private Actor deadBody ;
 
+    /**
+     * A constructor to for DeathAction class. 
+     * @param actor An actor which is the attacker.
+     * @param deadBody An actor which is already dead.
+     */
     public DeathAction(Actor actor, Actor deadBody) {
         this.attacker = actor ;
         this.deadBody = deadBody ;
@@ -69,13 +82,11 @@ public class DeathAction extends Action {
         return result;
     }
 
+    /**
+     * A method to show description which an actor is killed.
+     */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " is killed.";
-    }
-
-    public int dropRune(int min, int max) {
-        int drop = RandomNumberGenerator.getRandomInt(min, max) ;
-        return drop ;
     }
 }

@@ -1,7 +1,6 @@
 package game.action;
 
 import java.util.List;
-import java.util.Random;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
