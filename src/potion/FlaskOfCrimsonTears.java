@@ -3,6 +3,7 @@ package potion;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.ResetManager;
 import game.Resettable;
 import game.player.Player;
 
@@ -22,6 +23,7 @@ public class FlaskOfCrimsonTears extends Item implements Resettable {
         usesLeft = maxUses;
         this.addCapability(Heal.HEAL);
         potionName.put(FlaskOfCrimsonTears.potionCode(), 250);
+        ResetManager.registerResettable(this);
     }
 
     /**

@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.positions.Location;
@@ -14,7 +15,12 @@ import game.Resettable;
 import game.RuneManager;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
+import game.environment.SiteOfLostGrace;
+import potion.ConsumeAction;
 import potion.FlaskOfCrimsonTears;
+import potion.Heal;
+
+import static game.ResetManager.map;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -29,6 +35,7 @@ public abstract class Player extends Actor implements Resettable {
 	// the 1 and only player in the game
 	private static Player player;
 
+
 	/**
 	 * Constructor that allows the children to use, but not the public to use
 	 *
@@ -40,6 +47,7 @@ public abstract class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addItemToInventory(new FlaskOfCrimsonTears());
+
 	}
 
 	/**
@@ -53,6 +61,7 @@ public abstract class Player extends Actor implements Resettable {
 	 * @return
 	 */
 	public static Player getInstance(){
+		ResetManager.registerResettable(player);
 		if (player == null){
 			// must be instantiated the first time or cannot use the static
 			new Bandit();
@@ -95,25 +104,23 @@ public abstract class Player extends Actor implements Resettable {
 
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
+
+		// Create a new action to consume a potion if the player has one in their inventory
+		for (Item item : this.getItemInventory()) {
+			if (item.hasCapability(Heal.HEAL)){
+				actions.add(new ConsumeAction(item));
+			}
+
+		}
 
 		// to print the HP before printing all the available options
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
-	}
-
-	public static int counter(){
-		int deathCounter = 0;
-		if (player.hitPoints <= 0){
-			deathCounter = 1;
-//			Location destination = map.at(15,16);
-//			destination.addActor(player);
-			return deathCounter;
-		}
-		return deathCounter;
 	}
 
 	@Override
@@ -123,7 +130,8 @@ public abstract class Player extends Actor implements Resettable {
 
 	@Override
 	public void reset(GameMap map) {
-		this.resetMaxHp(getMaxHp());
+		System.out.println(player.getMaxHp());
+		player.resetMaxHp(getMaxHp());
 	}
 
 }

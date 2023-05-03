@@ -5,10 +5,15 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
+import game.ResetManager;
 import game.RuneManager;
 import game.enemy.ActorTypes;
+import game.environment.SiteOfLostGrace;
+
+import static game.ResetManager.map;
 
 /**
  * An action executed if an actor is killed.
@@ -40,16 +45,27 @@ public class DeathAction extends Action {
 
         ActionList dropActions = new ActionList();
         // drop all items
-        for (Item item : target.getItemInventory())
-            dropActions.add(item.getDropAction(target));
-        for (WeaponItem weapon : target.getWeaponInventory())
-            dropActions.add(weapon.getDropAction(target)); 
-        for (Action drop : dropActions)
-            drop.execute(target, map);
-        if (attacker.hasCapability(ActorTypes.PLAYER))
-            RuneManager.getInstance().addRuneEnemy(attacker, deadBody) ;
-        map.removeActor(target);
-        result += System.lineSeparator() + menuDescription(target);
+        if(!target.hasCapability(ActorTypes.PLAYER)) {
+            for (Item item : target.getItemInventory())
+                dropActions.add(item.getDropAction(target));
+            for (WeaponItem weapon : target.getWeaponInventory())
+                dropActions.add(weapon.getDropAction(target));
+            for (Action drop : dropActions)
+                drop.execute(target, map);
+            if (attacker.hasCapability(ActorTypes.PLAYER))
+                RuneManager.getInstance().addRuneEnemy(attacker, deadBody);
+            map.removeActor(target);
+            result += System.lineSeparator() + menuDescription(target);
+            return result;
+        }
+
+        if (target.hasCapability(ActorTypes.PLAYER)){
+            if(!target.isConscious() && SiteOfLostGrace.isVisited){
+                Location lostGrace = map.at(39,10);
+                lostGrace.addActor(target);
+            }
+        }
+        ResetManager.run();
         return result;
     }
 
