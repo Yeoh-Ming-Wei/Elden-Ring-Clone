@@ -11,8 +11,8 @@ import edu.monash.fit2099.engine.displays.Menu;
 import game.Resettable;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
+import game.potion.FlaskOfCrimsonTears;
 import game.rune.RuneManager;
-import potion.FlaskOfCrimsonTears;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
