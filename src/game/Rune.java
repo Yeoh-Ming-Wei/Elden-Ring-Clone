@@ -8,7 +8,7 @@ public class Rune extends Item {
 
     public Rune() {
         super("Rune", '$', false) ;
-        rune = 1000000 ;
+        rune = 0 ;
     }
 
     public void setRune(int value) {
