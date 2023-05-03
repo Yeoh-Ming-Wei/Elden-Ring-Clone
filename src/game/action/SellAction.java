@@ -5,9 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.RuneManager;
 import game.weapon.*;
-
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * An Action to allow trading between player and trader
