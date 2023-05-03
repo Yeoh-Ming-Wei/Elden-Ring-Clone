@@ -30,8 +30,8 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
 
         if ( isPurchaseAdded == false ){
             isPurchaseAdded = true;
-            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Club());
-            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Club());
+            WeaponPurchaseSellInfo.addPurchasableWeapon(new Club());
+            WeaponPurchaseSellInfo.addPurchasableWeaponItem(new Club());
         }
 
         if ( isSellableAdded == false ) {

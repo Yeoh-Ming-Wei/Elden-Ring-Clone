@@ -33,8 +33,8 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
 
         if ( isPurchaseAdded == false ){
             isPurchaseAdded = true;
-            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Uchigatana());
-            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Uchigatana());
+            WeaponPurchaseSellInfo.addPurchasableWeapon(new Uchigatana());
+            WeaponPurchaseSellInfo.addPurchasableWeaponItem(new Uchigatana());
         }
 
         if ( isSellableAdded == false ) {
