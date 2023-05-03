@@ -33,8 +33,8 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
 
         if ( isPurchaseAdded == false ){
             isPurchaseAdded = true;
-            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new GreatKnife());
-            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new GreatKnife());
+            WeaponPurchaseSellInfo.addPurchasableWeapon(new GreatKnife());
+            WeaponPurchaseSellInfo.addPurchasableWeaponItem(new GreatKnife());
         }
 
         if ( isSellableAdded == false ) {

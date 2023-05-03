@@ -31,8 +31,8 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
 
         if ( isPurchaseAdded == false ){
             isPurchaseAdded = true;
-            WeaponPurchaseSellInfo.purchasableWeapon.put("Club",new Scimitar());
-            WeaponPurchaseSellInfo.purchasableWeaponItem.put("Club",new Scimitar());
+            WeaponPurchaseSellInfo.addPurchasableWeapon(new Scimitar());
+            WeaponPurchaseSellInfo.addPurchasableWeaponItem(new Scimitar());
         }
 
         if ( isSellableAdded == false ) {
