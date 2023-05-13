@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.enemy.HeavySkeletonSwordsman;
 import game.environment.GustOfWind;
 import game.environment.Dirt;
 import game.environment.Floor;
@@ -73,7 +72,7 @@ public class Application {
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = Player.getInstance();
-		world.addPlayer(player, gameMap.at(25, 8));
+		world.addPlayer(player, gameMap.at(38, 10));
 
 
 		world.run();
