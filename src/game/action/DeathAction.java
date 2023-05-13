@@ -1,19 +1,15 @@
 package game.action;
 
+import game.Status;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.enemy.ActorTypes;
-import game.environment.SiteOfLostGrace;
 import game.rune.RuneManager;
-
-import static game.ResetManager.map;
 
 /**
  * An action executed if an actor is killed.
@@ -70,16 +66,10 @@ public class DeathAction extends Action {
             map.removeActor(target);
             result += System.lineSeparator() + menuDescription(target);
             return result;
+        } else {
+            target.addCapability(Status.DEAD) ;
+            ResetManager.run(map) ;
         }
-
-        if (target.hasCapability(ActorTypes.PLAYER)){
-            if(!target.isConscious() && SiteOfLostGrace.isVisited){
-                ResetManager.run(map);
-                Location lostGrace = map.at(39,10);
-                lostGrace.addActor(target);
-            }
-        }
-        
         return result;
     }
 
