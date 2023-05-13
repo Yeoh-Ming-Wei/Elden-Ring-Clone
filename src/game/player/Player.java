@@ -8,18 +8,16 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.ResetManager;
 import game.Resettable;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
-import game.environment.SiteOfLostGrace;
 import game.potion.ConsumeAction;
 import game.potion.FlaskOfCrimsonTears;
 import game.potion.Heal;
 import game.rune.RuneManager;
-
-import static game.ResetManager.map;
 
 /**
  * Class representing the Player. It implements the Resettable interface.
@@ -34,6 +32,8 @@ public abstract class Player extends Actor implements Resettable {
 	// the 1 and only player in the game
 	private static Player player;
 
+	private int[] lastSiteOfLostGrace ;
+
 
 	/**
 	 * Constructor that allows the children to use, but not the public to use
@@ -46,7 +46,8 @@ public abstract class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addItemToInventory(new FlaskOfCrimsonTears());
-
+		this.lastSiteOfLostGrace = new int[2] ;
+		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
 	}
 
 	/**
@@ -96,9 +97,6 @@ public abstract class Player extends Actor implements Resettable {
 
 		// if player already exist
 		return player;
-
-
-
 	}
 
 	@Override
@@ -127,10 +125,18 @@ public abstract class Player extends Actor implements Resettable {
 		return name;
 	}
 
+	public int[] lastVisited() {
+		return lastSiteOfLostGrace ;
+	}
+
+	public void setLastVisited(int x, int y) {
+		lastSiteOfLostGrace[0] = x ;
+		lastSiteOfLostGrace[1] = y ;
+	}
+
 	@Override
 	public void reset(GameMap map) {
-		System.out.println(player.getMaxHp());
-		player.resetMaxHp(getMaxHp());
+		player.heal(getMaxHp()) ;
 	}
 
 }
