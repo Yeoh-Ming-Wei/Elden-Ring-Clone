@@ -115,7 +115,6 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        ResetManager.addGameMap(map);
         // follow has the highest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
