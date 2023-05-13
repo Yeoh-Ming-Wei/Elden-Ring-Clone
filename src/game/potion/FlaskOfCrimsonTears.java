@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.ResetManager;
 import game.Resettable;
-import game.player.Player;
 
 public class FlaskOfCrimsonTears extends Item implements Resettable {
     private static int maxUses = 2;

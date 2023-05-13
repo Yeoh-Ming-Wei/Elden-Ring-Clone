@@ -6,9 +6,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 
 import static game.potion.FlaskOfCrimsonTears.action;
-import static game.potion.PotionItem.potionName;
-
-import java.util.HashMap;
 
 public class ConsumeAction extends Action {
     private Item potion;

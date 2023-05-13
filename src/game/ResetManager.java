@@ -1,9 +1,6 @@
 package game;
 
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
-import game.player.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +47,4 @@ public class ResetManager {
         resettables.remove(resettable);
     }
 
-    public static void addGameMap(GameMap initMap){
-        map = initMap;
-    }
 }

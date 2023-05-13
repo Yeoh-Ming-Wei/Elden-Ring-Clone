@@ -6,18 +6,9 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.action.AttackAction;
-import game.action.AttackSurroundingAction;
 import game.action.PurchaseAction;
 import game.action.SellAction;
-import game.behaviour.AttackBehaviour;
-import game.behaviour.FollowBehaviour;
-import game.behaviour.WanderBehaviour;
 import game.enemy.ActorTypes;
-import game.weapon.*;
-
-import java.util.ArrayList;
 
 /**
  * A class for trader

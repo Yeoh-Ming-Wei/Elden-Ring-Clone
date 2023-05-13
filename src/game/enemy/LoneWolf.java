@@ -1,7 +1,6 @@
 package game.enemy;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.*;
 import game.rune.RuneManager;
 
 /**
