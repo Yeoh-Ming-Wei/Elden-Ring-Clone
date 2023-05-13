@@ -69,6 +69,7 @@ public class DeathAction extends Action {
         } else {
             target.addCapability(Status.DEAD) ;
             ResetManager.run(map) ;
+
         }
         return result;
     }

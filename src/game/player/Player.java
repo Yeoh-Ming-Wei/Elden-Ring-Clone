@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
@@ -12,6 +13,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
 import game.ResetManager;
 import game.Resettable;
+import game.Status;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
 import game.potion.ConsumeAction;
@@ -137,6 +139,7 @@ public abstract class Player extends Actor implements Resettable {
 	@Override
 	public void reset(GameMap map) {
 		player.heal(getMaxHp()) ;
+		player.addCapability(Status.DEAD);
 	}
 
 }

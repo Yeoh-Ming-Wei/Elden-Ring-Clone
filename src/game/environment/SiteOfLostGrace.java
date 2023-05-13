@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.ResetManager;
+import game.Status;
 import game.action.ResetAction;
 import game.enemy.ActorTypes;
 import game.player.Player;
@@ -36,6 +36,11 @@ public class SiteOfLostGrace extends Ground {
         //         ResetManager.run(location.map());
         //     }
         // }
+
+        if (player.hasCapability(Status.DEAD)) {
+            location.map().moveActor(player, location);
+            player.removeCapability(Status.DEAD);
+        }
     }
 
     @Override
