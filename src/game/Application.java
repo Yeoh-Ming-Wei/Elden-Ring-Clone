@@ -24,6 +24,7 @@ import game.player.Player;
  *
  */
 public class Application {
+	public static GameMap staticGameMap;
 
 	public static void main(String[] args) {
 
@@ -69,11 +70,15 @@ public class Application {
 			}
 		}
 
+		staticGameMap = gameMap;
+
 		gameMap.at(15, 14).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(25, 8));
+		gameMap.at(25, 9).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(25, 5).addActor(new HeavySkeletonSwordsman());
 
 
 		world.run();

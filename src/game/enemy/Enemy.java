@@ -62,9 +62,10 @@ public abstract class Enemy extends Actor implements Resettable {
                 // let the player choose which weapon to use
                 for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
 
+
                     //getting the weapon
                     WeaponItem w = otherActor.getWeaponInventory().get(x);
-                    actions.add(new AttackAction(this, direction, w));
+                    //actions.add(new AttackAction(this, direction, w));
 
                     // if the weapon has an attack surrounding capability need to add it to available actions
                     if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.AREA_ATTACK) ){
@@ -73,12 +74,15 @@ public abstract class Enemy extends Actor implements Resettable {
                         actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
                     }
 
+                    /*
                     // checks if player has weapon that can do Unsheathe action
                     if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.UNSHEATHE) ){
                         // add the Unsheathe action with correct weapon, because can have multiple
                         // weapons of the same skill
                         actions.add(new UnsheatheAction(this,direction , w));
                     }
+
+                     */
 
                     // checks if player has weapon that can do Quick Step action
                     if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.QUICKSTEP) ){

@@ -1,8 +1,16 @@
 package game.weapon;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.Application;
+import game.action.AttackAction;
+import game.action.UnsheatheAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A long katana that can be used to attack the enemy.
@@ -14,6 +22,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
  *
  */
 public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
+    private Location currentLocation;
+
     private int buyingPrice;
     private int sellingPrice;
 
@@ -47,8 +57,15 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         }
     }
 
+    /**
+     * used to update the location so that getAllowableActions can use it
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor The actor carrying this Item.
+     */
     @Override
-    public void tick(Location currentLocation, Actor actor) {}
+    public void tick(Location currentLocation, Actor actor) {
+        this.currentLocation = currentLocation;
+    }
 
     @Override
     public int getPurchasePrice() {
@@ -58,5 +75,29 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
     @Override
     public int getSellingPrice() {
         return sellingPrice;
+    }
+
+    @Override
+    public List<Action> getAllowableActions(){
+        List<Action> res = new ArrayList<>();
+        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
+        if ( whoHasThis == null )
+        {
+            return res;
+        }
+
+
+        for (Exit exit : currentLocation.getExits() ){
+            Location l = exit.getDestination();
+
+            if (l.containsAnActor()){
+                Actor target = l.getActor();
+                res.add(new UnsheatheAction(target,exit.getName(),this));
+                res.add(new AttackAction(target,exit.getName(),this));
+            }
+        }
+
+
+        return res;
     }
 }
