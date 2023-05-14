@@ -9,8 +9,8 @@ public class DropRuneAction extends Action {
 
     private Rune rune ;
 
-    public DropRuneAction(int value) {
-        this.rune = new Rune(value) ;
+    public DropRuneAction() {
+        this.rune = new Rune() ;
     }
 
     /**
@@ -22,9 +22,15 @@ public class DropRuneAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        Player player = Player.getInstance() ;
 
+        Player player = Player.getInstance() ;
+        int dropRuneValue = RuneManager.getInstance().returnRune() ;
+
+        rune.setRune(dropRuneValue) ;
         map.at(player.getLocation().x(), player.getLocation().y()).addItem(rune) ;
+        RuneManager.addRuneDropValue(rune, dropRuneValue) ;
+        RuneManager.getInstance().setRune(0) ;
+        rune.setLocation(player.getLocation().x(), player.getLocation().y());
 
         String str =  String.format("%s with a value of %d", menuDescription(actor), rune.getRune()) ;
         return str;

@@ -1,28 +1,39 @@
 package game.rune ;
 
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.items.PickUpAction;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.ResetManager;
+import game.Resettable;
+import game.Status;
+import game.player.Player;
 
 /**
  * The currency of the game to buy weapons from the trader. 
  * It can be obtain through killing enemies. 
  * @author Yeoh Ming Wei
  */
-public class Rune extends Item {
+public class Rune extends Item implements Resettable {
 
     /**
      * An integer attribute to represents the amount of rune available.
      */
     private int rune ;
+    private int x ;
+    private int y ;
+    private Player player ;
+
 
     /**
      * A constructor for rune class.
      */
-    public Rune(int value) {
+    public Rune() {
         super("Rune", '$', false) ;
-        setRune(value);
+        player = Player.getInstance() ;
+        ResetManager.registerResettable(this);
     }
 
-    
 
     /**
      * A setter method to set the rune value.
@@ -40,4 +51,22 @@ public class Rune extends Item {
         return this.rune ;
     }
 
+    public void setLocation(int x, int y) {
+        this.x = x ;
+        this.y = y ;
+    }
+
+    @Override
+	public PickUpAction getPickUpAction(Actor actor) {
+		return new PickUpRuneAction(this);
+	}
+
+    @Override
+    public void reset(GameMap map) {
+        if(!player.hasCapability(Status.RESTING)) {
+            map.at(x, y).removeItem(this) ;
+        }
+    }
+
+    
 }

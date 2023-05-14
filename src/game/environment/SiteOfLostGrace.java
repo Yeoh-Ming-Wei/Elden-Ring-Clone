@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Status;
-import game.action.ResetAction;
+import game.action.RestAction;
 import game.enemy.ActorTypes;
 import game.player.Player;
 
@@ -41,6 +41,8 @@ public class SiteOfLostGrace extends Ground {
             location.map().moveActor(player, location);
             player.removeCapability(Status.DEAD);
         }
+ 
+        player.removeCapability(Status.RESTING);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class SiteOfLostGrace extends Ground {
         ActionList actions = new ActionList() ;
 
         if(actor.hasCapability(ActorTypes.PLAYER)) {
-            actions.add(new ResetAction()) ;
+            actions.add(new RestAction()) ;
         }
 
         return actions ;
