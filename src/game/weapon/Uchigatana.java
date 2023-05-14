@@ -133,6 +133,9 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
                 }
             }
         }
+
+        // for selling purposes
+
         return res;
     }
 }
