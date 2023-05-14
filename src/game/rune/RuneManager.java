@@ -33,7 +33,7 @@ public class RuneManager{
      * Rune will be initialized upon initialization of RuneManager
      */
     private RuneManager() {
-        rune = new Rune() ;
+        rune = new Rune(0) ;
     }
 
     /**

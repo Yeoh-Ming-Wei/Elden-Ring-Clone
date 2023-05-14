@@ -9,6 +9,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.ResetManager;
 import game.enemy.ActorTypes;
+import game.player.Player;
+import game.rune.DropRuneAction;
 import game.rune.RuneManager;
 
 /**
@@ -67,7 +69,9 @@ public class DeathAction extends Action {
             result += System.lineSeparator() + menuDescription(target);
             return result;
         } else {
+            int dropRuneValue = RuneManager.getInstance().returnRune() ;
             target.addCapability(Status.DEAD) ;
+            result = new DropRuneAction(dropRuneValue).execute(target, map) ;
             ResetManager.run(map) ;
 
         }

@@ -17,10 +17,12 @@ public class Rune extends Item {
     /**
      * A constructor for rune class.
      */
-    public Rune() {
+    public Rune(int value) {
         super("Rune", '$', false) ;
-        rune = 0 ;
+        setRune(value);
     }
+
+    
 
     /**
      * A setter method to set the rune value.

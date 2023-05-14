@@ -35,6 +35,7 @@ public abstract class Player extends Actor implements Resettable {
 	private static Player player;
 
 	private int[] lastSiteOfLostGrace ;
+	private Location location ;
 
 
 	/**
@@ -113,8 +114,11 @@ public abstract class Player extends Actor implements Resettable {
 			if (item.hasCapability(Heal.HEAL)){
 				actions.add(new ConsumeAction(item));
 			}
+		
+		// To collect the location of the player
+		this.location = map.locationOf(player) ;
 
-		}
+	}
 
 		// to print the HP before printing all the available options
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
@@ -140,6 +144,10 @@ public abstract class Player extends Actor implements Resettable {
 	public void reset(GameMap map) {
 		player.heal(getMaxHp()) ;
 		player.addCapability(Status.DEAD);
+	}
+
+	public Location getLocation() {
+		return location ;
 	}
 
 }
