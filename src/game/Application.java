@@ -5,8 +5,9 @@ import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
-import game.enemy.HeavySkeletonSwordsman;
+import game.enemy.*;
 import game.environment.GustOfWind;
 import game.environment.Dirt;
 import game.environment.Floor;
@@ -75,10 +76,27 @@ public class Application {
 		gameMap.at(15, 14).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
+		int x = 0;
+		int y = 0;
+		Location l = new Location(gameMap,x,y);
 		Player player = Player.getInstance();
-		world.addPlayer(player, gameMap.at(25, 8));
-		gameMap.at(25, 9).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(25, 5).addActor(new HeavySkeletonSwordsman());
+		world.addPlayer(player, gameMap.at(x, y));
+		gameMap.at(26, 7).addActor(new SkeletalBandit());
+		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(27, 7).addActor(new LoneWolf());
+		/*
+
+
+		gameMap.at(28, 9).addActor(new LoneWolf());
+
+		gameMap.at(24, 7).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(24, 8).addActor(new LoneWolf());
+		gameMap.at(24, 9).addActor(new GiantCrab());
+		gameMap.at(25, 7).addActor(new GiantCrayFish());
+		gameMap.at(25, 8).addActor(new GiantDog());
+		gameMap.at(25, 9).addActor(new LoneWolf());
+
+		 */
 
 
 		world.run();
