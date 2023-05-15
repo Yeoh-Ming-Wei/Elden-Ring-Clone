@@ -75,6 +75,7 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
+     *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
         // trader
@@ -111,6 +112,7 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
                 // get that actor and add the skill action and normal action to the person holding this
                 Actor target = l.getActor();
 
+                System.out.println(target);
                 // checks if trader is in range of the player
                 if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && target.hasCapability(ActorTypes.TRADER) ){
                     traderLocation = l;
@@ -164,7 +166,6 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
             // use a new Scimitar because if use the "this", will have bug caused by reference
             res.add(new PurchaseAction(trader,new Scimitar(),this.buyingPrice) ) ;
         }
-
         return res;
     }
 }

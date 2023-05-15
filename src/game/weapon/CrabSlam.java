@@ -2,15 +2,9 @@ package game.weapon;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.Application;
-import game.action.AttackSurroundingAction;
-import game.enemy.ActorTypes;
-import game.enemy.Roles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +45,7 @@ public class CrabSlam extends WeaponItem {
     @Override
     public List<Action> getAllowableActions(){
         // the resulting list of actions
-        List<Action> res = AttackSurroundingAllowableAction.getAllowableActions(currentLocation,this);
+        List<Action> res = GetAllowableActions.getSurroundingAttackAllowableActions(currentLocation,this);
         return res;
     }
 

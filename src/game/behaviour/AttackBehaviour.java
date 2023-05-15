@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
-    private int skillChance = 0;
+    private int skillChance = 100;
 
     /**
      * Decides whether an enemy should attack another actor or not
@@ -46,18 +46,25 @@ public class AttackBehaviour implements Behaviour {
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
-        // to attack with skills //
+        // to attack using weapons with skills //
         // if the actor has the capability to use a skill, then check if he wants to use the skill
         if ( actor.getWeaponInventory().size() > 0 ) {
             if (random.nextInt(100) < skillChance) {
                 WeaponItem w = actor.getWeaponInventory().get(0);
                 List<Action> res = w.getAllowableActions();
-                return res.get(0);
+
+                // to check if the weapon can give any actions
+                // if cannot give, go to normal attack
+                // actually can straight away return null, since if there is nothing the sword can do
+                // means no attacking can be done
+                if (res.size() > 0 ){
+                    return res.get(0);
+                }
             }
         }
 
 
-        // to attack without skills //
+        // to attack using intrinsic weapons without skills //
         List<Actor> targets = NearMe.getSurroundingActors(actor,map,1);
         // if an enemy has the skill but decides not to use the skill, can choose to attack
         // individual targets

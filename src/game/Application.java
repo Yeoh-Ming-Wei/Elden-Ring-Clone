@@ -83,13 +83,14 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
-		/*
 
-		gameMap.at(26, 7).addActor(new SkeletalBandit());
-		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
+
+		gameMap.at(27, 6).addActor(new SkeletalBandit());
 		gameMap.at(27, 7).addActor(new LoneWolf());
 		gameMap.at(28, 9).addActor(new LoneWolf());
 
+		/*
+		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(24, 7).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(24, 8).addActor(new LoneWolf());
 		gameMap.at(24, 9).addActor(new GiantCrab());
@@ -98,6 +99,8 @@ public class Application {
 		gameMap.at(25, 9).addActor(new LoneWolf());
 
 		 */
+
+
 
 
 		world.run();

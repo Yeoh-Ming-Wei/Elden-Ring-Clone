@@ -82,6 +82,7 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
+     *          list will be empty if no actions are possible
      */
     @Override
     public List<Action> getAllowableActions(){

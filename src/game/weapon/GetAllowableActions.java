@@ -13,7 +13,7 @@ import game.enemy.Roles;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttackSurroundingAllowableAction {
+public class GetAllowableActions {
     /**
      * To make the weapons return all the possible actions that can be done
      * ONLY FOR ENEMY WEAPONS THAT DONT HAVE PURCHASING AND SELLING
@@ -33,7 +33,7 @@ public class AttackSurroundingAllowableAction {
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
      */
-    public static List<Action> getAllowableActions(Location currentLocation, WeaponItem w){
+    public static List<Action> getSurroundingAttackAllowableActions(Location currentLocation, WeaponItem w){
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 

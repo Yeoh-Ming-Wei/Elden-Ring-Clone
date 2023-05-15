@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Resettable;
 
 /**
@@ -52,6 +53,12 @@ public abstract class Skeleton extends Enemy implements Resettable {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        System.out.println(this);
+        // to tick every item just in case tick in world does not run
+        for ( WeaponItem w : this.getWeaponInventory() )
+        {
+            w.tick(map.locationOf(this),this);
+        }
 
         // this means that, the HSS has used its skill of pile of bones
         // so it's removed to allow checking of is it dead or should he become a pile of bones

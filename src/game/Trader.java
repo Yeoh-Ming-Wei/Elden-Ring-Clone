@@ -80,7 +80,6 @@ public class Trader extends Actor {
             w.tick(map.locationOf(this),this);
             actions.add(w.getAllowableActions());
         }
-        System.out.println(otherActor.getWeaponInventory());
         return actions;
     }
 }
