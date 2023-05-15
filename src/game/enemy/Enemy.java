@@ -32,6 +32,9 @@ public abstract class Enemy extends Actor implements Resettable {
     public Enemy(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
 
+        // to add enemies capabilities
+        this.addCapability(Roles.ENEMIES);
+
         // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
@@ -59,34 +62,6 @@ public abstract class Enemy extends Actor implements Resettable {
 
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-                // let the player choose which weapon to use
-                for ( int x = 0 ; x < otherActor.getWeaponInventory().size() ; x++ ) {
-
-                    //getting the weapon
-                    WeaponItem w = otherActor.getWeaponInventory().get(x);
-                    actions.add(new AttackAction(this, direction, w));
-
-                    // if the weapon has an attack surrounding capability need to add it to available actions
-                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.AREA_ATTACK) ){
-                        // add the surrounding attack action with correct weapon, because can have multiple
-                        // weapons of the same skill
-                        actions.add(new AttackSurroundingAction(otherActor,"surrounding area" , w));
-                    }
-
-                    // checks if player has weapon that can do Unsheathe action
-                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.UNSHEATHE) ){
-                        // add the Unsheathe action with correct weapon, because can have multiple
-                        // weapons of the same skill
-                        actions.add(new UnsheatheAction(this,direction , w));
-                    }
-
-                    // checks if player has weapon that can do Quick Step action
-                    if ( otherActor.getWeaponInventory().get(x).hasCapability(WeaponSkill.QUICKSTEP) ){
-                        // add the Quick step action with correct weapon, because can have multiple
-                        // weapons of the same skill
-                        actions.add(new QuickStepAction(this,direction , w));
-                    }
-                }
                 // adding the intrinsic weapon choice
                 actions.add(new AttackAction(this, direction));
             }
@@ -114,6 +89,12 @@ public abstract class Enemy extends Actor implements Resettable {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        // to tick every item just in case tick in world does not run
+        for ( WeaponItem w : this.getWeaponInventory() )
+        {
+            w.tick(map.locationOf(this),this);
+        }
 
         ResetManager.addGameMap(map);
         // follow has the highest precedence

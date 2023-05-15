@@ -3,6 +3,7 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
 import game.weapon.*;
 import java.util.HashMap;
@@ -22,20 +23,26 @@ public class SellAction extends Action {
 	private Actor trader;
 
 	/**
-	 * The direction of incoming trade.
+	 * The weapon to sell
 	 */
-	private String direction;
+	private WeaponItem weaponItem;
 
+	/**
+	 * The price
+	 */
+	private int sellingPrice;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param trader the Actor to attack
-	 * @param direction the direction where the attack should be performed (only used for display purposes)
+	 * @param w the weapon to be sold
+	 * @param sellingPrice the selling price
 	 */
-	public SellAction(Actor trader, String direction) {
+	public SellAction(Actor trader , WeaponItem w , int sellingPrice) {
 		this.trader = trader;
-		this.direction = direction;
+		this.weaponItem = w;
+		this.sellingPrice = sellingPrice;
 	}
 
 
@@ -60,8 +67,33 @@ public class SellAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
+		String result = actor + " sold " + weaponItem;
 
 		// get the runemanager
+		RuneManager runeManager = RuneManager.getInstance();
+
+		// adding the runes
+		runeManager.addRune(actor,sellingPrice);
+
+		// removing the weapon from the inventory
+		actor.removeWeaponFromInventory(weaponItem);
+
+		return result;
+	}
+
+	/**
+	 * Describes which target the actor is attacking with which weapon
+	 *
+	 * @param actor The actor performing the action.
+	 * @return a description used for the menu UI
+	 */
+	@Override
+	public String menuDescription(Actor actor) {
+		return actor + " sells " + weaponItem + " to " + trader;
+	}
+}
+/*
+// get the runemanager
 		RuneManager runeManager = RuneManager.getInstance();
 
 		// to make it more readable
@@ -153,16 +185,4 @@ public class SellAction extends Action {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Describes which target the actor is attacking with which weapon
-	 *
-	 * @param actor The actor performing the action.
-	 * @return a description used for the menu UI
-	 */
-	@Override
-	public String menuDescription(Actor actor) {
-		return actor + " sells to " + trader;
-	}
-}
+ */

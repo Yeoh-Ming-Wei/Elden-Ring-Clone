@@ -14,6 +14,8 @@ public class WeaponPurchaseSellInfo {
     public static HashMap<String,Purchasable> purchasableWeapon = new HashMap<>();
     public static HashMap<String,Sellable> sellableWeaponMap = new HashMap<>();
 
+
+
     public static void addPurchasableWeaponItem(WeaponItem w){
         purchasableWeaponItem.put(w.toString(),w);
     }
@@ -26,5 +28,11 @@ public class WeaponPurchaseSellInfo {
         sellableWeaponMap.put(s.toString(),s);
     }
 
+
+    public static HashMap<String,Purchasable> purchasableNameWeapon = new HashMap<>();
+
+    public static void addPurchasableNameWeapon(Purchasable w){
+        purchasableNameWeapon.put(w.toString(),w);
+    }
 
 }
