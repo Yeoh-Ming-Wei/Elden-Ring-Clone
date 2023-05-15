@@ -6,9 +6,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
-import game.action.AttackAction;
-import game.action.QuickStepAction;
-import game.action.UnsheatheAction;
+import game.action.*;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
 
@@ -25,13 +23,12 @@ import java.util.List;
  *
  */
 public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
+    // to allow getAllowableActions to check
     private Location currentLocation;
+
     private int buyingPrice;
     private int sellingPrice;
 
-    // to check whether the class has been added to the static mapping or not
-    private static boolean isPurchaseAdded = false;
-    private static boolean isSellableAdded = false;
     /**
      * Constructor
      */
@@ -45,18 +42,6 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
         // adding the capability
         this.addCapability(WeaponSkill.QUICKSTEP);
 
-        // adding to the static mapping if haven't added
-        if ( isPurchaseAdded == false ){
-            isPurchaseAdded = true;
-            WeaponPurchaseSellInfo.addPurchasableWeapon(new GreatKnife());
-            WeaponPurchaseSellInfo.addPurchasableWeaponItem(new GreatKnife());
-        }
-
-        // adding to the static mapping if haven't added
-        if ( isSellableAdded == false ) {
-            isSellableAdded = true;
-            WeaponPurchaseSellInfo.addSellableWeapon(new GreatKnife());
-        }
     }
 
     @Override
@@ -77,12 +62,31 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
     /**
      * To make the weapons return all the possible actions that can be done
      * applies open close principle
+     * Approach decription:
+     *      1) use currentLocation which is updated by tick
+     *      2) check if there is someone at the same location as the weapon
+     *      3) if there is someone, proceed
+     *              else, return nothing
+     *      4) checks surrounding
+     *      5) if it has an actor
+     *              check type between the wielder of the weapon and the target which is in the surrounding
+     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
+     *                  they can attack each other
+     *      6) if all checks pass, add the actions to the resulting list
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
      */
     @Override
     public List<Action> getAllowableActions(){
+        // trader
+        Location traderLocation = null;
+        Actor trader = null;
+
+        // player
+        Location playerLocation = null;
+        Actor player = null;
+
 
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
@@ -99,15 +103,27 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
         }
 
 
-        // checks all locations around me
+        // checks all locations around the actor
         for (Exit exit : currentLocation.getExits() ){
             Location l = exit.getDestination();
 
-            // if it has an actor and it is attackable
+            // if it has an actor
             if (l.containsAnActor()){
 
                 // get that actor and add the skill action and normal action to the person holding this
                 Actor target = l.getActor();
+
+                // checks if trader is in range of the player
+                if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && target.hasCapability(ActorTypes.TRADER) ){
+                    traderLocation = l;
+                    trader = target;
+                }
+
+                // if player is in the range of the trader
+                if ( whoHasThis.hasCapability(ActorTypes.TRADER) && target.hasCapability(ActorTypes.PLAYER)){
+                    playerLocation = l;
+                    trader = whoHasThis;
+                }
 
                 // attacking //
                 // to make sure that can if it is a player, can only attack enemies and vice versa for enemies if in the future they can use the weapon
@@ -128,6 +144,24 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
                 }
             }
         }
+
+        // selling //
+        // this res will be for the player, means this weapon is in the player
+        // if the player has this weapon and trader is within range
+        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && traderLocation != null )
+        {
+            res.add(new SellAction(trader,this,this.getSellingPrice()));
+        }
+
+        // buying //
+        // this means that the res is for trader
+        // checks if the player is in the range of the trader
+        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && playerLocation != null ){
+
+            // use a new GreatKnife because if use the "this", will have bug caused by reference 
+            res.add(new PurchaseAction(trader,new GreatKnife(),this.buyingPrice) ) ;
+        }
         return res;
     }
 }
+

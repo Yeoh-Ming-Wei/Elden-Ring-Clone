@@ -33,6 +33,13 @@ public class Trader extends Actor {
         super("Merchant Kale", 'K', 999);
         this.addCapability(ActorTypes.TRADER);
         this.addCapability(Roles.NEUTRAL);
+
+        // have to instantiate the weapon here cause if not cannot get the option to buy
+        this.addWeaponToInventory(new Uchigatana());
+        this.addWeaponToInventory(new GreatKnife());
+        this.addWeaponToInventory(new Club());
+        this.addWeaponToInventory(new Grossmesser());
+        this.addWeaponToInventory(new Scimitar());
     }
 
 
@@ -53,7 +60,10 @@ public class Trader extends Actor {
     /**
      * The trader can only be interacting with the actor with PLAYER capability
      *
-     * THIS FUNCTION IS ONLY USED BY PLAYER
+     * Apporach description:
+     *      1) gets the weapons in inventory
+     *      2) tick all weapons and get their allowable actions
+     *      3) return them to player
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor
@@ -63,19 +73,14 @@ public class Trader extends Actor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
 
+        ActionList actions = new ActionList();
         // to tick every item just in case tick in world does not run
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);
+            actions.add(w.getAllowableActions());
         }
-
-        ActionList actions = new ActionList();
-
-        // to only allow player to use this function
-        if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-            actions.add(new PurchaseAction(this,"near me"));
-            actions.add(new SellAction(this,"near me"));
-        }
+        System.out.println(otherActor.getWeaponInventory());
         return actions;
     }
 }

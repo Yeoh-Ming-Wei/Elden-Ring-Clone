@@ -16,13 +16,24 @@ import java.util.List;
 public class AttackSurroundingAllowableAction {
     /**
      * To make the weapons return all the possible actions that can be done
+     * ONLY FOR ENEMY WEAPONS THAT DONT HAVE PURCHASING AND SELLING
      * applies open close principle
+     * Approach decription:
+     *      1) use currentLocation which is updated by tick
+     *      2) check if there is someone at the same location as the weapon
+     *      3) if there is someone, proceed
+     *              else, return nothing
+     *      4) checks surrounding
+     *      5) if it has an actor
+     *              check type between the wielder of the weapon and the target which is in the surrounding
+     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
+     *                  they can attack each other
+     *      6) if all checks pass, add the actions to the resulting list
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
      */
     public static List<Action> getAllowableActions(Location currentLocation, WeaponItem w){
-
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 
@@ -72,7 +83,11 @@ public class AttackSurroundingAllowableAction {
                 }
             }
         }
-        res.add(new AttackSurroundingAction(targets,"attacks surrounding", w));
+        // adding the attack surrounding actions after getting all the actors
+        if ( targets.size() > 0 ) {
+            res.add(new AttackSurroundingAction(targets, "attacks surrounding", w));
+        }
+
         return res;
     }
 }
