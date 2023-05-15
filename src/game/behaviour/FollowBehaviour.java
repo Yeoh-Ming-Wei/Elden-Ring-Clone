@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.action.NearMe;
+import game.enemy.ActorTypes;
 
 /**
  * A class to check if the player is nearby and should the enemy follow the actor or not
@@ -44,7 +45,7 @@ public class FollowBehaviour implements Behaviour {
 		Location here = map.locationOf(actor);
 
 		// to see if player is near this actor
-		playerLocation = NearMe.playerInRangeLocation(actor,map,2);
+		playerLocation = NearMe.whoInMyRange(actor,map,2, ActorTypes.PLAYER);
 
 		// if the player is within range, start following else return null
 		if (playerLocation != null)

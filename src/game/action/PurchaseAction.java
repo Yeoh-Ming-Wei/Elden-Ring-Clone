@@ -3,6 +3,7 @@ package game.action;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
 import game.weapon.*;
 import java.util.HashMap;
@@ -22,20 +23,26 @@ public class PurchaseAction extends Action {
 	private Actor trader;
 
 	/**
-	 * The direction of incoming trade.
+	 * The weapon to sell
 	 */
-	private String direction;
+	private WeaponItem weaponItem;
 
+	/**
+	 * The price
+	 */
+	private int buyingPrice;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param trader the Actor to attack
-	 * @param direction the direction where the attack should be performed (only used for display purposes)
+	 * @param w the weapon to be bought
+	 * @param buyingPrice the price of the weapon
 	 */
-	public PurchaseAction(Actor trader, String direction) {
+	public PurchaseAction(Actor trader, WeaponItem w , int buyingPrice) {
 		this.trader = trader;
-		this.direction = direction;
+		this.weaponItem = w;
+		this.buyingPrice = buyingPrice;
 	}
 
 
@@ -59,7 +66,34 @@ public class PurchaseAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
+		String result = "Bought nothing";
 
+		RuneManager runeManager = RuneManager.getInstance();
+
+		int playerRunes = runeManager.returnRune();
+
+		if ( playerRunes >= this.buyingPrice )
+		{
+			runeManager.deductRune(actor,buyingPrice);
+			actor.addWeaponToInventory(weaponItem);
+			result = actor + " buys " + weaponItem;
+		}
+		return result;
+	}
+
+	/**
+	 * Describes which target the actor is attacking with which weapon
+	 *
+	 * @param actor The actor performing the action.
+	 * @return a description used for the menu UI
+	 */
+	@Override
+	public String menuDescription(Actor actor) {
+		return actor + " buys " + weaponItem + " from " + trader;
+	}
+
+}
+/*
 		RuneManager runeManager = RuneManager.getInstance();
 		Purchasable purchasableWeapon;
 
@@ -135,19 +169,4 @@ public class PurchaseAction extends Action {
 			result = actor + " bought " + name;
 		}
 		// check the player runes here if they can buy or not
-
-		return result;
-	}
-
-	/**
-	 * Describes which target the actor is attacking with which weapon
-	 *
-	 * @param actor The actor performing the action.
-	 * @return a description used for the menu UI
-	 */
-	@Override
-	public String menuDescription(Actor actor) {
-		return actor + " buys from " + trader;
-	}
-
-}
+ */

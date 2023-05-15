@@ -10,10 +10,13 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.ResetManager;
 import game.Resettable;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
+import game.enemy.Roles;
+import game.environment.SiteOfLostGrace;
 import game.potion.ConsumeAction;
 import game.potion.FlaskOfCrimsonTears;
 import game.potion.Heal;
@@ -46,6 +49,7 @@ public abstract class Player extends Actor implements Resettable {
 	protected Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
+		this.addCapability(Roles.ALLIES);
 		this.addItemToInventory(new FlaskOfCrimsonTears());
 		this.lastSiteOfLostGrace = new int[2] ;
 		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
@@ -59,7 +63,7 @@ public abstract class Player extends Actor implements Resettable {
 	 * 		3) get the input of the user
 	 * 		4) go to the input Mapping to get the name of the class using the choice as a key
 	 * 		5) go to the player mapping to get the instance of the class using the name as a key
-	 * @return
+	 * @return a player object
 	 */
 	public static Player getInstance(){
 		ResetManager.registerResettable(player);
@@ -102,6 +106,12 @@ public abstract class Player extends Actor implements Resettable {
 
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+		// to tick every item just in case tick in world does not run
+		for ( WeaponItem w : this.getWeaponInventory() )
+		{
+			w.tick(map.locationOf(this),this);
+		}
 
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)

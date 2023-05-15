@@ -106,7 +106,7 @@ public class NearMe {
      *      1) get the surrounding locations
      *      2) check if there is an actor there
      *              if yes, get the actor there
-     *                  if the actor there is player
+     *                  if the actor there is what we want
      *                         return this location
      *
      * @param actor the list of possible locations
@@ -115,12 +115,12 @@ public class NearMe {
      * @return  Location object which is the location of the player
      *          null if there is no player
      */
-    public static Location playerInRangeLocation(Actor actor,GameMap map,int radius){
-        Location playerLocation = null;
+    public static Location whoInMyRange(Actor actor, GameMap map, int radius,ActorTypes type){
+        Location wantedLocation = null;
 
         List<Location> locations = getSurroundingLocations(actor,map,radius);
 
-        // check the surrouding of the actor
+        // check the surrounding of the actor
         for (Location loc : locations) {
             // check if there is an actor at the location
 
@@ -131,11 +131,11 @@ public class NearMe {
                 Actor otherActor = map.getActorAt(loc);
 
                 // if the actor is the player
-                if ( otherActor.hasCapability(ActorTypes.PLAYER) ) {
-                    playerLocation = loc;
+                if ( otherActor.hasCapability(type) ) {
+                    wantedLocation = loc;
                 }
             }
         }
-        return playerLocation;
+        return wantedLocation;
     }
 }
