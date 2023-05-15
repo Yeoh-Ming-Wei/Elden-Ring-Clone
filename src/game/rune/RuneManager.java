@@ -3,6 +3,7 @@ package game.rune;
 import java.util.ArrayList;
 import java.util.HashMap;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
 import game.RandomNumberGenerator;
 
 /**
@@ -27,6 +28,8 @@ public class RuneManager{
      * A hash map to manage the enemy drop rune range.
      */
     public static HashMap<String, ArrayList<Integer>> runeRange = new HashMap<>();
+
+    public static HashMap<Item, Integer> dropRuneAmount = new HashMap<>() ;
     
     /**
      * A private constructor for Rune Manager
@@ -70,6 +73,10 @@ public class RuneManager{
         
     }
 
+    public void setRune(int value) {
+        rune.setRune(value) ;
+    }
+
     /**
      * A method to return the rune value.
      * @return An integer represents the amount of rune.
@@ -87,6 +94,7 @@ public class RuneManager{
         rune.setRune(rune.getRune() + value) ;
         System.out.println(menuDescription(player, "increased by", value)) ;
     }
+
 
     /**
      * The method that will shows a description indicating how many runes the player earns or removed, 
@@ -111,5 +119,9 @@ public class RuneManager{
         temp.add(min) ;
         temp.add(max) ;
         runeRange.put(name, temp);
+    }
+
+    public static void addRuneDropValue(Item item, int value) {
+        dropRuneAmount.put(item, value) ;
     }
 }

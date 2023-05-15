@@ -15,7 +15,7 @@ import game.Resettable;
  * @author Lee Sing Yuan
  *
  */
-public abstract class Skeleton extends Enemy implements Resettable {
+public abstract class Skeleton extends Enemy {
     private int counter;
     private final int counterReset;
     private final int counterMax;
