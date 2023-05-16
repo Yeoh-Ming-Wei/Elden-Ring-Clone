@@ -12,6 +12,7 @@ import game.enemy.Roles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A weapon used by skeleton
@@ -23,6 +24,7 @@ import java.util.List;
  *
  */
 public class Grossmesser extends WeaponItem implements Sellable{
+    private final Random random = new Random();
     // to allow getAllowableActions to check
     private Location currentLocation;
 
@@ -57,16 +59,20 @@ public class Grossmesser extends WeaponItem implements Sellable{
      *              else, return nothing
      *      4) checks surrounding
      *      5) if it has an actor
-     *              check type between the wielder of the weapon and the target which is in the surrounding
+     *      6) checks surrounding to see if there is a valid target to use the skill on
      *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
      *                  they can attack each other
-     *      6) if all checks pass, add the actions to the resulting list
+     *      7) loops once more to add the targets
+     *      8) if all checks pass, add the actions to the resulting list
+     *      9) this part is for player to get attackActions with this weapon
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
      *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
+        boolean isSkill = false;
+
         // trader
         Location traderLocation = null;
         Actor trader = null;
@@ -87,7 +93,9 @@ public class Grossmesser extends WeaponItem implements Sellable{
 
 
         List<Actor> targets = new ArrayList<>();
+        // attacking //
         // checks all locations around me
+        // check if there is someone of different type to initiate skill
         for (Exit exit : currentLocation.getExits() ){
             Location l = exit.getDestination();
 
@@ -103,29 +111,54 @@ public class Grossmesser extends WeaponItem implements Sellable{
                     trader = target;
                 }
 
-                // attacking //
-                // to make sure that can if it is a player, can only attack enemies and vice versa for enemies if in the future they can use the weapon
-                if ( ( whoHasThis.hasCapability(Roles.ALLIES) && target.hasCapability(Roles.ENEMIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ALLIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ENEMIES) )
-                ) {
-
-                    // to make sure that those who are of same type do not attack each other
-                    for ( ActorTypes type : ActorTypes.values() ) {
-
-                        // only execute, if the actor holding this weapon has a certain capability and the target does not have the same
-                        // eg: whoHasThis == Player and target != Player
-                        if ( (whoHasThis.hasCapability(type) && !target.hasCapability(type)) ) {
-                            // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                            targets.add(target);
-                        }
-                    }
+                // checking if there is someone valid to use the skill on  //
+                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
+                    isSkill = true;
+                    break;
                 }
             }
         }
+        
+        // after checking if can skill, get all targets 
+        // if cannot skill
+        if ( isSkill ) {
+            for (Exit exit : currentLocation.getExits()) {
+                Location l = exit.getDestination();
+
+                // if it has an actor and it is attackable
+                if (l.containsAnActor()) {
+
+                    // get that actor and add the skill action
+                    Actor target = l.getActor();
+                    targets.add(target);
+                }
+            }
+        }
+
         // adding the attack surrounding actions after getting all the actors
         if ( targets.size() > 0 ) {
             res.add(new AttackSurroundingAction(targets, "attacks surrounding", this));
+        }
+
+        // if got targets nearby
+        // return attack single enemies
+        // used by player
+        if (!targets.isEmpty()) {
+
+            // use exit cause want the direction
+            for (Exit exit : currentLocation.getExits()) {
+                Location l = exit.getDestination();
+
+                // if it has an actor and it is attackable
+                if (l.containsAnActor()) {
+
+                    // get that actor and add the skill action
+                    Actor target = l.getActor();
+                    if (isValid.isValidRole(whoHasThis, target) && isValid.isValidActorType(whoHasThis, target)) {
+                        res.add(new AttackAction(target, exit.getName(), this));
+                    }
+                }
+            }
         }
 
         // selling //

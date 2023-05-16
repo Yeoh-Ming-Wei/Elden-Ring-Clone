@@ -7,7 +7,7 @@ package game.enemy;
  * @author Lee Sing Yuan
  * Modified by:
  */
-public abstract class GodrickCastle extends Enemy {
+public abstract class GodrickCastleInhabitants extends Enemy {
 
     /**
      * The constructor for Dog parent
@@ -15,7 +15,7 @@ public abstract class GodrickCastle extends Enemy {
      * @param initDisplay UI char
      * @param initHp hit points
      */
-    public GodrickCastle(String initName, char initDisplay, int initHp) {
+    public GodrickCastleInhabitants(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
         this.addCapability(ActorTypes.GODRICK);
     }

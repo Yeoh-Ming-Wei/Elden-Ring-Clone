@@ -52,7 +52,6 @@ public abstract class ParentSkeleton extends Enemy {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        System.out.println(this);
         // to tick every item just in case tick in world does not run
         for ( WeaponItem w : this.getWeaponInventory() )
         {

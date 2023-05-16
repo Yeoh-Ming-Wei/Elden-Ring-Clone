@@ -1,4 +1,6 @@
 package game.player;
+import game.weapon.Grossmesser;
+import game.weapon.Scimitar;
 import game.weapon.Uchigatana;
 
 /**

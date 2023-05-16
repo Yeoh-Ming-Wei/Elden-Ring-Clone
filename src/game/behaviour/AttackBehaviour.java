@@ -10,6 +10,7 @@ import game.action.AttackSurroundingAction;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
 import game.weapon.WeaponSkill;
+import game.weapon.isValid;
 
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Random;
@@ -70,22 +71,15 @@ public class AttackBehaviour implements Behaviour {
         // individual targets
         // this is to get a random action
         if (!targets.isEmpty()) {
+
+            // because we use random, sometimes the target can be of the same type and this makes the
+            // enemy not attack and perform other behaviours instead
             Actor target = targets.get(random.nextInt(targets.size()));
 
-            // checks the arch roles
-            // means only allow enemy to attack enemy or enemy to attack allies
-            if ( ( actor.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ENEMIES) ) ||
-                    ( actor.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ALLIES) )
-            ) {
-                // to loop through all the enum types
-                // .values() make it become a list
-                for (ActorTypes type : ActorTypes.values()) {
-                    if ((actor.hasCapability(type) && !target.hasCapability(type))) {
-                        // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                        return new AttackAction(target, "_",
-                                actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
-                    }
-                }
+            // attacking //
+            if ( isValid.isValidRole(actor,target) && isValid.isValidActorType(actor,target) ){
+                return new AttackAction(target, "_",
+                        actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
             }
         }
         return null;

@@ -133,21 +133,9 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
                 }
 
                 // attacking //
-                // to make sure that can if it is a player, can only attack enemies and vice versa for enemies if in the future they can use the weapon
-                if ( ( whoHasThis.hasCapability(Roles.ALLIES) && target.hasCapability(Roles.ENEMIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ALLIES) ) ) {
-
-                    // to make sure that those who are of same type do not attack each other
-                    for ( ActorTypes type : ActorTypes.values() ) {
-
-                        // only execute, if the actor holding this weapon has a certain capability and the target does not have the same
-                        // eg: whoHasThis == Player and target != Player
-                        if ( (whoHasThis.hasCapability(type) && !target.hasCapability(type)) ) {
-                            // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                            res.add(new UnsheatheAction(target, exit.getName(), this));
-                            res.add(new AttackAction(target, exit.getName(), this));
-                        }
-                    }
+                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
+                    res.add(new UnsheatheAction(target, exit.getName(), this));
+                    res.add(new AttackAction(target, exit.getName(), this));
                 }
             }
         }

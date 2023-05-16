@@ -37,6 +37,8 @@ public class GetAllowableActions {
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 
+        Boolean isSkill = false;
+
         // checking to see if the weapon is held by someone or not
         // if weapon is on the ground and player is on top of it
         //      means player cannot use the actions which this weapon can give
@@ -51,6 +53,7 @@ public class GetAllowableActions {
 
         List<Actor> targets = new ArrayList<>();
         // checks all locations around me
+        // first check is to see if there is other enemies around me
         for (Exit exit : currentLocation.getExits() ){
             Location l = exit.getDestination();
 
@@ -60,29 +63,32 @@ public class GetAllowableActions {
                 // get that actor and add the skill action and normal action to the person holding this
                 Actor target = l.getActor();
 
-
-
-
-                // attacking //
-                // to make sure that can if it is a player, can only attack enemies and vice versa for enemies if in the future they can use the weapon
-                if ( ( whoHasThis.hasCapability(Roles.ALLIES) && target.hasCapability(Roles.ENEMIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ALLIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ENEMIES) )
-                ) {
-
-                    // to make sure that those who are of same type do not attack each other
-                    for ( ActorTypes type : ActorTypes.values() ) {
-
-                        // only execute, if the actor holding this weapon has a certain capability and the target does not have the same
-                        // eg: whoHasThis == Player and target != Player
-                        if ( (whoHasThis.hasCapability(type) && !target.hasCapability(type)) ) {
-                            // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                            targets.add(target);
-                        }
-                    }
+                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) )
+                {
+                    // the moment we found someone who is different, we can use the skill
+                    isSkill = true;
+                    break;
                 }
             }
         }
+
+        // checks all locations around me
+        // after checking, if can attack, attack everyone including same types
+        if ( isSkill ) {
+            for (Exit exit : currentLocation.getExits()) {
+                Location l = exit.getDestination();
+
+                // if it has an actor and it is attackable
+                if (l.containsAnActor()) {
+
+                    // get that actor and add the skill action and normal action to the person holding this
+                    Actor target = l.getActor();
+                    targets.add(target);
+                }
+            }
+        }
+
+
         // adding the attack surrounding actions after getting all the actors
         if ( targets.size() > 0 ) {
             res.add(new AttackSurroundingAction(targets, "attacks surrounding", w));

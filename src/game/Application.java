@@ -73,23 +73,26 @@ public class Application {
 
 		staticGameMap = gameMap;
 
-		gameMap.at(15, 13).addActor(new Trader());
+		//gameMap.at(15, 13).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
 		int x = 15;
 		int y = 15;
-		Location l = new Location(gameMap,x,y);
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
+		gameMap.at(14, 15).addActor(new LoneWolf());
+		gameMap.at(15, 14).addActor(new LoneWolf());
+
+		gameMap.at(23, 8).addActor(new SkeletalBandit());
+		gameMap.at(24, 7).addActor(new SkeletalBandit());
+		gameMap.at(24, 8).addActor(new LoneWolf());
 
 
-
-		gameMap.at(27, 6).addActor(new SkeletalBandit());
-		gameMap.at(27, 7).addActor(new LoneWolf());
-		gameMap.at(28, 9).addActor(new LoneWolf());
 
 		/*
+
+
 		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(24, 7).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(24, 8).addActor(new LoneWolf());
@@ -98,6 +101,12 @@ public class Application {
 		gameMap.at(25, 8).addActor(new GiantDog());
 		gameMap.at(25, 9).addActor(new LoneWolf());
 
+		//gameMap.at(15, 14).addActor(new SkeletalBandit());
+		//gameMap.at(15, 14).addActor(new HeavySkeletonSwordsman());
+		//gameMap.at(15, 14).addActor(new GiantCrab());
+		//gameMap.at(15, 14).addActor(new GiantCrayFish());
+		//gameMap.at(15, 14).addActor(new GiantDog());
+		gameMap.at(15, 14).addActor(new LoneWolf());
 		 */
 
 
