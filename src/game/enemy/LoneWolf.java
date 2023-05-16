@@ -5,7 +5,6 @@ import game.rune.RuneManager;
 
 /**
  * BEHOLD, Awoooo!
- *
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  * Modified by:
@@ -17,7 +16,6 @@ public class LoneWolf extends ParentDog {
 
     public LoneWolf() {
         super("Lone Wolf", 'h', 102);
-        this.addCapability(ActorTypes.WOLF);
 
         RuneManager.addEnemyDropRune(name, LONE_WOLF_MIN_RUNE, LONE_WOLF_MAX_RUNE) ;
     }

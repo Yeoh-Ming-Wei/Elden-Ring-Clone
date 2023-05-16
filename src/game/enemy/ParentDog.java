@@ -16,7 +16,7 @@ public abstract class ParentDog extends Enemy {
      */
     public ParentDog(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
-        this.addCapability(ActorTypes.WOLF);
+        this.addCapability(ActorTypes.PARENTDOG);
     }
 
 }

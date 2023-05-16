@@ -17,6 +17,6 @@ public abstract class ParentCrab extends Enemy {
      */
     public ParentCrab(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
-        this.addCapability(ActorTypes.CRAB);
+        this.addCapability(ActorTypes.PARENTCRAB);
     }
 }

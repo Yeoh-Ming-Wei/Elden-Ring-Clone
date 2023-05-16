@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.Resettable;
 
 /**
  * Spooky, spooky skeleton
@@ -26,7 +25,7 @@ public abstract class ParentSkeleton extends Enemy {
     public ParentSkeleton(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
         this.addCapability(PileOfBones.PILE_OF_BONES);
-        this.addCapability(ActorTypes.SKELETON);
+        this.addCapability(ActorTypes.PARENTSKELETON);
 
         counterReset = -1;
         counterMax = 3;

@@ -6,8 +6,8 @@ import game.weapon.DogSlam;
 
 /**
  * BEHOLD, DOG!
- *
  * Created by: Adrian Kristanto
+ * @author Lee Sing Yuan
  * Modified by: Lee Sing Yuan
  */
 public class GiantDog extends ParentDog {
