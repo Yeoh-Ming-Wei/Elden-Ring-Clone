@@ -1,12 +1,13 @@
 package game.enemy;
 
 /**
- * BEHOLD, DOG!
+ * Castle inhabitants
  *
- * Created by: Adrian Kristanto
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  * Modified by:
  */
-public abstract class Dog extends Enemy {
+public abstract class GodrickCastle extends Enemy {
 
     /**
      * The constructor for Dog parent
@@ -14,9 +15,9 @@ public abstract class Dog extends Enemy {
      * @param initDisplay UI char
      * @param initHp hit points
      */
-    public Dog(String initName, char initDisplay, int initHp) {
+    public GodrickCastle(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
-        this.addCapability(ActorTypes.WOLF);
+        this.addCapability(ActorTypes.GODRICK);
     }
 
 }

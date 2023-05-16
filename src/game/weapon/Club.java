@@ -22,7 +22,6 @@ import java.util.List;
  * Created by:
  * @author Adrian Kristanto
  * Modified by: Lee Sing Yuan
- * @see WeaponPurchaseSellInfo
  */
 public class Club extends WeaponItem implements Purchasable,Sellable{
     // to allow getAllowableActions to check

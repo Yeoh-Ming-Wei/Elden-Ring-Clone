@@ -11,7 +11,7 @@ import game.weapon.CrabSlam;
  * @author Lee Sing Yuan
  * Modified by:
  */
-public class GiantCrab extends Crab {
+public class GiantCrab extends ParentCrab {
 
     private final int GIANT_CRAB_MIN_RUNE = 318 ;
     private final int GIANT_CRAB_MAX_RUNE = 4961 ;

@@ -10,7 +10,7 @@ import game.rune.RuneManager;
  * @author Lee Sing Yuan
  * Modified by:
  */
-public class LoneWolf extends Dog {
+public class LoneWolf extends ParentDog {
 
     private final int LONE_WOLF_MIN_RUNE = 55 ;
     private final int LONE_WOLF_MAX_RUNE = 1470 ;

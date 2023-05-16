@@ -7,7 +7,7 @@ package game.enemy;
  * Created by: Adrian Kristanto
  * Modified by: Lee Sing Yuan
  */
-public abstract class Crab extends Enemy {
+public abstract class ParentCrab extends Enemy {
 
     /**
      * The constructor for Crab parent
@@ -15,7 +15,7 @@ public abstract class Crab extends Enemy {
      * @param initDisplay UI char
      * @param initHp hit points
      */
-    public Crab(String initName, char initDisplay, int initHp) {
+    public ParentCrab(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
         this.addCapability(ActorTypes.CRAB);
     }

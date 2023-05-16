@@ -15,7 +15,7 @@ import game.Resettable;
  * @author Lee Sing Yuan
  *
  */
-public abstract class Skeleton extends Enemy {
+public abstract class ParentSkeleton extends Enemy {
     private int counter;
     private final int counterReset;
     private final int counterMax;
@@ -23,7 +23,7 @@ public abstract class Skeleton extends Enemy {
     private final int SKELETON_MAX_RUNE = 892 ;
 
 
-    public Skeleton(String initName, char initDisplay, int initHp) {
+    public ParentSkeleton(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
         this.addCapability(PileOfBones.PILE_OF_BONES);
         this.addCapability(ActorTypes.SKELETON);

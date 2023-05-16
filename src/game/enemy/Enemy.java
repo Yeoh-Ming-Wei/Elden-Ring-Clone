@@ -108,7 +108,7 @@ public abstract class Enemy extends Actor implements Resettable {
             }
         }
 
-        // attack has the second highest precedence
+        // attack has the second-highest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
