@@ -11,13 +11,13 @@ import game.rune.RuneManager;
  */
 public class GodrickSoldier extends GodrickCastleInhabitants {
 
-    private final int LONE_WOLF_MIN_RUNE = 38 ;
-    private final int LONE_WOLF_MAX_RUNE = 70 ;
+    private final int GODRICK_SOLDIER_MIN_RUNE = 38 ;
+    private final int GODRICK_SOLDIER_MAX_RUNE = 70 ;
 
     public GodrickSoldier() {
         super("Godrick Soldier", 'p', 198);
 
-        RuneManager.addEnemyDropRune(name, LONE_WOLF_MIN_RUNE, LONE_WOLF_MAX_RUNE) ;
+        RuneManager.addEnemyDropRune(name, GODRICK_SOLDIER_MIN_RUNE, GODRICK_SOLDIER_MAX_RUNE) ;
     }
 
 }
