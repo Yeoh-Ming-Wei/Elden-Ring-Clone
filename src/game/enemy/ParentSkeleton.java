@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.Resettable;
 
 /**
  * Spooky, spooky skeleton
@@ -15,7 +14,7 @@ import game.Resettable;
  * @author Lee Sing Yuan
  *
  */
-public abstract class Skeleton extends Enemy {
+public abstract class ParentSkeleton extends Enemy {
     private int counter;
     private final int counterReset;
     private final int counterMax;
@@ -23,10 +22,10 @@ public abstract class Skeleton extends Enemy {
     private final int SKELETON_MAX_RUNE = 892 ;
 
 
-    public Skeleton(String initName, char initDisplay, int initHp) {
+    public ParentSkeleton(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
         this.addCapability(PileOfBones.PILE_OF_BONES);
-        this.addCapability(ActorTypes.SKELETON);
+        this.addCapability(ActorTypes.PARENTSKELETON);
 
         counterReset = -1;
         counterMax = 3;
@@ -53,7 +52,6 @@ public abstract class Skeleton extends Enemy {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        System.out.println(this);
         // to tick every item just in case tick in world does not run
         for ( WeaponItem w : this.getWeaponInventory() )
         {

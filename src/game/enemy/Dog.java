@@ -1,22 +1,27 @@
 package game.enemy;
 
+import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.rune.RuneManager;
+
 /**
- * BEHOLD, DOG!
- *
- * Created by: Adrian Kristanto
+ * a cuter awoo
+ * Created by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  * Modified by:
  */
-public abstract class Dog extends Enemy {
+public class Dog extends GodrickCastleInhabitants {
 
-    /**
-     * The constructor for Dog parent
-     * @param initName name
-     * @param initDisplay UI char
-     * @param initHp hit points
-     */
-    public Dog(String initName, char initDisplay, int initHp) {
-        super(initName,initDisplay,initHp);
-        this.addCapability(ActorTypes.WOLF);
+    private final int DOG_MIN_RUNE = 52 ;
+    private final int DOG_MAX_RUNE = 1390 ;
+
+    public Dog() {
+        super("Dog", 'a', 104);
+
+        RuneManager.addEnemyDropRune(name, DOG_MIN_RUNE, DOG_MAX_RUNE) ;
     }
 
+    @Override
+    public IntrinsicWeapon getIntrinsicWeapon() {
+        return new IntrinsicWeapon(101, "bites", 93);
+    }
 }

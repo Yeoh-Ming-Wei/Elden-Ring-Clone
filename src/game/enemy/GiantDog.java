@@ -6,11 +6,11 @@ import game.weapon.DogSlam;
 
 /**
  * BEHOLD, DOG!
- *
  * Created by: Adrian Kristanto
+ * @author Lee Sing Yuan
  * Modified by: Lee Sing Yuan
  */
-public class GiantDog extends Dog {
+public class GiantDog extends ParentDog {
 
     private final int GIANT_DOG_MIN_RUNE = 313 ;
     private final int GIANT_DOG_MAX_RUNE = 1808 ;

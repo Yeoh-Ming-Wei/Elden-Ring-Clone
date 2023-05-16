@@ -10,7 +10,7 @@ import game.weapon.Grossmesser;
  * @author Loo Li Shen
  * Modified by: Lee Sing Yuan
  */
-public class HeavySkeletonSwordsman extends Skeleton{
+public class HeavySkeletonSwordsman extends ParentSkeleton {
 
     public HeavySkeletonSwordsman() {
         super("Heavy Skeleton Swordsman", 'q', 153);

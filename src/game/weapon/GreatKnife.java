@@ -44,16 +44,29 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
 
     }
 
+    /**
+     * used to update the location so that getAllowableActions can use it
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor The actor carrying this Item.
+     */
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
     }
 
+    /**
+     * Gets the buying price
+     * @return int buying price
+     */
     @Override
     public int getPurchasePrice() {
         return buyingPrice;
     }
 
+    /**
+     * Gets the selling price
+     * @return int selling price
+     */
     @Override
     public int getSellingPrice() {
         return sellingPrice;
@@ -75,20 +88,14 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
      *      6) if all checks pass, add the actions to the resulting list
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
+     *
      * @return a list of actions that the wielder can do with this weapon
      *          list will be empty if no actions are possible
      */
     @Override
     public List<Action> getAllowableActions(){
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
 
-        // player
-        Location playerLocation = null;
-        Actor player = null;
-
-
+        // attack \\
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 
@@ -103,53 +110,41 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
             return res;
         }
 
+        // get the target and exit information surrounding this actor ( whoHasThis )
+        ArrayList<SurroundingExit> surroundingExitsTargets = NearMe.getSurroundingExitTargets(whoHasThis,currentLocation);
 
-        // checks all locations around the actor
-        for (Exit exit : currentLocation.getExits() ){
-            Location l = exit.getDestination();
+        // adding the actions to all the enemies around this actor
+        for ( SurroundingExit s : surroundingExitsTargets ){
+            res.add(new QuickStepAction(s.getTarget(), s.getExit().getName(), this));
+            res.add(new AttackAction(s.getTarget(), s.getExit().getName(), this));
+        }
 
-            // if it has an actor
-            if (l.containsAnActor()){
+        /////////////////////////////////
 
-                // get that actor and add the skill action and normal action to the person holding this
-                Actor target = l.getActor();
+        // trading \\
 
-                // checks if trader is in range of the player
-                if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && target.hasCapability(ActorTypes.TRADER) ){
-                    traderLocation = l;
-                    trader = target;
-                }
+        // trader
+        Location traderLocation = null;
+        Actor trader = null;
 
-                // if player is in the range of the trader
-                if ( whoHasThis.hasCapability(ActorTypes.TRADER) && target.hasCapability(ActorTypes.PLAYER)){
-                    playerLocation = l;
-                    trader = whoHasThis;
-                }
+        // player
+        Location playerLocation = null;
 
-                // attacking //
-                // to make sure that can if it is a player, can only attack enemies and vice versa for enemies if in the future they can use the weapon
-                if ( ( whoHasThis.hasCapability(Roles.ALLIES) && target.hasCapability(Roles.ENEMIES) ) ||
-                        ( whoHasThis.hasCapability(Roles.ENEMIES) && target.hasCapability(Roles.ALLIES) ) ) {
+        // this would be for the player to check if he is in the range of the trader
+        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
+        trader = Application.staticGameMap.getActorAt(traderLocation);
 
-                    // to make sure that those who are of same type do not attack each other
-                    for ( ActorTypes type : ActorTypes.values() ) {
-
-                        // only execute, if the actor holding this weapon has a certain capability and the target does not have the same
-                        // eg: whoHasThis == Player and target != Player
-                        if ( (whoHasThis.hasCapability(type) && !target.hasCapability(type)) ) {
-                            // returns a new action with weapon which the actor will use on the targets if actor has weapons
-                            res.add(new QuickStepAction(target, exit.getName(), this));
-                            res.add(new AttackAction(target, exit.getName(), this));
-                        }
-                    }
-                }
-            }
+        // this would be for the trader to check if the player is in the range of the trader
+        playerLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
+        // if trader is null, means this method is called by the trader so must set the trader to itself
+        if ( trader== null ){
+            trader = whoHasThis;
         }
 
         // selling //
         // this res will be for the player, means this weapon is in the player
         // if the player has this weapon and trader is within range
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && traderLocation != null )
+        if ( traderLocation != null && whoHasThis.hasCapability(ActorTypes.PLAYER)  )
         {
             res.add(new SellAction(trader,this,this.getSellingPrice()));
         }
@@ -157,9 +152,10 @@ public class GreatKnife extends WeaponItem implements Purchasable,Sellable{
         // buying //
         // this means that the res is for trader
         // checks if the player is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && playerLocation != null ){
+        if ( playerLocation != null && whoHasThis.hasCapability(ActorTypes.TRADER) ){
 
-            // use a new GreatKnife because if use the "this", will have bug caused by reference 
+            // use a new club because if use the "this", will have bug caused by reference
+            // also use a new weapon because want to give the trader unlimited weapons
             res.add(new PurchaseAction(trader,new GreatKnife(),this.buyingPrice) ) ;
         }
         return res;

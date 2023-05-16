@@ -11,7 +11,7 @@ import game.weapon.CrayFishSlam;
  * @author Lee Sing Yuan
  * Modified by:
  */
-public class GiantCrayFish extends Crab {
+public class GiantCrayFish extends ParentCrab {
 
     private final int GIANT_CF_MIN_RUNE = 500 ;
     private final int GIANT_CF_MAX_RUNE = 2374 ;

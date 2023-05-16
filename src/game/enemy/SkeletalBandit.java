@@ -9,7 +9,7 @@ import game.weapon.Scimitar;
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  */
-public class SkeletalBandit extends Skeleton{
+public class SkeletalBandit extends ParentSkeleton {
 
     public SkeletalBandit() {
         super("Skeletal Bandit", 'b', 184);

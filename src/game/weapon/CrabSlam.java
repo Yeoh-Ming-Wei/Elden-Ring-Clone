@@ -32,6 +32,11 @@ public class CrabSlam extends WeaponItem {
         addCapability(WeaponSkill.AREA_ATTACK);
     }
 
+    /**
+     * used to update the location so that getAllowableActions can use it
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor The actor carrying this Item.
+     */
     @Override
     public void tick(Location currentLocation, Actor actor) { this.currentLocation = currentLocation; }
 

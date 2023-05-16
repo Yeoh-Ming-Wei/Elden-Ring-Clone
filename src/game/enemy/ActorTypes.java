@@ -9,8 +9,9 @@ package game.enemy;
  */
 public enum ActorTypes {
     PLAYER,
-    WOLF,
-    CRAB,
-    SKELETON,
-    TRADER
+    PARENTDOG,
+    PARENTCRAB,
+    PARENTSKELETON,
+    TRADER,
+    GODRICK
 }
