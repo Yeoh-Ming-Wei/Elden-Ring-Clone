@@ -27,16 +27,6 @@ public class SiteOfLostGrace extends Ground {
             player.setLastVisited(location.x(), location.y()) ;
         }
 
-        // // if player is alive
-        // if (Player.getInstance().isConscious()) {
-        //     // Check if the player is standing on this ground
-        //     if (location.containsAnActor()) {
-        //         // Reset the game 
-        //         isVisited = true;
-        //         ResetManager.run(location.map());
-        //     }
-        // }
-
         if (player.hasCapability(Status.DEAD)) {
             location.map().moveActor(player, location);
             player.removeCapability(Status.DEAD);

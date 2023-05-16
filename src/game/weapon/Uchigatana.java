@@ -55,11 +55,19 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         this.currentLocation = currentLocation;
     }
 
+    /**
+     * Gets the buying price
+     * @return int buying price
+     */
     @Override
     public int getPurchasePrice() {
         return buyingPrice;
     }
 
+    /**
+     * Gets the selling price
+     * @return int selling price
+     */
     @Override
     public int getSellingPrice() {
         return sellingPrice;
@@ -86,15 +94,8 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
      */
     @Override
     public List<Action> getAllowableActions(){
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
 
-        // player
-        Location playerLocation = null;
-        Actor player = null;
-
-
+        // attack \\
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 
@@ -108,42 +109,43 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         {
             return res;
         }
+        // get the target and exit information surrounding this actor ( whoHasThis )
+        ArrayList<SurroundingExit> surroundingExitsTargets = NearMe.getSurroundingExitTargets(whoHasThis,currentLocation);
 
+        // adding the actions to all the enemies around this actor
+        for ( SurroundingExit s : surroundingExitsTargets ){
+            res.add(new UnsheatheAction(s.getTarget(), s.getExit().getName(), this));
+            res.add(new AttackAction(s.getTarget(), s.getExit().getName(), this));
+        }
 
-        // checks all locations around the actor
-        for (Exit exit : currentLocation.getExits() ){
-            Location l = exit.getDestination();
+        /////////////////////////////////
 
-            // if it has an actor
-            if (l.containsAnActor()){
+        // trading \\
 
-                // get that actor and add the skill action and normal action to the person holding this
-                Actor target = l.getActor();
+        // trader
+        Location traderLocation = null;
+        Actor trader = null;
 
-                // checks if trader is in range of the player
-                if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && target.hasCapability(ActorTypes.TRADER) ){
-                    traderLocation = l;
-                    trader = target;
-                }
+        // player
+        Location playerLocation = null;
+        Actor player = null;
 
-                // if player is in the range of the trader
-                if ( whoHasThis.hasCapability(ActorTypes.TRADER) && target.hasCapability(ActorTypes.PLAYER)){
-                    playerLocation = l;
-                    trader = whoHasThis;
-                }
+        // this would be for the player to check if he is in the range of the trader
+        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
+        trader = Application.staticGameMap.getActorAt(traderLocation);
 
-                // attacking //
-                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
-                    res.add(new UnsheatheAction(target, exit.getName(), this));
-                    res.add(new AttackAction(target, exit.getName(), this));
-                }
-            }
+        // this would be for the trader to check if the player is in the range of the trader
+        playerLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
+
+        // if trader is null, means this method is called by the trader so must set the trader to itself
+        if ( trader== null ){
+            trader = whoHasThis;
         }
 
         // selling //
         // this res will be for the player, means this weapon is in the player
         // if the player has this weapon and trader is within range
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && traderLocation != null )
+        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) )
         {
             res.add(new SellAction(trader,this,this.getSellingPrice()));
         }
@@ -151,7 +153,7 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         // buying //
         // this means that the res is for trader
         // checks if the player is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && playerLocation != null ){
+        if ( playerLocation != null && whoHasThis.hasCapability(ActorTypes.TRADER) ){
 
             // use a new uchigatana because if use the "this", will have bug caused by reference
             res.add(new PurchaseAction(trader,new Uchigatana(),this.buyingPrice) ) ;

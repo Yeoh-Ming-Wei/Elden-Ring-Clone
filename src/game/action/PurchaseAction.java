@@ -48,14 +48,10 @@ public class PurchaseAction extends Action {
 
 	/**
 	 * Apporach description:
-	 * 		1) get all the purchasable weapons
-	 * 		2) use a counter as a key and put the purchasable weapons as value in the input mapping
-	 * 		3) get the user choice
-	 * 		4) use the choice as key to find the name in the input mapping
-	 * 		5) use the name to find the buying price
-	 * 		6) check if player has sufficient runes to buy
-	 * 		7) if can buy, use the name as key to find in the weapon item mapping,
-	 * 		8) put the weapon inside the player inventory
+	 * 		1) the class will be instantiated with the weapon that wants to be bought
+	 * 		2) call the rune manager to get the player's runes
+	 * 		3) check if the player can buy this weapon
+	 * 		4) if can buy, add this weapon to the player's inventory and deduct the player's runes
 	 *
 	 * Assumption:
 	 * 		the weapons are already instantiated once, in order to be available to buy
@@ -93,80 +89,4 @@ public class PurchaseAction extends Action {
 	}
 
 }
-/*
-		RuneManager runeManager = RuneManager.getInstance();
-		Purchasable purchasableWeapon;
 
-		int buyingPrice;
-		int playerRunes;
-		// the variable to store the choice
-		int choice;
-
-
-		// will be changed if player bought something
-		String result = "Insufficient Runes to buy";
-
-
-		// exit number
-		// can be purchsableWeapon size or purchsableWeaponItem size
-		// unless the trader has an inventory
-		int exit = WeaponPurchaseSellInfo.purchasableWeapon.size() ;
-
-		// the input mapping
-		HashMap<Integer,String> inputMapping= new HashMap<>();
-
-		System.out.println("Please select what you want to buy:");
-
-		// to print out all the available options
-		// keyset() is the name
-		// values() is the Purchasable
-		int x = 0;
-
-		// k = the name / the key of the purchasable weapon
-		for ( String k : WeaponPurchaseSellInfo.purchasableWeapon.keySet()) {
-
-			// x is the number for this option
-			// k is the name of purchasable weapon
-			inputMapping.put(x,k);
-			System.out.println( "" + x + ") " + k + ", price: " + WeaponPurchaseSellInfo.purchasableWeapon.get(k).getPurchasePrice() );
-
-			x++;
-
-		}
-
-		// telling what number to press to exit
-		System.out.println("" + exit + ") Exit");
-
-		choice = ChoiceInput.getChoiceInput(exit);
-
-		if ( choice == exit ){
-			result = "Bought nothing";
-			return result;
-		}
-
-		// cause the inputMapping and the purchasableWeapon will be the same size always
-		// there is no need to check unless trader has its own inventory
-		String name = inputMapping.get(choice);
-
-		// use the name to get the purchasable weapon object in the map
-		purchasableWeapon = WeaponPurchaseSellInfo.purchasableWeapon.get(name);
-
-		// get the purchase price
-		buyingPrice = purchasableWeapon.getPurchasePrice();
-
-		// get the runes
-		playerRunes = runeManager.returnRune();
-
-		// see if player can buy the weapon
-		if ( playerRunes > buyingPrice )
-		{
-			// to reduce the player's runes after buying
-			runeManager.deductRune(actor, purchasableWeapon.getPurchasePrice());
-
-			// to add the weapon using the weapon item in the map using the name
-			actor.addWeaponToInventory( WeaponPurchaseSellInfo.purchasableWeaponItem.get(name) );
-
-			result = actor + " bought " + name;
-		}
-		// check the player runes here if they can buy or not
- */

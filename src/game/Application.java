@@ -73,7 +73,7 @@ public class Application {
 
 		staticGameMap = gameMap;
 
-		//gameMap.at(15, 13).addActor(new Trader());
+		gameMap.at(15, 17).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
@@ -82,16 +82,17 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 		gameMap.at(14, 15).addActor(new LoneWolf());
-		gameMap.at(15, 14).addActor(new LoneWolf());
-
-		gameMap.at(23, 8).addActor(new SkeletalBandit());
-		gameMap.at(24, 7).addActor(new SkeletalBandit());
-		gameMap.at(24, 8).addActor(new LoneWolf());
+		gameMap.at(14, 14).addActor(new LoneWolf());
 
 
 
 		/*
 
+		gameMap.at(15, 14).addActor(new LoneWolf());
+
+		gameMap.at(23, 8).addActor(new SkeletalBandit());
+		gameMap.at(24, 7).addActor(new SkeletalBandit());
+		gameMap.at(24, 8).addActor(new LoneWolf());
 
 		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(24, 7).addActor(new HeavySkeletonSwordsman());

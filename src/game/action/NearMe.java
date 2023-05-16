@@ -1,16 +1,18 @@
 package game.action;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.enemy.ActorTypes;
+import game.weapon.SurroundingExit;
+import game.weapon.isValid;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * a class to reduce unwanted dependencies to AttackSurroundingAction
- * which was where this code was originally
- * and to also act as an utils
+ * A util class to get the surroundings of an actor
  * Created By: Lee Sing Yuan
  * @author Lee Sing Yuan
  */
@@ -60,6 +62,9 @@ public class NearMe {
      *      3) loop through all possible coordinates within the boundary
      *      4) add it to the list
      *
+     * Assumptions: resulting list can only used to check surrounding, cannot move to that location cause no
+     *              checking is done to ensure that area is accessible
+     *
      * @param actor the Actor we want the surrounding of
      * @param map the map
      * @param radius the radius of the surrounding
@@ -100,7 +105,7 @@ public class NearMe {
     }
 
     /**
-     * if the player is in the actor's range, returns the location of the player
+     * if the wanted target is in the actor's range, returns the location of the wanted target
      *
      * Approach description:
      *      1) get the surrounding locations
@@ -113,7 +118,7 @@ public class NearMe {
      * @param map the map itself
      * @param radius the radius of the search
      * @return  Location object which is the location of the player
-     *          null if there is no player
+     *          null if there is no wanted target
      */
     public static Location whoInMyRange(Actor actor, GameMap map, int radius,ActorTypes type){
         Location wantedLocation = null;
@@ -138,4 +143,45 @@ public class NearMe {
         }
         return wantedLocation;
     }
+
+    /**
+     * Approach description:
+     *      1) get the exits around currentLocation
+     *      2) if the exit contains an actor,
+     *              get the actor
+     *                  check whether the attacker and target is of correct types
+     *                      if they are of correct types,
+     *                          add them to the list
+     *
+     *
+     * Note: why need a new object called SurroundingExit?
+     *           cause, the whole reason of using exit rather than the above functions is to know the direction
+     *
+     * @param whoHasThis the attacker
+     * @param currentLocation the current location of the attacker
+     * @return a list of a new object which holds information regarding the target and exit
+     */
+    public static ArrayList<SurroundingExit> getSurroundingExitTargets( Actor whoHasThis , Location currentLocation ){
+        ArrayList<SurroundingExit> res = new ArrayList<>();
+
+        // checks all locations around the actor
+        for (Exit exit : currentLocation.getExits() ){
+            Location l = exit.getDestination();
+
+            // if it has an actor
+            if (l.containsAnActor()){
+
+                // get that actor and add the skill action and normal action to the person holding this
+                Actor target = l.getActor();
+
+                // check if the attacker and target can attack each other
+                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
+                    SurroundingExit s = new SurroundingExit(target,exit);
+                    res.add(s);
+                }
+            }
+        }
+        return res;
+    }
 }
+

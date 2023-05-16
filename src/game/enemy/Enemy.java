@@ -121,7 +121,7 @@ public abstract class Enemy extends Actor implements Resettable {
         }
 
         if (RandomNumberGenerator.getRandomInt(100) < 10) {
-            return new DespawnAction(this) ;
+            return new DespawnAction(this);
         }
 
         // wander is the lowest precedence

@@ -8,7 +8,6 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.action.*;
 import game.enemy.ActorTypes;
-import game.enemy.Roles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +38,20 @@ public class Grossmesser extends WeaponItem implements Sellable{
         sellingPrice = 100;
     }
 
+    /**
+     * used to update the location so that getAllowableActions can use it
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor The actor carrying this Item.
+     */
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
     }
 
+    /**
+     * Gets the selling price
+     * @return int selling price
+     */
     @Override
     public int getSellingPrice() {
         return sellingPrice;
@@ -67,15 +75,14 @@ public class Grossmesser extends WeaponItem implements Sellable{
      *      9) this part is for player to get attackActions with this weapon
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
+     *
      * @return a list of actions that the wielder can do with this weapon
      *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
-        boolean isSkill = false;
 
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
+        // attack \\
+        boolean isSkill;
 
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
@@ -92,48 +99,14 @@ public class Grossmesser extends WeaponItem implements Sellable{
         }
 
 
-        List<Actor> targets = new ArrayList<>();
+        List<Actor> targets;
         // attacking //
         // checks all locations around me
         // check if there is someone of different type to initiate skill
-        for (Exit exit : currentLocation.getExits() ){
-            Location l = exit.getDestination();
+        isSkill = GetAllowableActions.canSkill(whoHasThis,currentLocation);
 
-            // if it has an actor
-            if (l.containsAnActor()){
-
-                // get that actor and add the skill action and normal action to the person holding this
-                Actor target = l.getActor();
-
-                // checks if trader is in range of the player
-                if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && target.hasCapability(ActorTypes.TRADER) ){
-                    traderLocation = l;
-                    trader = target;
-                }
-
-                // checking if there is someone valid to use the skill on  //
-                if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
-                    isSkill = true;
-                    break;
-                }
-            }
-        }
-        
-        // after checking if can skill, get all targets 
-        // if cannot skill
-        if ( isSkill ) {
-            for (Exit exit : currentLocation.getExits()) {
-                Location l = exit.getDestination();
-
-                // if it has an actor and it is attackable
-                if (l.containsAnActor()) {
-
-                    // get that actor and add the skill action
-                    Actor target = l.getActor();
-                    targets.add(target);
-                }
-            }
-        }
+        // add all the targets around this actor
+        targets = GetAllowableActions.getTargets(isSkill,currentLocation);
 
         // adding the attack surrounding actions after getting all the actors
         if ( targets.size() > 0 ) {
@@ -161,35 +134,26 @@ public class Grossmesser extends WeaponItem implements Sellable{
             }
         }
 
+        /////////////////////////////////
+
+        // trading \\
+
+        // trader
+        Location traderLocation = null;
+        Actor trader = null;
+
+        // this would be for the player to check if he is in the range of the trader
+        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
+        trader = Application.staticGameMap.getActorAt(traderLocation);
+
         // selling //
         // this res will be for the player, means this weapon is in the player
         // if the player has this weapon and trader is within range
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && traderLocation != null )
-        {
+        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) ){
             res.add(new SellAction(trader,this,this.getSellingPrice()));
         }
 
         return res;
     }
 }
-/*
 
-        // player
-        Location playerLocation = null;
-        Actor player = null;
-
-        // if player is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && target.hasCapability(ActorTypes.PLAYER)){
-            playerLocation = l;
-            trader = whoHasThis;
-        }
-
-        // buying //
-        // this means that the res is for trader
-        // checks if the player is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && playerLocation != null ){
-
-            // use a new GreatKnife because if use the "this", will have bug caused by reference
-            res.add(new PurchaseAction(trader,new GreatKnife(),this.buyingPrice) ) ;
-        }
- */
