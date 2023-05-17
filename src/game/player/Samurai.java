@@ -1,5 +1,6 @@
 package game.player;
 import game.weapon.Grossmesser;
+import game.weapon.HeavyCrossbow;
 import game.weapon.Scimitar;
 import game.weapon.Uchigatana;
 
@@ -15,6 +16,7 @@ public class Samurai extends Player{
     public Samurai(){
         super("Samurai",'@',455);
         this.addWeaponToInventory(new Uchigatana());
+        this.addWeaponToInventory(new HeavyCrossbow());
 
         // adding to the static mapping if havent added
         if (isAdded == false) {

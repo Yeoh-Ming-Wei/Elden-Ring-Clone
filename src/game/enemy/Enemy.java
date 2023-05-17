@@ -6,7 +6,9 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.Application;
 import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
@@ -16,8 +18,11 @@ import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.weapon.WeaponSkill;
+import game.weapon.isValid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Enemy extends Actor implements Resettable {
@@ -37,8 +42,11 @@ public abstract class Enemy extends Actor implements Resettable {
 
         // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
+
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
+
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
+
         ResetManager.registerResettable(this);
     }
 
@@ -62,11 +70,12 @@ public abstract class Enemy extends Actor implements Resettable {
 
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-                // adding the intrinsic weapon choice
-                actions.add(new AttackAction(this, direction));
-            }
+            // adding the intrinsic weapon choice
+            actions.add(new AttackAction(this, direction));
+        }
         return actions;
     }
+
 
     /**
      * At each turn, select a valid action to perform.
@@ -90,11 +99,12 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // to tick every item just in case tick in world does not run
+        // to tick every item just in case tick in world does not run before the enemy's turn
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);
         }
+
 
         // follow has the highest precedence
         // checks if giant crab has this behaviour
@@ -133,6 +143,8 @@ public abstract class Enemy extends Actor implements Resettable {
                 return action;
             }
         }
+
+
 
         return new DoNothingAction();
     }
