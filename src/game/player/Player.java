@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
@@ -16,10 +15,7 @@ import game.Resettable;
 import game.action.ChoiceInput;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
-import game.environment.SiteOfLostGrace;
-import game.potion.ConsumeAction;
-import game.potion.FlaskOfCrimsonTears;
-import game.potion.Heal;
+import game.consume.FlaskOfCrimsonTears;
 import game.rune.RuneManager;
 
 /**
@@ -116,17 +112,6 @@ public abstract class Player extends Actor implements Resettable {
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
-
-		// Create a new action to consume a potion if the player has one in their inventory
-		for (Item item : this.getItemInventory()) {
-			if (item.hasCapability(Heal.HEAL)){
-				actions.add(new ConsumeAction(item));
-			}
-		
-		// To collect the location of the player
-		this.location = map.locationOf(player) ;
-
-	}
 
 		// to print the HP before printing all the available options
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
