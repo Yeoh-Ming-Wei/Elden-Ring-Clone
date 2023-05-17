@@ -5,8 +5,8 @@ import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
+import game.allies.Ally;
 import game.enemy.*;
 import game.environment.GustOfWind;
 import game.environment.Dirt;
@@ -85,6 +85,8 @@ public class Application {
 		gameMap.at(10, 13).addActor(new LoneWolf());
 		gameMap.at(10, 15).addActor(new GodrickSoldier());
 
+		gameMap.at(10, 10).addActor(Ally.getAllyInstance());
+		gameMap.at(10, 9).addActor(Invader.getInvaderInstance());
 
 		/*
 
