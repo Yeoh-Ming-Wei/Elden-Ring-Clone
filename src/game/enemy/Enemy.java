@@ -41,7 +41,6 @@ public abstract class Enemy extends Actor implements Resettable {
         this.addCapability(Roles.ENEMIES);
 
         // putting in all the behaviours
-        ArrayList<Integer> behaviourCodes = new ArrayList<>();
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
 
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
@@ -100,7 +99,7 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // to tick every item just in case tick in world does not run
+        // to tick every item just in case tick in world does not run before the enemy's turn
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);

@@ -82,8 +82,8 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
-		gameMap.at(15, 14).addActor(new LoneWolf());
-
+		gameMap.at(10, 13).addActor(new LoneWolf());
+		gameMap.at(10, 15).addActor(new GodrickSoldier());
 
 
 		/*
