@@ -63,43 +63,16 @@ public abstract class Enemy extends Actor implements Resettable {
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
 
-        /*
         // to only allow player to use this function
         if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-                // adding the intrinsic weapon choice
-                actions.add(new AttackAction(this, direction));
-            }
+            // adding the intrinsic weapon choice
+            actions.add(new AttackAction(this, direction));
+        }
         return actions;
-
-         */
-        // attack \\
-        // the resulting list of actions
-        ActionList res = new ActionList();
-
-        // checking to see if the weapon is held by someone or not
-        // if weapon is on the ground and player is on top of it
-        //      means player cannot use the actions which this weapon can give
-        // if weapon is on the ground and player is not on it
-        //      means should not be able to attack anyone or give the list of actions
-        Location currentLocation = Application.staticGameMap.locationOf(this);
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
-        }
-
-        // get the target and exit information surrounding this actor ( whoHasThis )
-        List<Actor> targets = NearMe.getSurroundingActors(whoHasThis,Application.staticGameMap,1);
-
-        // adding the actions to all the enemies around this actor
-        for ( Actor target : targets ){
-            if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
-                res.add(new AttackAction(target,"_"));
-            }
-        }
-        return res;
     }
+
 
     /**
      * At each turn, select a valid action to perform.

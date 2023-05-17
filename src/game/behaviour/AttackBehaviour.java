@@ -110,7 +110,6 @@ public class AttackBehaviour implements Behaviour {
 
 
         // to attack using intrinsic weapons //
-        /*
         List<Actor> targets = NearMe.getSurroundingActors(actor,map,1);
 
         // if an enemy has the skill but decides not to use the skill, can choose to attack
@@ -131,8 +130,7 @@ public class AttackBehaviour implements Behaviour {
             }
         }
 
-         */
-        // get enemy allowable actions here
+
 
 
 
