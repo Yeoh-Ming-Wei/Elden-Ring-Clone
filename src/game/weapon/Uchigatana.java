@@ -128,7 +128,6 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
 
         // player
         Location playerLocation = null;
-        Actor player = null;
 
         // this would be for the player to check if he is in the range of the trader
         traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);

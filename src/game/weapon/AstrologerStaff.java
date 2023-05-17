@@ -5,14 +5,17 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
-import game.action.*;
+import game.action.AttackAction;
+import game.action.NearMe;
+import game.action.PurchaseAction;
+import game.action.SellAction;
 import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A heavy crossbow
+ * A staff used for magic
  * It deals 64 damage with 57% hit rate
  * Buying and selling are from the player's POV
  * Created by: Lee Sing Yuan
@@ -20,7 +23,7 @@ import java.util.List;
  * Modified by:
  *
  */
-public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
+public class AstrologerStaff extends WeaponItem implements Purchasable,Sellable{
     // to allow getAllowableActions to check
     private Location currentLocation;
 
@@ -30,11 +33,11 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
     /**
      * Constructor
      */
-    public HeavyCrossbow() {
-        super("Heavy Crossbow", '}', 64, "shoots", 57);
+    public AstrologerStaff() {
+        super("Staff", 'f', 274 , "avakadabra", 50);
 
         // to not return hardcode values
-        this.buyingPrice = 1500;
+        this.buyingPrice = 800;
         this.sellingPrice = 100;
 
 
@@ -105,7 +108,7 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
             return res;
         }
         // get the target and exit information surrounding this actor ( whoHasThis )
-        List<Actor> targets = NearMe.getSurroundingActors(whoHasThis,Application.staticGameMap,2);
+        List<Actor> targets = NearMe.getSurroundingActors(whoHasThis,Application.staticGameMap,3);
 
         // adding the actions to all the enemies around this actor
         for ( Actor target : targets ){
@@ -151,7 +154,7 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
         if ( playerLocation != null && whoHasThis.hasCapability(ActorTypes.TRADER) ){
 
             // use a new uchigatana because if use the "this", will have bug caused by reference
-            res.add(new PurchaseAction(trader,new HeavyCrossbow(),this.buyingPrice) ) ;
+            res.add(new PurchaseAction(trader,new AstrologerStaff(),this.buyingPrice) ) ;
         }
         return res;
     }

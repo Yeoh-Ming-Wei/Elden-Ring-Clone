@@ -72,6 +72,7 @@ public abstract class Player extends Actor implements Resettable {
 			new Bandit();
 			new Samurai();
 			new Wretch();
+			new Astrologer();
 
 			// store the input mapping
 			HashMap<Integer,String> inputMapping = new HashMap<>();
