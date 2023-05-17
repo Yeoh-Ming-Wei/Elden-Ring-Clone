@@ -27,6 +27,7 @@ import java.util.Map;
 
 public abstract class Enemy extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
+    protected final ArrayList<Integer> behaviourCodes = new ArrayList<>();
     /**
      * Constructor.
      *
@@ -42,8 +43,14 @@ public abstract class Enemy extends Actor implements Resettable {
 
         // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
+        behaviourCodes.add(FollowBehaviour.behaviorCode());
+
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
+        behaviourCodes.add(AttackBehaviour.behaviorCode());
+
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
+        behaviourCodes.add(WanderBehaviour.behaviorCode());
+
         ResetManager.registerResettable(this);
     }
 
@@ -102,6 +109,7 @@ public abstract class Enemy extends Actor implements Resettable {
             w.tick(map.locationOf(this),this);
         }
 
+        /*
         // follow has the highest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
@@ -137,6 +145,25 @@ public abstract class Enemy extends Actor implements Resettable {
             Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
             if (action != null) {
                 return action;
+            }
+        }
+
+         */
+
+
+        int x = 0;
+        while ( x < behaviourCodes.size() ){
+            if ( x == 2 ) {
+                if (RandomNumberGenerator.getRandomInt(100) < 10) {
+                    return new DespawnAction(this);
+                }
+            }
+            else {
+                Action action = behaviours.get( behaviourCodes.get(x)  ).getAction(this, map);
+                if (action != null) {
+                    return action;
+                }
+                x++;
             }
         }
 
