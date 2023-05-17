@@ -81,12 +81,17 @@ public class Application {
 		int y = 15;
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
-		gameMap.at(14, 15).addActor(new LoneWolf());
-		gameMap.at(14, 14).addActor(new LoneWolf());
+
+		gameMap.at(15, 14).addActor(new LoneWolf());
 
 
 
 		/*
+
+				gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(14, 15).addActor(new LoneWolf());
+		gameMap.at(14, 14).addActor(new LoneWolf());
+
 
 		gameMap.at(15, 14).addActor(new LoneWolf());
 

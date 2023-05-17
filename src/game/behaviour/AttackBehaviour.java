@@ -1,6 +1,7 @@
 package game.behaviour;
 
 import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
-    private int skillChance = 50;
+    private int skillChance = 0;
 
     /**
      * Decides whether an enemy should attack another actor or not
@@ -46,6 +47,10 @@ public class AttackBehaviour implements Behaviour {
      * Note: if the enemy A wants to attack single targets and there are enemies of the same type around enemy A,
      *       the random may choose a target which has the same type as enemy A and will not return an AttackAction.
      *       Hence, it will execute other behaviours
+     *       There are 3 scenarios:
+     *              1) enemy has weapon with skill
+     *              2) enemy has weapon with no skill
+     *              3) enemy has no weapon
      *
      * @param actor the Actor acting
      * @param map   the GameMap containing the Actor
@@ -54,29 +59,58 @@ public class AttackBehaviour implements Behaviour {
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
+
         // to attack using weapons with skills //
+        // used to check if the actor can use a weapon with a skill
+        boolean canSkill = false;
+
+        // checks if can the actor has a weapon with a skill
+        for ( WeaponSkill type : WeaponSkill.values() ) {
+
+            // if there is skill capability that the actor has
+            // means that the actor can perform the skill
+            if (actor.hasCapability(type))
+            {
+                canSkill = true;
+            }
+        }
+
         // if the actor has the capability to use a skill, then check if he wants to use the skill
-        if ( actor.getWeaponInventory().size() > 0 ) {
+        if ( canSkill == true ) {
 
             // check if the skill chance can execute
             if (random.nextInt(100) < skillChance) {
 
                 // get the weapon skills that can be done
                 WeaponItem w = actor.getWeaponInventory().get(0);
-                List<Action> res = w.getAllowableActions();
+                List<Action> listOfActions = w.getAllowableActions();
 
                 // to check if the weapon can give any actions
                 // if cannot give, go to normal attack
                 // actually can straight away return null, since if there is nothing the sword can do
                 // means no attacking can be done
-                if ( res.size() > 0 ){
-                    return res.get(0);
+                if ( listOfActions.size() > 0 ){
+                    return listOfActions.get(0);
                 }
             }
         }
 
+        // attack using weapons without skills //
+        if( actor.getWeaponInventory().size() > 0 ) {
+            WeaponItem w = actor.getWeaponInventory().get(0);
+            List<Action> listOfActions = w.getAllowableActions();
 
-        // to attack using weapons without skills //
+            // must check if can do any attacks
+            // cause list will be 0 if there is no one to attack
+            if ( listOfActions.size() > 0 ){
+                Action res = listOfActions.get( random.nextInt(listOfActions.size()) );
+                return res;
+            }
+        }
+
+
+        // to attack using intrinsic weapons //
+        /*
         List<Actor> targets = NearMe.getSurroundingActors(actor,map,1);
 
         // if an enemy has the skill but decides not to use the skill, can choose to attack
@@ -96,6 +130,11 @@ public class AttackBehaviour implements Behaviour {
                         actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
             }
         }
+
+         */
+        // get enemy allowable actions here
+
+
 
 
         return null;
