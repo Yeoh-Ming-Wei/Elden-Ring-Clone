@@ -1,48 +1,60 @@
-package game.potion;
+package game.consume;
 
-import static game.potion.PotionItem.potionName;
-
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.Application;
 import game.ResetManager;
 import game.Resettable;
 
-public class FlaskOfCrimsonTears extends Item implements Resettable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     private static int maxUses = 2;
     static int action = 250;
 
-    private static int usesLeft;
+    private Location currentLocation;
 
     /**
      * Constructor.
      */
     public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false);
+        super("Flask Of Crimson Tears", 'C', false, maxUses);
         usesLeft = maxUses;
-        this.addCapability(Heal.HEAL);
-        potionName.put(FlaskOfCrimsonTears.potionCode(), 250);
+
         ResetManager.registerResettable(this);
     }
 
     /**
+     * used to update the location so that getAllowableActions can use it
+     * @param currentLocation The location of the actor carrying this Item.
+     * @param actor The actor carrying this Item.
+     */
+    @Override
+    public void tick(Location currentLocation, Actor actor) {
+        this.currentLocation = currentLocation;
+    }
+
+    /**
      * Get the number of uses remaining for this potion.
-     * @return the number of uses remaining
      */
     public static int getUsesLeft() {
-        return usesLeft;
+        return ConsumeItem.getUsesLeft();
     }
 
     /**
      * Use this potion, restoring the player's health by a fixed amount.
      * @param actor the player who is using the potion
      */
+    @Override
     public void use(Actor actor) {
-        if (usesLeft == 0) {
+        if (getUsesLeft() == 0) {
             return;
         }
         actor.heal(action);
-        usesLeft--;
     }
 
     /**
@@ -50,7 +62,7 @@ public class FlaskOfCrimsonTears extends Item implements Resettable {
      * @param usesLeft the number of uses remaining
      */
     public static void setUsesLeft(int usesLeft) {
-        FlaskOfCrimsonTears.usesLeft = Math.max(0, Math.min(maxUses, usesLeft));
+        ConsumeItem.setUsesLeft(usesLeft);
     }
 
     /**
@@ -67,6 +79,24 @@ public class FlaskOfCrimsonTears extends Item implements Resettable {
      */
     public static Class<? extends Item> potionCode() {
         return FlaskOfCrimsonTears.class;
+    }
+
+    @Override
+    public List<Action> getAllowableActions(){
+
+        List<Action> res = new ArrayList<>();
+        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
+        if ( whoHasThis == null )
+        {
+            return res;
+        }
+
+        for(Item item : whoHasThis.getItemInventory()){
+            if (item.getClass() == potionCode()){
+                res.add(new ConsumeAction(this,250, "Heal", "Health"));
+            }
+        }
+        return res;
     }
 
     @Override

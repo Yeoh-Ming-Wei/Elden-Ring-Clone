@@ -24,7 +24,6 @@ public class ResetManager {
      */
     private ResetManager() {
         resettables = new ArrayList<>();
-        System.out.println(resettables);
     }
 
     public static void run(GameMap map) {
