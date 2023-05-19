@@ -2,6 +2,7 @@ package game.action;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
@@ -28,12 +29,17 @@ public class PurchaseAction extends Action {
 	private WeaponItem weaponItem;
 
 	/**
+	 * The item to buy
+	 */
+	private Item item;
+
+	/**
 	 * The price
 	 */
 	private int buyingPrice;
 
 	/**
-	 * Constructor.
+	 * Constructor. to buy weapons
 	 *
 	 * @param trader the Actor to attack
 	 * @param w the weapon to be bought
@@ -42,6 +48,19 @@ public class PurchaseAction extends Action {
 	public PurchaseAction(Actor trader, WeaponItem w , int buyingPrice) {
 		this.trader = trader;
 		this.weaponItem = w;
+		this.buyingPrice = buyingPrice;
+	}
+
+	/**
+	 * Constructor. to buy items
+	 *
+	 * @param trader the Actor to attack
+	 * @param i the item to be bought
+	 * @param buyingPrice the price of the weapon
+	 */
+	public PurchaseAction(Actor trader, Item i , int buyingPrice) {
+		this.trader = trader;
+		this.item = i;
 		this.buyingPrice = buyingPrice;
 	}
 
@@ -62,16 +81,33 @@ public class PurchaseAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
-		String result = "Bought nothing";
+		// the result of the action if nothing is bought
+		String result = "Insufficient rune";
 
+		// get the runemanager
 		RuneManager runeManager = RuneManager.getInstance();
 
+		// get the player's runes
 		int playerRunes = runeManager.returnRune();
 
+		// checks if the player can buy
 		if ( playerRunes >= this.buyingPrice )
 		{
+
+			// if player can buy
+			// deduct the runes
 			runeManager.deductRune(actor,buyingPrice);
-			actor.addWeaponToInventory(weaponItem);
+
+			// checks if we are buying weapon
+			if ( weaponItem != null ) {
+				actor.addWeaponToInventory(weaponItem);
+			}
+
+			// checks if we are buying item
+			if ( item != null ){
+				actor.addItemToInventory(item);
+			}
+
 			result = actor + " buys " + weaponItem;
 		}
 		return result;
