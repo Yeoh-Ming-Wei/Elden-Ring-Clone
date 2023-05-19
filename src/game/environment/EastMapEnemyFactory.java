@@ -12,7 +12,7 @@ import game.enemy.SkeletalBandit;
  * of the map. 
  * @author Yeoh Ming Wei
  */
-public class EastMapEnemyFactory extends EnemyFactory {
+public class EastMapEnemyFactory implements EnemyFactory {
     
     /**
      * An null assignment for eastFactory.
