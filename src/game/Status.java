@@ -8,5 +8,6 @@ package game;
 public enum Status {
     RESPAWNABLE,
     RESTING,
-    DEAD
+    DEAD,
+    ITEM_NOT_SPAWNABLE
 }

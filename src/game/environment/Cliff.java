@@ -16,6 +16,7 @@ public class Cliff extends Ground {
      */
     public Cliff() {
         super('+');
+        addCapability(Status.ITEM_NOT_SPAWNABLE) ;
     }
 
     @Override

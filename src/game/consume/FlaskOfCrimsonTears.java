@@ -92,7 +92,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
 
         for(Item item : whoHasThis.getItemInventory()){
             if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction<>(this,250, "Heal for", " Health", super.getUsesLeft()));
+                res.add(new ConsumeAction(this,250, "Heal for", " Health", super.getUsesLeft()));
                 break;
             }
         }
