@@ -3,21 +3,22 @@ package game.consume;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.Application;
 import game.player.Player;
 
-import static game.consume.ConsumeItem.getUsesLeft;
-
-public class ConsumeAction extends Action {
-    private ConsumeItem consumable;
+public class ConsumeAction<T extends ConsumeItem> extends Action {
+    private T consumable;
     private int action;
     private String verb;
     private String actionName;
+    private int usesLeft ;
 
-    public ConsumeAction(ConsumeItem consumable, int action, String verb, String actionName) {
+    public ConsumeAction(T consumable, int action, String verb, String actionName, int usesLeft) {
         this.consumable = consumable;
         this.action = action;
         this.verb = verb;
         this.actionName = actionName;
+        this.usesLeft = usesLeft;
     }
 
     /**
@@ -31,13 +32,13 @@ public class ConsumeAction extends Action {
     public String execute(Actor actor, GameMap map) {
         Player player = Player.getInstance();
 
-        if (ConsumeItem.getUsesLeft() != 0){
-            String result = this.consumable + " " + this.verb + " for " + this.action + " " + this.actionName;
+        if (consumable.getUsesLeft() != 0){
+            String result = this.consumable + " " + this.verb + " " + this.action + this.actionName;
 
             //call ConsumeItem.use here
             consumable.use(player);
 
-            ConsumeItem.setUsesLeft(getUsesLeft() - 1);
+            consumable.setUsesLeft(consumable.getUsesLeft() - 1);
             return result;
         }
 
@@ -45,6 +46,7 @@ public class ConsumeAction extends Action {
             String result = this.consumable + " is empty.";
             return result;
         }
+
 
     }
 
@@ -56,6 +58,6 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " use " + this.consumable + " and have " + ConsumeItem.getUsesLeft() + " left ";
+        return actor + " use " + this.consumable + " and have " + this.usesLeft + " left ";
     }
 }

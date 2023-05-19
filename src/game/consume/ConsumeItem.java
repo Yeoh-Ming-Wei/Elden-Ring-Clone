@@ -3,10 +3,14 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.items.PickUpAction;
+import edu.monash.fit2099.engine.items.PickUpItemAction;
+import edu.monash.fit2099.engine.positions.Location;
+import game.player.Player;
 
 public abstract class ConsumeItem extends Item{
 
-    public static int usesLeft;
+    public int usesLeft;
     protected Actor use;
 
     /***
@@ -20,13 +24,14 @@ public abstract class ConsumeItem extends Item{
         this.usesLeft = usesLeft;
     }
 
-    public static int getUsesLeft() {
+    public int getUsesLeft() {
         return usesLeft;
     }
 
-    public static void setUsesLeft(int usesLeft) {
-        ConsumeItem.usesLeft = usesLeft;
+    public void setUsesLeft(int usesLeft) {
+        this.usesLeft = usesLeft;
     }
+
 
     public void use(Actor actor){
 

@@ -33,7 +33,7 @@ public class GoldenFogDoor extends Ground {
 
         // staticGameMap is limgrave currently
         // if 'D' is on x == 0 of the map then will go to castle
-        if (mapIsAt == Application.staticGameMap && location.containsAnActor()) {
+        if (mapIsAt == Application.limGrave && location.containsAnActor()) {
             if (x == 0) {
                 GameMap currentGameMap = location.map();
                 currentGameMap.removeActor(player);
@@ -57,7 +57,7 @@ public class GoldenFogDoor extends Ground {
                 currentGameMap.removeActor(player);
                 //player return back to limgrave
                 Application.staticGameMap = Application.limGrave;
-                Application.staticGameMap.addActor(player, Application.staticGameMap.at(1, 15));
+                Application.limGrave.addActor(player, Application.limGrave.at(1, 15));
             }
             else{ // player will enter the boss room
                 GameMap currentGameMap = location.map();
@@ -72,7 +72,7 @@ public class GoldenFogDoor extends Ground {
             GameMap currentGameMap = location.map();
             currentGameMap.removeActor(player);
             Application.staticGameMap = Application.limGrave;
-            Application.staticGameMap.addActor(player, Application.staticGameMap.at(1, 15));
+            Application.limGrave.addActor(player, Application.limGrave.at(1, 15));
         }
     }
 }

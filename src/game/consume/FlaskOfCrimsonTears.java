@@ -22,8 +22,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
      * Constructor.
      */
     public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false, maxUses);
-        usesLeft = maxUses;
+        super("Flask Of Crimson Tears", 'C', false, maxUses) ;
 
         ResetManager.registerResettable(this);
     }
@@ -41,8 +40,8 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     /**
      * Get the number of uses remaining for this potion.
      */
-    public static int getUsesLeft() {
-        return ConsumeItem.getUsesLeft();
+    public int getUsesLeft() {
+        return super.getUsesLeft();
     }
 
     /**
@@ -61,8 +60,8 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
      * Set the number of uses remaining for this potion.
      * @param usesLeft the number of uses remaining
      */
-    public static void setUsesLeft(int usesLeft) {
-        ConsumeItem.setUsesLeft(usesLeft);
+    public void setUsesLeft(int usesLeft) {
+        super.setUsesLeft(usesLeft);
     }
 
     /**
@@ -93,7 +92,8 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
 
         for(Item item : whoHasThis.getItemInventory()){
             if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction(this,250, "Heal", "Health"));
+                res.add(new ConsumeAction<>(this,250, "Heal for", " Health", super.getUsesLeft()));
+                break;
             }
         }
         return res;

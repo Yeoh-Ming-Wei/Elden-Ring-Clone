@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
+import game.consume.GoldenRunes;
 import game.enemy.*;
 import game.environment.*;
 import game.player.Player;
@@ -29,10 +30,10 @@ public class Application {
 
 		World world = new World(new Display());
 
-		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack());
+		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack(), new LakeOfRot());
 
 		List<String> map = Arrays.asList(
-				"......................#.............#..........................+++.........",
+				"D.D...................#.............#..........................+++.........",
 				"......................#.............#.......................+++++..........",
 				"......................#..___....____#.........................+++++........",
 				"......................#...........__#............................++........",
@@ -46,8 +47,8 @@ public class Application {
 				"..........+++.....................#________................................",
 				"............+++...................#_______#................................",
 				".............+....................###___###................................",
-				"..........*.++......................#___#..................................",
-				"D.D...........+.U.............................D............................",
+				"..U.........++......................#___#..................................",
+				"DDD...........+.U.............................D............................",
 				"..............++...........................................................",
 				"..............................................++...........................",
 				"..................++++......................+++...............######..##...",
@@ -61,7 +62,7 @@ public class Application {
 		world.addGameMap(gameMap);
 
 		List<String> stormveilcastle = Arrays.asList(
-				"..........................................................................D",
+				"D.D.......................................................................D",
 				"..................<...............<........................................",
 				"D.D........................................................................",
 				"##############################################...##########################",
@@ -92,7 +93,7 @@ public class Application {
 
 		List<String> roundtable  = Arrays.asList(
 				"##################",
-				"#________________#",
+				"#_D______________#",
 				"#_D______________#",
 				"#________________#",
 				"#________________#",
@@ -136,12 +137,17 @@ public class Application {
 		table = newGameMap2;
 		boss = newGameMap3;
 
+		// Adding golden runes
+		GoldenRunes goldenRunes = new GoldenRunes();
+		goldenRunes.addGoldenRunesToRandomLocation(gameMap, 30);
+		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, 30);
+
 		gameMap.at(15, 13).addActor(new Trader());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
-		int x = 9;
-		int y = 15;
+		int x = 1;
+		int y = 14;
 		Location l = new Location(gameMap,x,y);
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
