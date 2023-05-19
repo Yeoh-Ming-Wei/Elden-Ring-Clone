@@ -15,8 +15,14 @@ public class DropConsumeItemAction extends DropAction {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        map.locationOf(actor).addItem(item);
-        item.setUsesLeft(item.getUsesLeft() - 1);
+
+        if (item.getUsesLeft() != 1) {
+            map.locationOf(actor).addItem(item);
+            item.setUsesLeft(item.getUsesLeft() - 1);
+            
+        } else {
+            actor.removeItemFromInventory(item);
+        }
         return menuDescription(actor);
     }
     

@@ -83,7 +83,6 @@ public class GoldenRunes extends ConsumeItem {
         }
     }
         
-
     @Override 
     public DropAction getDropAction(Actor actor) {
         return new DropConsumeItemAction(this) ;
