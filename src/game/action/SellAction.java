@@ -110,6 +110,6 @@ public class SellAction extends Action {
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " sells " + weaponItem + " to " + trader;
+		return actor + " sells " + (weaponItem != null ? weaponItem : item) + " to " + trader;
 	}
 }

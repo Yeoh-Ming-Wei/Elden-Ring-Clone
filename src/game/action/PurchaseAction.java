@@ -121,7 +121,7 @@ public class PurchaseAction extends Action {
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " buys " + weaponItem + " from " + trader;
+		return actor + " buys " + (weaponItem != null ? weaponItem : item) + " from " + trader;
 	}
 
 }
