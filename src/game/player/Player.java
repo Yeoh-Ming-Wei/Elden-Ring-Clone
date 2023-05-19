@@ -18,6 +18,7 @@ import game.potion.ConsumeAction;
 import game.potion.FlaskOfCrimsonTears;
 import game.potion.Heal;
 import game.rune.RuneManager;
+import game.weapon.WeaponStatus;
 
 import java.util.Set;
 
@@ -94,10 +95,15 @@ public class Player extends Actor implements Resettable {
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-		// to tick every item just in case tick in world does not run
+		// because to use weapons' get allowableActions,
+		// it needs to know the current locations
+		// so need to tick first
 		for ( WeaponItem w : this.getWeaponInventory() )
 		{
-			w.tick(map.locationOf(this),this);
+			if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+				w.tick(map.locationOf(this), this);
+				actions.add(w.getAllowableActions());
+			}
 		}
 
 		// Handle multi-turn Actions

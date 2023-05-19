@@ -99,7 +99,11 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // to tick every item just in case tick in world does not run before the enemy's turn
+        // because to use weapons' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
+        // does not need any check, cause all of the weapon's get allowable actions
+        // is done during play turn
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);

@@ -82,13 +82,14 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
-		gameMap.at(10, 13).addActor(new LoneWolf());
+		gameMap.at(15, 14).addActor(new LoneWolf());
+
+		/*
+				gameMap.at(10, 13).addActor(new LoneWolf());
 		gameMap.at(10, 15).addActor(new GodrickSoldier());
 
 		gameMap.at(10, 10).addActor(Ally.getAllyInstance());
 		gameMap.at(10, 9).addActor(Invader.getInvaderInstance());
-
-		/*
 
 				gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
 		gameMap.at(14, 15).addActor(new LoneWolf());

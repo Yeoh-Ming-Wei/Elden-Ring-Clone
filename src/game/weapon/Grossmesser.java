@@ -36,6 +36,10 @@ public class Grossmesser extends WeaponItem implements Sellable{
         super("Grossmesser", '?', 115, "slashes", 85);
         addCapability(WeaponSkill.AREA_ATTACK);
         sellingPrice = 100;
+
+        // to avoid the bug where in the first round
+        // cannot get allowable actions
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -46,6 +50,7 @@ public class Grossmesser extends WeaponItem implements Sellable{
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**

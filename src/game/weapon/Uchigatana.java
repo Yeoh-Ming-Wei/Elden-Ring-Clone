@@ -42,6 +42,10 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         this.buyingPrice = 5000;
         this.sellingPrice = 500;
 
+        // to avoid the bug where in the first round
+        // cannot get allowable actions
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
+
 
     }
 
@@ -52,7 +56,9 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
+
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
