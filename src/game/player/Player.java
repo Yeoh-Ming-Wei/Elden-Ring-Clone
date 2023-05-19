@@ -110,7 +110,7 @@ public abstract class Player extends Actor implements Resettable {
 			w.tick(map.locationOf(this),this);
 		}
 
-		location = map.locationOf(player) ;
+		this.location = map.locationOf(player) ;
 
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
