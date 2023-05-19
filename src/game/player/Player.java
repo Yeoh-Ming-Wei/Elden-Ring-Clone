@@ -13,6 +13,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.ResetManager;
 import game.Resettable;
 import game.action.ChoiceInput;
+import game.consume.GoldenRunes;
+import game.consume.TeleportGrace;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
 import game.consume.FlaskOfCrimsonTears;
@@ -47,6 +49,7 @@ public abstract class Player extends Actor implements Resettable {
 		this.addCapability(ActorTypes.PLAYER);
 		this.addCapability(Roles.ALLIES);
 		this.addItemToInventory(new FlaskOfCrimsonTears());
+		this.addItemToInventory(new TeleportGrace());
 		this.lastSiteOfLostGrace = new int[2] ;
 		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
 	}
