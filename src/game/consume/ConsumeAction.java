@@ -36,6 +36,7 @@ public class ConsumeAction extends Action {
             consumable.use(player);
 
             consumable.setUsesLeft(consumable.getUsesLeft() - 1);
+            player.removeItemFromInventory(consumable);
             
         } else {
             consumable.use(player);
