@@ -3,10 +3,6 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.items.PickUpAction;
-import edu.monash.fit2099.engine.items.PickUpItemAction;
-import edu.monash.fit2099.engine.positions.Location;
-import game.player.Player;
 
 public abstract class ConsumeItem extends Item{
 
