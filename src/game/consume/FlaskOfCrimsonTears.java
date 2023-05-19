@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
-    private static int maxUses = 2;
+    static int maxUses = 2;
     static int action = 250;
 
     private Location currentLocation;
