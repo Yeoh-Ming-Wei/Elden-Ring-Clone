@@ -69,7 +69,10 @@ public class Trader extends Actor {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
 
         ActionList actions = new ActionList();
-        // to tick every item just in case tick in world does not run
+        // to tick every item
+        // because if the weapon has not gone perform tick yet
+        // they cannot get the location and they cannot
+        // getAllowableActions
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);
