@@ -30,7 +30,7 @@ public class Application {
 
 		World world = new World(new Display());
 
-		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack(), new LakeOfRot());
+		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack());
 
 		List<String> map = Arrays.asList(
 				"D.D...................#.............#..........................+++.........",
@@ -137,10 +137,6 @@ public class Application {
 		table = newGameMap2;
 		boss = newGameMap3;
 
-		// Adding golden runes
-		GoldenRunes goldenRunes = new GoldenRunes();
-		goldenRunes.addGoldenRunesToRandomLocation(gameMap, 30);
-		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, 30);
 
 		gameMap.at(15, 13).addActor(new Trader());
 		
@@ -152,23 +148,16 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
+		// Adding golden runes
+		// GoldenRunes goldenRunes = new GoldenRunes();
 
 
-/*		gameMap.at(9, 16).addActor(new SkeletalBandit());
-		gameMap.at(27, 7).addActor(new LoneWolf());
-		gameMap.at(28, 9).addActor(new LoneWolf());
+				// Adding golden runes
+		GoldenRunes goldenRunes = new GoldenRunes();
+		goldenRunes.addGoldenRunesToRandomLocation(gameMap, player);
+		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, player);
 
-		gameMap.at(27, 8).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(24, 7).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(24, 8).addActor(new LoneWolf());
-		gameMap.at(24, 9).addActor(new GiantCrab());
-		gameMap.at(25, 7).addActor(new GiantCrayFish());
-		gameMap.at(25, 8).addActor(new GiantDog());
-		gameMap.at(25, 9).addActor(new LoneWolf());*/
-
-
-
-
+        
 
 		world.run();
 	}
