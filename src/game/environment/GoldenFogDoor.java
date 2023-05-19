@@ -33,46 +33,43 @@ public class GoldenFogDoor extends Ground {
 
         // staticGameMap is limgrave currently
         // if 'D' is on x == 0 of the map then will go to castle
-        if (mapIsAt == Application.limGrave && location.containsAnActor()) {
+        if (mapIsAt == Application.limGrave && location.containsAnActor() && Application.staticGameMap == Application.limGrave) {
             if (x == 0) {
-                GameMap currentGameMap = location.map();
-                currentGameMap.removeActor(player);
-                // player will enter castle
-                Application.staticGameMap = Application.castle;
-                Application.castle.addActor(player, Application.castle.at(1, 2));
-            } else // if it's anywhere else 'D' then it will bring you to roundtable instead
-            {
-                GameMap currentGameMap = location.map();
-                currentGameMap.removeActor(player);
-                Application.staticGameMap = Application.table;
-                Application.table.addActor(player, Application.table.at(1, 2));
+                transitionToMap(Application.castle, player, location);
+            } else {
+                transitionToMap(Application.table, player, location);
             }
         }
 
         // this is when player in castle
         // if 'D' is on x == 0 of the map then will go to limgrave
-        if (mapIsAt == Application.castle && location.containsAnActor()) {
+        if (mapIsAt == Application.castle && location.containsAnActor() && Application.staticGameMap == Application.castle) {
             if (x == 0) {
-                GameMap currentGameMap = location.map();
-                currentGameMap.removeActor(player);
-                //player return back to limgrave
-                Application.staticGameMap = Application.limGrave;
-                Application.limGrave.addActor(player, Application.limGrave.at(1, 15));
-            }
-            else{ // player will enter the boss room
-                GameMap currentGameMap = location.map();
-                currentGameMap.removeActor(player);
-                Application.staticGameMap = Application.boss;
-                Application.boss.addActor(player, Application.boss.at(3,4));
+                transitionToMap(Application.limGrave, player, location);
+            } else {
+                transitionToMap(Application.boss, player, location);
             }
         }
 
         // if player at roundtable then they will return to limgrave
         if (mapIsAt == Application.table && location.containsAnActor()){
-            GameMap currentGameMap = location.map();
-            currentGameMap.removeActor(player);
-            Application.staticGameMap = Application.limGrave;
-            Application.limGrave.addActor(player, Application.limGrave.at(1, 15));
+            transitionToMap(Application.limGrave, player, location);
         }
+
+    }
+
+    /**
+     * Transitions the player to a new map and updates the current game map.
+     *
+     * @param newMap  The new map to transition to.
+     * @param player  The player actor.
+     * @param location The location of the player.
+     */
+    public static void transitionToMap(GameMap newMap, Actor player, Location location) {
+        GameMap currentGameMap = location.map();
+        currentGameMap.removeActor(player);
+        newMap.addActor(player, newMap.at(1, 2));
+        Application.staticGameMap = newMap;
     }
 }
+

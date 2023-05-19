@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.consume.GoldenRunes;
+import game.consume.GoldenSeeds;
 import game.enemy.*;
 import game.environment.*;
 import game.player.Player;
@@ -157,7 +158,11 @@ public class Application {
 		goldenRunes.addGoldenRunesToRandomLocation(gameMap, player);
 		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, player);
 
-        
+		GoldenSeeds goldenSeeds = new GoldenSeeds();
+		goldenSeeds.addGoldenSeedsToRandomLocation(gameMap, player);
+		goldenSeeds.addGoldenSeedsToRandomLocation(newGameMap, player);
+
+
 
 		world.run();
 	}
