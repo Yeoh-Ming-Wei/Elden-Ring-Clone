@@ -4,10 +4,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 
-public class PickUpGoldenRuneAction extends PickUpAction {
+public class PickUpConsumeItemAction extends PickUpAction {
 
     ConsumeItem item ;
-    public PickUpGoldenRuneAction(ConsumeItem item) {
+    public PickUpConsumeItemAction(ConsumeItem item) {
         super(item);
         this.item = item ;
     }
