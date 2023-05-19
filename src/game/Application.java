@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.consume.GoldenRunes;
+import game.consume.GoldenSeeds;
 import game.enemy.*;
 import game.environment.*;
 import game.player.Player;
@@ -30,7 +31,7 @@ public class Application {
 
 		World world = new World(new Display());
 
-		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack(), new LakeOfRot());
+		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack());
 
 		List<String> map = Arrays.asList(
 				"D.D...................#.............#..........................+++.........",
@@ -139,8 +140,13 @@ public class Application {
 
 		// Adding golden runes
 		GoldenRunes goldenRunes = new GoldenRunes();
-		goldenRunes.addGoldenRunesToRandomLocation(gameMap, 30);
-		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, 30);
+		goldenRunes.addGoldenRunesToRandomLocation(gameMap, 5);
+		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, 5);
+
+		// Adding golden seeds
+		GoldenSeeds goldenSeeds = new GoldenSeeds();
+		goldenSeeds.addGoldenSeedsToRandomLocation((gameMap), 1);
+		goldenSeeds.addGoldenSeedsToRandomLocation((newGameMap), 1);
 
 		gameMap.at(15, 13).addActor(new Trader());
 		

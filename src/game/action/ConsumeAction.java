@@ -1,9 +1,10 @@
-package game.consume;
+package game.action;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.Application;
+import game.consume.ConsumeItem;
 import game.player.Player;
 
 public class ConsumeAction<T extends ConsumeItem> extends Action {
@@ -39,14 +40,20 @@ public class ConsumeAction<T extends ConsumeItem> extends Action {
             consumable.use(player);
 
             consumable.setUsesLeft(consumable.getUsesLeft() - 1);
+
+            if (consumable.getUsesLeft() == 0){
+                player.removeItemFromInventory(consumable);
+            }
+
             return result;
         }
 
         else{
+            // this right now only when 0 and call again will remove
+
             String result = this.consumable + " is empty.";
             return result;
         }
-
 
     }
 

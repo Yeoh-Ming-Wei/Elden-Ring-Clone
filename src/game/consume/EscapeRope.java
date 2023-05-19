@@ -3,29 +3,21 @@ package game.consume;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Application;
-import game.ResetManager;
-import game.Resettable;
 import game.action.ConsumeAction;
+import game.environment.GoldenFogDoor;
+import game.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
-    public static int maxUses = 2;
-    static int action = 250;
+public class EscapeRope extends ConsumeItem {
 
     private Location currentLocation;
 
-    /**
-     * Constructor.
-     */
-    public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false, maxUses) ;
-
-        ResetManager.registerResettable(this);
+    public EscapeRope() {
+        super("Teleport to RoundTable", 'T', true, 1);
     }
 
     /**
@@ -39,14 +31,14 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     }
 
     /**
-     * Get the number of uses remaining for this potion.
+     * Get the number of uses remaining for this consumable.
      */
     public int getUsesLeft() {
         return super.getUsesLeft();
     }
 
     /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * Use this consumable, teleporting player to solg.
      * @param actor the player who is using the potion
      */
     @Override
@@ -54,23 +46,12 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         if (getUsesLeft() == 0) {
             return;
         }
-        actor.heal(action);
+        GoldenFogDoor.transitionToMap(Application.table, Player.getInstance(), currentLocation);
+
     }
 
-    /**
-     * Set the number of uses remaining for this potion.
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
-    }
-
-    /**
-     * Returns a code representing this potion.
-     * @return
-     */
-    public static Class<? extends Item> potionCode() {
-        return FlaskOfCrimsonTears.class;
+    public static Class<? extends Item> consumableCode() {
+        return EscapeRope.class;
     }
 
     @Override
@@ -84,16 +65,11 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         }
 
         for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction<>(this,250, "Heal for", " Health", super.getUsesLeft()));
+            if (item.getClass() == consumableCode()){
+                res.add(new ConsumeAction<>(this,1, "teleport to", "st RoundTable", super.getUsesLeft()));
                 break;
             }
         }
         return res;
-    }
-
-    @Override
-    public void reset(GameMap map) {
-        setUsesLeft(maxUses);
     }
 }
