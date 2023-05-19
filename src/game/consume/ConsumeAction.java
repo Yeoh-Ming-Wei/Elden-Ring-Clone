@@ -3,17 +3,16 @@ package game.consume;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.Application;
 import game.player.Player;
 
-public class ConsumeAction<T extends ConsumeItem> extends Action {
-    private T consumable;
+public class ConsumeAction extends Action {
+    private ConsumeItem consumable;
     private int action;
     private String verb;
     private String actionName;
     private int usesLeft ;
 
-    public ConsumeAction(T consumable, int action, String verb, String actionName, int usesLeft) {
+    public ConsumeAction(ConsumeItem consumable, int action, String verb, String actionName, int usesLeft) {
         this.consumable = consumable;
         this.action = action;
         this.verb = verb;
@@ -32,20 +31,19 @@ public class ConsumeAction<T extends ConsumeItem> extends Action {
     public String execute(Actor actor, GameMap map) {
         Player player = Player.getInstance();
 
-        if (consumable.getUsesLeft() != 0){
-            String result = this.consumable + " " + this.verb + " " + this.action + this.actionName;
-
+        if (consumable.getUsesLeft() != 1){
             //call ConsumeItem.use here
             consumable.use(player);
 
             consumable.setUsesLeft(consumable.getUsesLeft() - 1);
-            return result;
+            
+        } else {
+            consumable.use(player);
+            actor.removeItemFromInventory(consumable);
+            
         }
-
-        else{
-            String result = this.consumable + " is empty.";
-            return result;
-        }
+        String result = this.consumable + " " + this.verb + " " + this.action + this.actionName;
+        return result;
 
 
     }
