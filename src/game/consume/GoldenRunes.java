@@ -2,13 +2,12 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.items.DropAction;
 import edu.monash.fit2099.engine.items.PickUpAction;
-import edu.monash.fit2099.engine.items.PickUpItemAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Application;
 import game.RandomNumberGenerator;
+import game.Status;
 import game.player.Player;
 import game.rune.RuneManager;
 
@@ -17,44 +16,13 @@ import java.util.List;
 
 public class GoldenRunes extends ConsumeItem {
 
-    private Item item;
+    private final int MIN = 200;
+    private final int MAX = 10000;
 
-    private static int startuse = 0;
-
-    private int usesLeft;
-
-    private Location currentLocation;
-
-
-    int min = 200;
-    int max = 10000;
-
-    public int runesAdded = RandomNumberGenerator.getRandomInt(min, max);
+    public int runesAdded = RandomNumberGenerator.getRandomInt(MIN, MAX);
 
     public GoldenRunes() {
-        super("Golden Runes", '*', true, 1);
-        this.addCapability(canbepick.CANBEPICK);
-    }
-
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        this.currentLocation = currentLocation;
-
-        if (actor == Player.getInstance() && currentLocation.containsAnActor()) {
-            Player player = Player.getInstance();
-            List<Item> items = currentLocation.getItems();
-            for (Item item : items)
-                if (item == GoldenRunes.this) { // Check if the current location have this item
-                    PickUpAction pickUpAction = getPickUpAction(player);
-                    pickUpAction.execute(player, currentLocation.map());
-                    setUsesLeft(getUsesLeft() + 1);
-                    player.addItemToInventory(new GoldenRunes());
-
-                    this.removeCapability(canbepick.CANBEPICK);
-                    break;
-                }
-        }
-        System.out.println(Player.getInstance().getItemInventory());
+        super("Golden Runes", '*', true, 0);
     }
 
     /**
@@ -62,21 +30,6 @@ public class GoldenRunes extends ConsumeItem {
      */
     public int getUsesLeft() {
         return super.getUsesLeft();
-    }
-
-    /**
-     * Use this potion, restoring the player's health by a fixed amount.
-     *
-     * @param actor the player who is using the potion
-     */
-    @Override
-    public void use(Actor actor) {
-        Player player = Player.getInstance();
-        if (getUsesLeft() == 0) {
-            return;
-        }
-        RuneManager.getInstance().addRune(player, runesAdded);
-
     }
 
     /**
@@ -88,49 +41,59 @@ public class GoldenRunes extends ConsumeItem {
         super.setUsesLeft(usesLeft);
     }
 
-    public static Class<? extends Item> runesCode() {
-        return GoldenRunes.class;
+    /**
+     * Use this potion, restoring the player's health by a fixed amount.
+     *
+     * @param actor the player who is using the potion
+     */
+    @Override
+    public void use(Actor actor) {
+        Player player = Player.getInstance();
+        RuneManager.getInstance().addRune(player, runesAdded);
     }
 
     @Override
     public List<Action> getAllowableActions() {
 
         List<Action> res = new ArrayList<>();
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if (whoHasThis == null) {
-            return res;
+        Player player = Player.getInstance() ;
+        if (player.getItemInventory().contains(this)) {
+            res.add(new ConsumeAction(this, runesAdded, "Collected for", "Runes", super.getUsesLeft())) ;
         }
-
-
-
-        for (Item item : whoHasThis.getItemInventory()) {
-            if (item.getClass() == runesCode()) {
-                res.add(new ConsumeAction<>(this, runesAdded, "Collected for", "Runes", super.getUsesLeft()));
-                break;
-            }
-        }
-        return res;
+        
+        return res ;
+  
     }
 
-    public void addGoldenRunesToRandomLocation(GameMap map, int count) {
-        int xMax = map.getXRange().max();
-        int yMax = map.getYRange().max();
+    public void addGoldenRunesToRandomLocation(GameMap map, Actor actor) {
 
-        for (int i = 0; i < count; i++) {
-            while (true) {
-                int x = RandomNumberGenerator.getRandomInt(map.getXRange().min(), xMax);
-                int y = RandomNumberGenerator.getRandomInt(map.getYRange().min(), yMax);
+		int width = map.getXRange().max();
+        int height = map.getYRange().max();
 
-                Location location = map.at(x, y);
-                if (location != null && location.getItems().isEmpty()) {
-                    location.addItem(new GoldenRunes());
-                    break;
+        for (int i = 0; i <= width; i++) {
+            for (int j = 0; j <= height ; j++) {
+
+                int p = RandomNumberGenerator.getRandomInt(100) ;
+                Location location = map.at(i, j) ;
+                if (p < 2 && location.canActorEnter(actor) && !location.getGround().hasCapability(Status.ITEM_NOT_SPAWNABLE)) {
+                    map.at(i, j).addItem(new GoldenRunes()); 
                 }
+
             }
         }
     }
+        
 
-    public void setStartingUse(int startingUse) {
-        super.setUsesLeft(startingUse);
+    @Override 
+    public DropAction getDropAction(Actor actor) {
+        return new DropConsumeItemAction(this) ;
     }
+
+    @Override
+    public PickUpAction getPickUpAction(Actor actor) {
+        return new PickUpConsumeItemAction(this) ;
+    }
+
+        
+
 }
