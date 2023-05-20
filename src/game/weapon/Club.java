@@ -1,13 +1,12 @@
 package game.weapon;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
+import game.TradeManager;
 import game.action.*;
 import game.enemy.ActorTypes;
-import game.enemy.Roles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,9 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
         this.buyingPrice = 600;
         this.sellingPrice = 100;
 
+        // to avoid the bug where in the first round
+        // cannot get allowable actions
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -47,6 +49,7 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -117,42 +120,12 @@ public class Club extends WeaponItem implements Purchasable,Sellable{
 
         // trading \\
 
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
+        // selling called by player
+        res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
-        // player
-        Location playerLocation = null;
+        // purchasing called by trader
+        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new Club(),this.getPurchasePrice()));
 
-        // this would be for the player to check if he is in the range of the trader
-        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
-        trader = Application.staticGameMap.getActorAt(traderLocation);
-
-        // this would be for the trader to check if the player is in the range of the trader
-        playerLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
-
-        // if trader is null, means this method is called by the trader so must set the trader to itself
-        if ( trader== null ){
-            trader = whoHasThis;
-        }
-
-        // selling //
-        // this res will be for the player, means this weapon is in the player
-        // if the player has this weapon and trader is within range
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) && traderLocation != null )
-        {
-            res.add(new SellAction(trader,this,this.getSellingPrice()));
-        }
-
-        // buying //
-        // this means that the res is for trader
-        // checks if the player is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.TRADER) && playerLocation != null ){
-
-            // use a new club because if use the "this", will have bug caused by reference
-            // also use a new weapon because want to give the trader unlimited weapons
-            res.add(new PurchaseAction(trader,new Club(),this.buyingPrice) ) ;
-        }
         return res;
     }
 }

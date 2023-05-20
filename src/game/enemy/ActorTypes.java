@@ -13,5 +13,7 @@ public enum ActorTypes {
     PARENTCRAB,
     PARENTSKELETON,
     TRADER,
-    GODRICK
+    GODRICK,
+    ALLY,
+    INVADER
 }

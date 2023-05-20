@@ -105,46 +105,6 @@ public class NearMe {
     }
 
     /**
-     * if the wanted target is in the actor's range, returns the location of the wanted target
-     *
-     * Approach description:
-     *      1) get the surrounding locations
-     *      2) check if there is an actor there
-     *              if yes, get the actor there
-     *                  if the actor there is what we want
-     *                         return this location
-     *
-     * @param actor the list of possible locations
-     * @param map the map itself
-     * @param radius the radius of the search
-     * @return  Location object which is the location of the player
-     *          null if there is no wanted target
-     */
-    public static Location whoInMyRange(Actor actor, GameMap map, int radius,ActorTypes type){
-        Location wantedLocation = null;
-
-        List<Location> locations = getSurroundingLocations(actor,map,radius);
-
-        // check the surrounding of the actor
-        for (Location loc : locations) {
-            // check if there is an actor at the location
-
-            // if there is an actor at that location
-            if (map.isAnActorAt(loc)) {
-
-                //  find who is it
-                Actor otherActor = map.getActorAt(loc);
-
-                // if the actor is the player
-                if ( otherActor.hasCapability(type) ) {
-                    wantedLocation = loc;
-                }
-            }
-        }
-        return wantedLocation;
-    }
-
-    /**
      * Approach description:
      *      1) get the exits around currentLocation
      *      2) if the exit contains an actor,
@@ -182,6 +142,48 @@ public class NearMe {
             }
         }
         return res;
+    }
+
+
+
+    /**
+     * if the wanted target is in the actor's range, returns the location of the wanted target
+     *
+     * Approach description:
+     *      1) get the surrounding locations
+     *      2) check if there is an actor there
+     *              if yes, get the actor there
+     *                  if the actor there is what we want
+     *                         return this location
+     *
+     * @param actor the actor executing the action
+     * @param map the map itself
+     * @param radius the radius of the search
+     * @return list of location if the actor is present within range
+     *          empty list if not within range
+     */
+    public static ArrayList<Location> isSpecificActorTypeInMyRange(Actor actor, GameMap map, int radius, ActorTypes type){
+        ArrayList<Location> wantedLocation = new ArrayList<>();
+
+        List<Location> locations = getSurroundingLocations(actor,map,radius);
+
+        // check the surrounding of the actor
+        for (Location loc : locations) {
+            // check if there is an actor at the location
+
+            // if there is an actor at that location
+            if (map.isAnActorAt(loc)) {
+
+                //  find who is it
+                Actor otherActor = map.getActorAt(loc);
+
+                // if the actor is the player
+                if ( otherActor.hasCapability(type) ) {
+                    wantedLocation.add(loc);
+                }
+            }
+        }
+        return wantedLocation;
     }
 }
 

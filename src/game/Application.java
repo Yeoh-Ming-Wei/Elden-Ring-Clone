@@ -1,11 +1,11 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.consume.GoldenRunes;
 import game.consume.GoldenSeeds;

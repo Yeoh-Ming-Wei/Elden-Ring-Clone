@@ -2,6 +2,7 @@ package game.action;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
@@ -28,20 +29,38 @@ public class SellAction extends Action {
 	private WeaponItem weaponItem;
 
 	/**
+	 * The item to sell
+	 */
+	private Item item;
+
+	/**
 	 * The price
 	 */
 	private int sellingPrice;
 
 	/**
-	 * Constructor.
+	 * Constructor. for weapons to be sold
 	 *
-	 * @param trader the Actor to attack
+	 * @param trader the trader
 	 * @param w the weapon to be sold
 	 * @param sellingPrice the selling price
 	 */
 	public SellAction(Actor trader , WeaponItem w , int sellingPrice) {
 		this.trader = trader;
 		this.weaponItem = w;
+		this.sellingPrice = sellingPrice;
+	}
+
+	/**
+	 * Constructor. for weapons to be sold
+	 *
+	 * @param trader the trader
+	 * @param i the item to be sold
+	 * @param sellingPrice the selling price
+	 */
+	public SellAction(Actor trader , Item i , int sellingPrice) {
+		this.trader = trader;
+		this.item = i;
 		this.sellingPrice = sellingPrice;
 	}
 
@@ -66,8 +85,19 @@ public class SellAction extends Action {
 		// adding the runes
 		runeManager.addRune(actor,sellingPrice);
 
-		// removing the weapon from the inventory
-		actor.removeWeaponFromInventory(weaponItem);
+		// checks if we are selling weapon
+		if ( weaponItem != null ) {
+
+			// removing the weapon from the inventory
+			actor.removeWeaponFromInventory(weaponItem);
+		}
+
+		// checks if we are selling item
+		if ( item != null ){
+
+			// remove the item
+			actor.removeItemFromInventory(item);
+		}
 
 		return result;
 	}
@@ -80,6 +110,6 @@ public class SellAction extends Action {
 	 */
 	@Override
 	public String menuDescription(Actor actor) {
-		return actor + " sells " + weaponItem + " to " + trader;
+		return actor + " sells " + (weaponItem != null ? weaponItem : item) + " to " + trader;
 	}
 }

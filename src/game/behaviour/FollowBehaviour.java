@@ -6,8 +6,11 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
+import game.Application;
 import game.action.NearMe;
 import game.enemy.ActorTypes;
+
+import java.util.List;
 
 /**
  * A class to check if the player is nearby and should the enemy follow the actor or not
@@ -20,7 +23,7 @@ import game.enemy.ActorTypes;
 public class FollowBehaviour implements Behaviour {
 
 	// null unless the player is present within the following range
-	private Location playerLocation;
+	private Location playerLocation = null;
 
 	/**
 	 * Decide wheter to follow player or not
@@ -45,8 +48,24 @@ public class FollowBehaviour implements Behaviour {
 		Location here = map.locationOf(actor);
 
 		// to see if player is near this actor
-		playerLocation = NearMe.whoInMyRange(actor,map,2, ActorTypes.PLAYER);
+		/*
+		ArrayList<Location> listOfLocations = NearMe.isSpecificActorTypeInMyRange(actor,map,2, ActorTypes.PLAYER );
+		for ( Location l : listOfLocations ){
+			if ( map.getActorAt(l).hasCapability(ActorTypes.PLAYER) ){
+				playerLocation = l;
+			}
+		}
 
+		 */
+		List<Location> playerLocations = NearMe.isSpecificActorTypeInMyRange(actor, Application.staticGameMap,2,ActorTypes.PLAYER);
+
+		// because we can get an empty list if there is no player
+		// so need to check
+		if (playerLocations.size() > 0 ){
+
+			// can use get(0) because will only have 1 player
+			playerLocation = playerLocations.get(0);
+		}
 		// if the player is within range, start following else return null
 		if (playerLocation != null)
 		{
