@@ -6,6 +6,7 @@ import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.consume.GoldenRunes;
 import game.consume.GoldenSeeds;
@@ -139,7 +140,7 @@ public class Application {
 		boss = newGameMap3;
 
 
-		gameMap.at(15, 13).addActor(new Trader());
+		gameMap.at(1, 13).addActor(Trader.getFingerReaderEnia());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace

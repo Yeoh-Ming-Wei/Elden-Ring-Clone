@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
@@ -51,8 +52,6 @@ public class Player extends Actor implements Resettable {
 		super(name, '@', hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addCapability(Roles.ALLIES);
-		this.addItemToInventory(new FlaskOfCrimsonTears());
-		this.addItemToInventory(new EscapeRope());
 		this.lastSiteOfLostGrace = new int[2] ;
 		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
 
@@ -117,7 +116,7 @@ public class Player extends Actor implements Resettable {
 		// because to use items' get allowableActions,
 		// it needs to know the current locations
 		// so need to tick first
-		for ( Item  i: this.getItemInventory() )
+		for ( Item i: this.getItemInventory() )
 		{
 			if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
 				i.tick(map.locationOf(this), this);

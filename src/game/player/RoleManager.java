@@ -4,8 +4,9 @@ package game.player;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.consume.EscapeRope;
+import game.consume.FlaskOfCrimsonTears;
 import game.enemy.ActorTypes;
-import game.potion.FlaskOfCrimsonTears;
 import game.weapon.AstrologerStaff;
 import game.weapon.Club;
 import game.weapon.GreatKnife;
@@ -39,24 +40,28 @@ public class RoleManager {
         PlayerRole Samurai = new PlayerRole("Samurai",455);
         Samurai.addWeapon(new Uchigatana());
         Samurai.addItem(new FlaskOfCrimsonTears());
+        Samurai.addItem(new EscapeRope());
         playerRoles.add(Samurai);
         
         // adding Bandit info
         PlayerRole Bandit = new PlayerRole("Bandit",414);
         Bandit.addWeapon(new GreatKnife());
         Bandit.addItem(new FlaskOfCrimsonTears());
+        Bandit.addItem(new EscapeRope());
         playerRoles.add(Bandit);
 
         // adding Wretch info
         PlayerRole Wretch = new PlayerRole("Wretch",414);
         Wretch.addWeapon(new Club());
         Wretch.addItem(new FlaskOfCrimsonTears());
+        Wretch.addItem(new EscapeRope());
         playerRoles.add(Wretch);
 
         // adding Astrologer info
         PlayerRole Astrologer = new PlayerRole("Astrologer",396);
         Astrologer.addWeapon(new AstrologerStaff());
         Astrologer.addItem(new FlaskOfCrimsonTears());
+        Astrologer.addItem(new EscapeRope());
         playerRoles.add(Astrologer);
     }
 

@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Application;
 import game.ResetManager;
 import game.Resettable;
+import game.weapon.WeaponStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         super("Flask Of Crimson Tears", 'C', false, maxUses) ;
 
         ResetManager.registerResettable(this);
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
+
+
     }
 
     /**
@@ -35,6 +39,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
