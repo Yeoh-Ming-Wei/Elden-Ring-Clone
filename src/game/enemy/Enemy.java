@@ -153,6 +153,9 @@ public abstract class Enemy extends Actor implements Resettable {
         return new DoNothingAction();
     }
 
+    /**
+     * A function to reset the enemy class. 
+     */
     public void reset(GameMap map) {
         //add despawn action
         behaviours.clear();

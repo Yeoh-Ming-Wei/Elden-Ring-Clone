@@ -162,25 +162,44 @@ public class Player extends Actor implements Resettable {
 		return menu.showMenu(this, actions, display);
 	}
 
+	/**
+	 * A function to return the name of the player.
+	 */
 	@Override
 	public String toString() {
 		return name;
 	}
 
+	/**
+	 * A function to return the last visited Site of Lost Grace. 
+	 * @return an array integer contains the coordinate of Site of Lost Grace
+	 */
 	public int[] lastVisited() {
 		return lastSiteOfLostGrace ;
 	}
 
+	/**
+	 * A function to set the last visited Site of Lost Grace. 
+	 * @param x an x value of the map
+	 * @param y a y value of the map
+	 */
 	public void setLastVisited(int x, int y) {
 		lastSiteOfLostGrace[0] = x ;
 		lastSiteOfLostGrace[1] = y ;
 	}
 
+	/**
+	 * A function to reset the player's HP when reset is called. 
+	 */
 	@Override
 	public void reset(GameMap map) {
 		player.resetMaxHp(getMaxHp()) ;
 	}
 
+	/**
+	 * A function to get the location of the player. 
+	 * @return
+	 */
 	public Location getLocation() {
 		return location ;
 	}

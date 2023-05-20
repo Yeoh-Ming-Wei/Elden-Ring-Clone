@@ -39,28 +39,28 @@ public class RoleManager {
         // adding Samurai info
         PlayerRole Samurai = new PlayerRole("Samurai",455);
         Samurai.addWeapon(new Uchigatana());
-        Samurai.addItem(new FlaskOfCrimsonTears());
+        Samurai.addItem(FlaskOfCrimsonTears.getInstance());
         Samurai.addItem(new EscapeRope());
         playerRoles.add(Samurai);
         
         // adding Bandit info
         PlayerRole Bandit = new PlayerRole("Bandit",414);
         Bandit.addWeapon(new GreatKnife());
-        Bandit.addItem(new FlaskOfCrimsonTears());
+        Bandit.addItem(FlaskOfCrimsonTears.getInstance());
         Bandit.addItem(new EscapeRope());
         playerRoles.add(Bandit);
 
         // adding Wretch info
         PlayerRole Wretch = new PlayerRole("Wretch",414);
         Wretch.addWeapon(new Club());
-        Wretch.addItem(new FlaskOfCrimsonTears());
+        Wretch.addItem(FlaskOfCrimsonTears.getInstance());
         Wretch.addItem(new EscapeRope());
         playerRoles.add(Wretch);
 
         // adding Astrologer info
         PlayerRole Astrologer = new PlayerRole("Astrologer",396);
         Astrologer.addWeapon(new AstrologerStaff());
-        Astrologer.addItem(new FlaskOfCrimsonTears());
+        Astrologer.addItem(FlaskOfCrimsonTears.getInstance());
         Astrologer.addItem(new EscapeRope());
         playerRoles.add(Astrologer);
     }

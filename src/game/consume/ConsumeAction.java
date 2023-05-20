@@ -2,7 +2,6 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.player.Player;
 
@@ -12,7 +11,7 @@ import game.player.Player;
  * It extends the Action class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
+ * Modified by: Yeoh Ming Wei
  */
 
 public class ConsumeAction extends Action {
@@ -49,20 +48,14 @@ public class ConsumeAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         Player player = Player.getInstance();
-        Display display = new Display();
 
-        // check if the item that's being consumed isn't 0
-        if (consumable.getUsesLeft() != 0){
-            //call ConsumeItem.use here
-            consumable.use(player);
+        //call ConsumeItem.use here
+        consumable.use(player);
+        consumable.setUsesLeft(consumable.getUsesLeft() - 1);
 
-            consumable.setUsesLeft(consumable.getUsesLeft() - 1);
-
-            // if after -1 and the uses left is 0 then the item will get removed from inventory
-            if (consumable.getUsesLeft() == 0) {
-                player.removeItemFromInventory(consumable);
-            }
-
+        // if after -1 and the uses left is 0 then the item will get removed from inventory
+        if (consumable.getUsesLeft() == 0) {
+            player.removeItemFromInventory(consumable);
         }
 
         String result = this.consumable + " " + this.verb + " " + this.action + this.actionName;

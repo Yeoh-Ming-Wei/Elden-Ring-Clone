@@ -16,7 +16,7 @@ import game.rune.RuneManager;
  * An action executed if an actor is killed.
  * Created by:
  * @author Adrian Kristanto
- * Modified by:
+ * Modified by: Yeoh Ming Wei
  *
  */
 public class DeathAction extends Action {
@@ -32,7 +32,7 @@ public class DeathAction extends Action {
     private Actor deadBody ;
 
     /**
-     * A constructor to for DeathAction class. 
+     * A constructor for DeathAction class. 
      * @param actor An actor which is the attacker.
      * @param deadBody An actor which is already dead.
      */
@@ -44,6 +44,8 @@ public class DeathAction extends Action {
     /**
      * When the target is killed, the items & weapons carried by target
      * will be dropped to the location in the game map where the target was
+     * 
+     * If the target is player, it will reset the game and drop his runes. 
      *
      * @param target The actor performing the action.
      * @param map The map the actor is on.

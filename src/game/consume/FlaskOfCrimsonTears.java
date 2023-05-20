@@ -2,12 +2,11 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Application;
 import game.ResetManager;
 import game.Resettable;
+import game.player.Player;
 import game.weapon.WeaponStatus;
 
 import java.util.ArrayList;
@@ -18,83 +17,73 @@ import java.util.List;
  * It extends the ConsumeItem class and implements the Resettable interface.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
- *
+ * Modified by: Yeoh Ming Wei
  */
 
 public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
-    static int ogUse = 2;
-    static int maxUses = 2;
-    static int action = 250;
-
-    private Location currentLocation;
 
     /**
-     * Constructor.
+     * An integer represents the healing amount when Flask of Crimson Tears
+     * is used. 
      */
-    public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false, maxUses) ;
+    private int healAmount = 250;
 
-        ResetManager.registerResettable(this);
+    /**
+     * The max capacity of Flask of Crimson Tears
+     */
+    private int maxCapacity = 2 ;
+
+    /**
+     * Initial initialization for Flask of Crimson Tears, it is set to null.
+     */
+    private static FlaskOfCrimsonTears flaskOfCrimsonTears = null ;
+
+    /**
+     * Constructor for Flask of Crimson Tears.
+     */
+    protected FlaskOfCrimsonTears() {
+        super("Flask Of Crimson Tears", 'C', false, 2) ;
+
+        
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
-
-
     }
 
     /**
-     * used to update the location so that getAllowableActions can use it
+     * A method to assigned new FlaskOfCrimsonTears class
+     * @return a FlaskOfCrimsonTears object
+     */
+    public static FlaskOfCrimsonTears getInstance() {
+        ResetManager.registerResettable(flaskOfCrimsonTears) ;
+        
+        if(flaskOfCrimsonTears == null) {
+            flaskOfCrimsonTears = new FlaskOfCrimsonTears() ;
+        }
+
+        return flaskOfCrimsonTears ;
+    }
+
+    /**
+     * A method to perform an action every game turn. 
      * @param currentLocation The location of the actor carrying this Item.
      * @param actor The actor carrying this Item.
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
-        this.currentLocation = currentLocation;
         this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
-     * Get the number of uses remaining for this potion.
-     */
-    public int getUsesLeft() {
-        return super.getUsesLeft();
-    }
-
-    /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * A method to use the item. (Heal the player's HP by 250)
      * @param actor the player who is using the potion
      */
     @Override
     public void use(Actor actor) {
-        if (getUsesLeft() == 0) {
-            return;
-        }
-        actor.heal(action);
+        actor.heal(healAmount);
     }
 
-    /**
-     * Set the number of uses remaining for this potion.
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
+    public void addMaxCapacity(int value) {
+        maxCapacity += value ;
     }
-
-    /**
-     * Returns the name of this potion.
-     * @return the name of this potion
-     */
-    public static String getName() {
-        return "Flask Of Crimson Tears";
-    }
-
-    /**
-     * Returns a code representing this potion.
-     * @return the FlaskOfCrimsonTears class
-     */
-    public static Class<? extends Item> potionCode() {
-        return FlaskOfCrimsonTears.class;
-    }
-
 
     /**
      * Returns a list of allowable actions for the flask.
@@ -105,28 +94,22 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     public List<Action> getAllowableActions(){
 
         List<Action> res = new ArrayList<>();
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
+        Player player = Player.getInstance() ;
+        
+        if (player.getItemInventory().contains(this)) {
+            res.add(new ConsumeAction(this, 250, "Heal for", " Health", super.getUsesLeft())) ;
         }
-
-        for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction(this,250, "Heal for", " Health", super.getUsesLeft()));
-                break;
-            }
-        }
+        
         return res;
     }
 
     /**
-     * Resets the flask to its initial state.
+     * Resets the flask amount by its maximum capacity.
      *
      * @param map the game map
      */
     @Override
     public void reset(GameMap map) {
-        setUsesLeft(ogUse);
+        setUsesLeft(maxCapacity);
     }
 }

@@ -12,7 +12,7 @@ import game.enemy.LoneWolf;
  * of the map. 
  * @author Yeoh Ming Wei
  */
-public class WestMapEnemyFactory extends EnemyFactory {
+public class WestMapEnemyFactory implements EnemyFactory {
     
     /**
      * An null assignment for westFactory.

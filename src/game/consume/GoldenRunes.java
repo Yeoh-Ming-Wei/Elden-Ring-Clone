@@ -15,44 +15,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-
- * The GoldenRunes class represents a consumable item called "Golden Seeds" in the game.
- * It extends the ConsumeItem class.
- * Created by: Loo Li Shen
- * @author Loo Li Shen
+ * Golden Rune is an item that can be found in the ground. 
+ * Golden Rune can be picked up and dropped. 
+ * Golden Rune can be consume by player to earn an amount of rune.
+ * Is it possible to eat a rune? 
+ * 
+ * Created by: Yeoh Ming Wei
+ * @author Yeoh Ming Wei
  * Modified by: Yeoh Ming Wei
  *
  */
-
 public class GoldenRunes extends ConsumeItem {
-
+    
+    /**
+     * An integer representing the minimum amount of rune
+     */
     private final int MIN = 200;
+
+     /**
+     * An integer representing the maximum amount of rune
+     */
     private final int MAX = 10000;
 
+    /**
+     * An integer representing a random amount of rune generated
+     */
     public int runesAdded = RandomNumberGenerator.getRandomInt(MIN, MAX);
 
+    /**
+     * A constructor for GoldenRunes class. 
+     */
     public GoldenRunes() {
         super("Golden Runes", '*', true, 0);
     }
 
     /**
-     * Get the number of uses remaining for this potion.
-     */
-    public int getUsesLeft() {
-        return super.getUsesLeft();
-    }
-
-    /**
-     * Set the number of uses remaining for this potion.
-     *
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
-    }
-
-    /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * A method to use the item. (Add a random amount of rune to the player)
      *
      * @param actor the player who is using the potion
      */
@@ -81,8 +79,8 @@ public class GoldenRunes extends ConsumeItem {
     }
 
     /**
-     * Adds golden runes to random locations on the given game map for the specified actor.
-     * gets the size of the map and then the item is added if that map doesn't have any collusion
+     * Adds golden runes to random locations on the given game map.
+     * Gets the size of the map and then the item is added if that map doesn't have any collusion.
      *
      * @param map   the game map
      * @param actor the actor to add the seeds for
@@ -104,18 +102,14 @@ public class GoldenRunes extends ConsumeItem {
             }
         }
     }
-        
-
-    @Override 
-    public DropAction getDropAction(Actor actor) {
-        return new DropConsumeItemAction(this) ;
-    }
-
+    
+    /**
+     * A pick up action for GoldenRune.
+     * Note: I use this method so that I can know the amount of golden rune.
+     *       It is used at consume action which requires the amount. 
+     */
     @Override
     public PickUpAction getPickUpAction(Actor actor) {
         return new PickUpConsumeItemAction(this) ;
     }
-
-        
-
 }

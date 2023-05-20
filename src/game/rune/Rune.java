@@ -51,16 +51,28 @@ public class Rune extends Item implements Resettable {
         return this.rune ;
     }
 
+    /**
+     * A method to set the location of the rune.
+     * @param x
+     * @param y
+     */
     public void setLocation(int x, int y) {
         this.x = x ;
         this.y = y ;
     }
 
+    /**
+     * A method to show an action that allows player to pick up the rune
+     */
     @Override
 	public PickUpAction getPickUpAction(Actor actor) {
 		return new PickUpRuneAction(this);
 	}
 
+    /**
+     * A method to remove the rune only if the player died. 
+     * The rune will not remove when the player rest at Site Of Lost Grace. 
+     */
     @Override
     public void reset(GameMap map) {
         if(!player.hasCapability(Status.RESTING)) {
