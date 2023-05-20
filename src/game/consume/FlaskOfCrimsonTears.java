@@ -2,12 +2,11 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Application;
 import game.ResetManager;
 import game.Resettable;
+import game.player.Player;
 import game.weapon.WeaponStatus;
 
 import java.util.ArrayList;
@@ -23,22 +22,29 @@ import java.util.List;
  */
 
 public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
-    static int ogUse = 2;
-    static int maxUses = 2;
-    static int action = 250;
 
-    private Location currentLocation;
+    private int healAmount = 250;
+    private int maxCapacity = 2 ;
+    private static FlaskOfCrimsonTears flaskOfCrimsonTears = null ;
 
     /**
      * Constructor.
      */
-    public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false, maxUses) ;
+    protected FlaskOfCrimsonTears() {
+        super("Flask Of Crimson Tears", 'C', false, 2) ;
 
-        ResetManager.registerResettable(this);
+        
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
+    }
 
+    public static FlaskOfCrimsonTears getInstance() {
+        ResetManager.registerResettable(flaskOfCrimsonTears) ;
+        
+        if(flaskOfCrimsonTears == null) {
+            flaskOfCrimsonTears = new FlaskOfCrimsonTears() ;
+        }
 
+        return flaskOfCrimsonTears ;
     }
 
     /**
@@ -48,15 +54,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
-        this.currentLocation = currentLocation;
         this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
-    }
-
-    /**
-     * Get the number of uses remaining for this potion.
-     */
-    public int getUsesLeft() {
-        return super.getUsesLeft();
     }
 
     /**
@@ -65,36 +63,12 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
      */
     @Override
     public void use(Actor actor) {
-        if (getUsesLeft() == 0) {
-            return;
-        }
-        actor.heal(action);
+        actor.heal(healAmount);
     }
 
-    /**
-     * Set the number of uses remaining for this potion.
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
+    public void addMaxCapacity(int value) {
+        maxCapacity += value ;
     }
-
-    /**
-     * Returns the name of this potion.
-     * @return the name of this potion
-     */
-    public static String getName() {
-        return "Flask Of Crimson Tears";
-    }
-
-    /**
-     * Returns a code representing this potion.
-     * @return the FlaskOfCrimsonTears class
-     */
-    public static Class<? extends Item> potionCode() {
-        return FlaskOfCrimsonTears.class;
-    }
-
 
     /**
      * Returns a list of allowable actions for the flask.
@@ -105,18 +79,12 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     public List<Action> getAllowableActions(){
 
         List<Action> res = new ArrayList<>();
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
+        Player player = Player.getInstance() ;
+        
+        if (player.getItemInventory().contains(this)) {
+            res.add(new ConsumeAction(this, 250, "Heal for", " Health", super.getUsesLeft())) ;
         }
-
-        for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction(this,250, "Heal for", " Health", super.getUsesLeft()));
-                break;
-            }
-        }
+        
         return res;
     }
 
@@ -127,6 +95,6 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
      */
     @Override
     public void reset(GameMap map) {
-        setUsesLeft(ogUse);
+        setUsesLeft(maxCapacity);
     }
 }
