@@ -3,9 +3,7 @@ package game.enemy;
 
 /**
  * Crab Rave!
- *
- * Created by: Adrian Kristanto
- * Modified by: Lee Sing Yuan
+ * @author Lee Sing Yuan
  */
 public abstract class ParentCrab extends Enemy {
 
@@ -17,6 +15,8 @@ public abstract class ParentCrab extends Enemy {
      */
     public ParentCrab(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
+
+        // adding the type
         this.addCapability(ActorTypes.PARENTCRAB);
     }
 }

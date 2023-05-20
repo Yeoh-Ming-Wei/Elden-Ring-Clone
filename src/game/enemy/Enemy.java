@@ -5,10 +5,9 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.Application;
 import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
@@ -17,15 +16,16 @@ import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
-import game.weapon.WeaponSkill;
-import game.weapon.isValid;
+import game.weapon.WeaponStatus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * The parent class for the enemy
+ */
 public abstract class Enemy extends Actor implements Resettable {
+    // all the behaviours
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
      * Constructor.
@@ -42,22 +42,15 @@ public abstract class Enemy extends Actor implements Resettable {
 
         // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
-
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
-
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
 
+        // making all enemies ressettable
         ResetManager.registerResettable(this);
     }
 
     /**
-     * This function has been made to be only called by an actor which is a player
-     *
-     * Approach description:
-     *      1) check if the otherActor is the player
-     *      2) if yes, loop through inventory and provide all possible attack actions that could be done
-     *
-     * Note: Could not change to static like others cause param types are different
+     * To give the player an intrinsic weapon choice
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor
@@ -82,13 +75,13 @@ public abstract class Enemy extends Actor implements Resettable {
      *
      * Approach description:
      *      1) check if the actor has the FollowBehaviour
-     *              if yes, check if can follow
+     *              1.1) if yes, check if can follow
      *      2) check if the actor has the AttackBehaviour
-     *              if yes, check if can attack anyone
-     *      3) since despawning should not be done if the actor can fight or follow,
-     *              it has the 3rd highest precedence
+     *              2.1) if yes, check if can attack anyone
+     *      3) check if actor can despawn
+     *              3.1) if yes, despawn
      *      4) if actor was not despawned, check if actor has the WanderBehaviour
-     *              if yes, roam around the map
+     *              4.1) if yes, roam around the map
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -102,16 +95,26 @@ public abstract class Enemy extends Actor implements Resettable {
         // because to use weapons' get allowableActions,
         // it needs to know the current locations
         // so need to tick first
-        // does not need any check, cause all of the weapon's get allowable actions
-        // is done during play turn
         for ( WeaponItem w : this.getWeaponInventory() )
         {
-            w.tick(map.locationOf(this),this);
+            if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                w.tick(map.locationOf(this), this);
+                actions.add(w.getAllowableActions());
+            }
         }
 
+        // because to use items' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
+        for ( Item i: this.getItemInventory() )
+        {
+            if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                i.tick(map.locationOf(this), this);
+                actions.add(i.getAllowableActions());
+            }
+        }
 
         // follow has the highest precedence
-        // checks if giant crab has this behaviour
         if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
             Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
 
@@ -123,7 +126,6 @@ public abstract class Enemy extends Actor implements Resettable {
         }
 
         // attack has the second-highest precedence
-        // checks if giant crab has this behaviour
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
 
@@ -134,12 +136,12 @@ public abstract class Enemy extends Actor implements Resettable {
             }
         }
 
+        // check if can despawn
         if (RandomNumberGenerator.getRandomInt(100) < 10) {
             return new DespawnAction(this);
         }
 
         // wander is the lowest precedence
-        // checks if giant crab has this behaviour
         if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
         {
             Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
@@ -147,8 +149,6 @@ public abstract class Enemy extends Actor implements Resettable {
                 return action;
             }
         }
-
-
 
         return new DoNothingAction();
     }

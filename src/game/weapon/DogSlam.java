@@ -16,6 +16,9 @@ import java.util.List;
  *
  */
 public class DogSlam extends WeaponItem {
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
     /**

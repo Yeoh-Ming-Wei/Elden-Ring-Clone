@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.consume.EscapeRope;
 import game.consume.FlaskOfCrimsonTears;
-import game.enemy.ActorTypes;
 import game.weapon.AstrologerStaff;
 import game.weapon.Club;
 import game.weapon.GreatKnife;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * The class that handles the information for all the roles
+ * @author Lee Sing Yuan
  */
 public class RoleManager {
 

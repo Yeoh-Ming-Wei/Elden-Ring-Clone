@@ -9,11 +9,8 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 import game.enemy.PileOfBones;
 
 /**
- * An Action to attack another Actor.
- * Created by:
- * @author Adrian Kristanto
- * Modified by: Lee Sing Yuan
- *
+ * An Action to allow an actor ( attacker ) to reduce the hitpoints of another actor ( target )
+ * @author Lee Sing Yuan
  */
 public class AttackAction extends Action {
 
@@ -38,10 +35,11 @@ public class AttackAction extends Action {
 	private Weapon weapon;
 
 	/**
-	 * Constructor.
+	 * Constructor for an attack action with weapon involved
 	 * 
 	 * @param target the Actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)
+	 * @param weapon the weapon used for attack
 	 */
 	public AttackAction(Actor target, String direction, Weapon weapon) {
 		this.target = target;
@@ -50,7 +48,7 @@ public class AttackAction extends Action {
 	}
 
 	/**
-	 * Constructor with intrinsic weapon as default
+	 * Constructor for attacking with intrinsic weapon
 	 *
 	 * @param target the actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)
@@ -80,25 +78,32 @@ public class AttackAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
+
+		// checks if there is a weapon involved in this attack
 		if (weapon == null) {
 			weapon = actor.getIntrinsicWeapon();
 		}
 
+		// checks if the attacker miss or not
 		if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
 			return actor + " misses " + target + ".";
 		}
 
+		// hurt the victim
 		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
-		// this is for the HSS, because if he dies the first time, he actually uses the skill
+		// Check if the target has a special skill
 		if (!target.isConscious() && target.hasCapability(PileOfBones.PILE_OF_BONES)){
+
+			// if it has, consume the skill, by removing it
 			target.removeCapability(PileOfBones.PILE_OF_BONES);
 			result += "\n" + target + " turns to a pile of bones!";
 
 		}
 
+		// if it's a normal victim, just kill the victim
 		else if (!target.isConscious()) {
 			result += new DeathAction(actor, target).execute(target, map);
 		}

@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * A weapon used by GiantCrayfish to slam the area
  * It deals 527 damage with 100% hit rate
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class CrayFishSlam extends WeaponItem {
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
     /**

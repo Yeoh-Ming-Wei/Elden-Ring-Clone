@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
@@ -17,11 +18,18 @@ import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.player.PlayerRole;
 import game.player.RoleManager;
+import game.weapon.WeaponStatus;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * The invader class
+ *
+ * Note: use getInstance()
+ * @author Lee Sing Yuan
+ */
 public class Invader extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
@@ -39,11 +47,10 @@ public class Invader extends Actor implements Resettable {
 
         // putting in all the behaviours
         behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
-
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
-
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
 
+        // making this enemy resettable
         ResetManager.registerResettable(this);
     }
 
@@ -66,19 +73,14 @@ public class Invader extends Actor implements Resettable {
         // create the player
         Invader invader = new Invader(wantedRole.getName(),wantedRole.getHp());
 
+        // adding the weapons,items and capabilities of the role
         RoleManager.addCapabilityItemWeapon(invader,wantedRole);
 
         return invader;
     }
 
     /**
-     * This function has been made to be only called by an actor which is a player
-     *
-     * Approach description:
-     *      1) check if the otherActor is the player
-     *      2) if yes, loop through inventory and provide all possible attack actions that could be done
-     *
-     * Note: Could not change to static like others cause param types are different
+     * do nothing
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor
@@ -96,14 +98,10 @@ public class Invader extends Actor implements Resettable {
      * At each turn, select a valid action to perform.
      *
      * Approach description:
-     *      1) check if the actor has the FollowBehaviour
-     *              if yes, check if can follow
-     *      2) check if the actor has the AttackBehaviour
-     *              if yes, check if can attack anyone
-     *      3) since despawning should not be done if the actor can fight or follow,
-     *              it has the 3rd highest precedence
-     *      4) if actor was not despawned, check if actor has the WanderBehaviour
-     *              if yes, roam around the map
+     *      1) check if the actor has the AttackBehaviour
+     *              1.1) if yes, check if can attack anyone
+     *      2) check if actor has the WanderBehaviour
+     *              2.1) if yes, roam around the map
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -114,14 +112,29 @@ public class Invader extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // to tick every item just in case tick in world does not run before the enemy's turn
+        // because to use weapons' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
         for ( WeaponItem w : this.getWeaponInventory() )
         {
-            w.tick(map.locationOf(this),this);
+            if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                w.tick(map.locationOf(this), this);
+                actions.add(w.getAllowableActions());
+            }
         }
 
-        // follow has the highest precedence
-        // checks if giant crab has this behaviour
+        // because to use items' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
+        for ( Item i: this.getItemInventory() )
+        {
+            if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                i.tick(map.locationOf(this), this);
+                actions.add(i.getAllowableActions());
+            }
+        }
+
+        // checks if can follow
         if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
             Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
 
@@ -132,8 +145,7 @@ public class Invader extends Actor implements Resettable {
             }
         }
 
-        // attack has the second-highest precedence
-        // checks if giant crab has this behaviour
+        // if cannot follow, check if can attack
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
 
@@ -148,8 +160,7 @@ public class Invader extends Actor implements Resettable {
             return new DespawnAction(this);
         }
 
-        // wander is the lowest precedence
-        // checks if giant crab has this behaviour
+        // check if can roam
         if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
         {
             Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
@@ -157,10 +168,6 @@ public class Invader extends Actor implements Resettable {
                 return action;
             }
         }
-
-
-
-
 
         return new DoNothingAction();
     }

@@ -13,11 +13,11 @@ import java.util.List;
 
 /**
  * A utils class for all the weapons that can do Attack Surrounding Action
+ * @author Lee Sing Yuan
  */
 public class GetAllowableActions {
     /**
      * To make the weapons return all the possible actions that can be done
-     * ONLY FOR ENEMY WEAPONS THAT DONT HAVE PURCHASING AND SELLING
      * applies open close principle
      * Approach decription:
      *      1) use currentLocation which is updated by tick
@@ -78,9 +78,9 @@ public class GetAllowableActions {
      * Apporach description:
      *      1) get surrounding
      *      2) check if there is an actor
-     *             if there is an actor
-     *                  check if the actor and the attacker can attack each other
-     *                      if can return true
+     *             2.1) if there is an actor
+     *                  2.1.1) check if the actor and the attacker can attack each other
+     *                      2.1.1.1) if can, return true
      *
      * @param whoHasThis the attacker
      * @param currentLocation the location of the attacker
@@ -119,7 +119,7 @@ public class GetAllowableActions {
      *      1) check if the skill can be activated
      *      2) get the surrounding
      *      3) check if it contains an actor
-     *              if contains an actor, add to resulting list
+     *              3.1) if contains an actor, add to resulting list
      *
      * @param isSkill whether can skill or not
      * @param currentLocation the current position of the attacker

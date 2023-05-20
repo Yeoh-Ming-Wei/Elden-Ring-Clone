@@ -5,8 +5,8 @@ import edu.monash.fit2099.engine.positions.Exit;
 
 /**
  * An extra class to hold information
- *
  * Note: this class is created to store information used in NearMe
+ * @author Lee Sing Yuan
  * @see game.action.NearMe
  */
 public class SurroundingExit {

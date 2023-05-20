@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.ResetManager;
@@ -19,16 +20,23 @@ import game.enemy.Roles;
 import game.player.Player;
 import game.player.PlayerRole;
 import game.player.RoleManager;
+import game.weapon.WeaponStatus;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * An ally class that can have one of the roles that player can have
+ *
+ * Note: to call this class, use getInstance()
+ * @author Lee Sing Yuan
+ */
 public class Ally extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Player player = Player.getInstance() ;
     /**
-     * Constructor.
+     * Constructor to create the ally
      *
      * @param name        the name of the Actor
      * @param hitPoints   the Actor's starting hit points
@@ -42,9 +50,9 @@ public class Ally extends Actor implements Resettable {
 
         // putting in all the behaviours
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
-
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
 
+        // to make this actor resettable
         ResetManager.registerResettable(this);
     }
 
@@ -67,19 +75,14 @@ public class Ally extends Actor implements Resettable {
         // create the player
         Ally ally = new Ally(wantedRole.getName(),wantedRole.getHp());
 
+        // add the weapons, items and capabilities of that role
         RoleManager.addCapabilityItemWeapon(ally,wantedRole);
 
         return ally;
     }
 
     /**
-     * This function has been made to be only called by an actor which is a player
-     *
-     * Approach description:
-     *      1) check if the otherActor is the player
-     *      2) if yes, loop through inventory and provide all possible attack actions that could be done
-     *
-     * Note: Could not change to static like others cause param types are different
+     * Not used
      *
      * @param otherActor    the Actor that might be performing attack
      * @param direction     String representing the direction of the other Actor
@@ -97,14 +100,10 @@ public class Ally extends Actor implements Resettable {
      * At each turn, select a valid action to perform.
      *
      * Approach description:
-     *      1) check if the actor has the FollowBehaviour
-     *              if yes, check if can follow
-     *      2) check if the actor has the AttackBehaviour
-     *              if yes, check if can attack anyone
-     *      3) since despawning should not be done if the actor can fight or follow,
-     *              it has the 3rd highest precedence
-     *      4) if actor was not despawned, check if actor has the WanderBehaviour
-     *              if yes, roam around the map
+     *      1) check if the actor has the AttackBehaviour
+     *              1.1) if yes, check if can attack anyone
+     *      2) check if actor has the WanderBehaviour
+     *              2.1) if yes, roam around the map
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -115,14 +114,29 @@ public class Ally extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // to tick every item just in case tick in world does not run before the enemy's turn
+        // because to use weapons' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
         for ( WeaponItem w : this.getWeaponInventory() )
         {
-            w.tick(map.locationOf(this),this);
+            if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                w.tick(map.locationOf(this), this);
+                actions.add(w.getAllowableActions());
+            }
         }
 
-        // attack has the second-highest precedence
-        // checks if giant crab has this behaviour
+        // because to use items' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
+        for ( Item i: this.getItemInventory() )
+        {
+            if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                i.tick(map.locationOf(this), this);
+                actions.add(i.getAllowableActions());
+            }
+        }
+
+        // checks if can attack
         if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
             Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
 

@@ -13,13 +13,10 @@ import java.util.ArrayList;
 
 /**
  * An Action to allow swapping of item/weaponItem for another item/weaponItem
- * requires you to set tradable list first before performing execute
- * This is because, when I was trying to overload the constructor I got
- * Java methods have the same erasure
- * Created by: Lee Sing Yuan
- * @author Lee Sing Yuan
- * Modified by:
  *
+ * Note: currently does not allow trading of item for item because cannot overload constructor
+ * 		 due to error called, same erasure
+ * @author Lee Sing Yuan
  */
 public class TradeItemAction extends Action {
 
@@ -62,9 +59,9 @@ public class TradeItemAction extends Action {
 
 	/**
 	 * Approach description:
-	 * 		1) checks if the list is
-	 * 		2) check if this is called by the player
-	 * 		3) if it is means player is the one who has this item
+	 * 		1) checks if its player calling this action
+	 * 			1.1) if it is player, ask what weapon/item player wants to swap for
+	 * 			1.2) add the item to the actor's inventory
 	 *
 	 * @param actor The player
 	 * @param map The map the actor is on.
@@ -74,7 +71,9 @@ public class TradeItemAction extends Action {
 	public String execute(Actor actor, GameMap map) {
 		String result = "";
 
-		if (actor.hasCapability(ActorTypes.PLAYER)) {
+		// check if its player calling this action
+		if ( actor.hasCapability(ActorTypes.PLAYER) ) {
+
 			// if swapping for weapons
 			if (tradableWeapons.size() > 0) {
 				int exit = tradableWeapons.size();
@@ -88,12 +87,16 @@ public class TradeItemAction extends Action {
 				// get the user choice
 				int choice = ChoiceInput.getChoiceInput(exit);
 
+				// get the weapon
 				WeaponItem w = tradableWeapons.get(choice);
 
+				// add the weapon and remove the item used for swap
 				actor.addWeaponToInventory(w);
 				actor.removeItemFromInventory(item);
+			}
 
-			} else if (tradableItems.size() > 0) {
+			// if swapping for item
+			else if (tradableItems.size() > 0) {
 
 				int exit = tradableItems.size();
 
@@ -106,8 +109,10 @@ public class TradeItemAction extends Action {
 				// get the user choice
 				int choice = ChoiceInput.getChoiceInput(exit);
 
+				// get the item
 				Item i = tradableItems.get(choice);
 
+				// add the item and remove the item used for swap
 				actor.addItemToInventory(i);
 				actor.removeItemFromInventory(item);
 			} else {
