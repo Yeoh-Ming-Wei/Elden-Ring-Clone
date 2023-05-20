@@ -7,15 +7,16 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
+import game.Status;
 import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
 import game.behaviour.WanderBehaviour;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
+import game.player.Player;
 import game.player.PlayerRole;
 import game.player.RoleManager;
 
@@ -25,6 +26,7 @@ import java.util.Random;
 
 public class Ally extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
+    private Player player = Player.getInstance() ;
     /**
      * Constructor.
      *
@@ -131,10 +133,6 @@ public class Ally extends Actor implements Resettable {
             }
         }
 
-        if (RandomNumberGenerator.getRandomInt(100) < 10) {
-            return new DespawnAction(this);
-        }
-
         // wander is the lowest precedence
         // checks if giant crab has this behaviour
         if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
@@ -145,18 +143,16 @@ public class Ally extends Actor implements Resettable {
             }
         }
 
-
-
-
-
         return new DoNothingAction();
     }
 
     public void reset(GameMap map) {
-        //add despawn action
-        behaviours.clear();
-        DespawnAction despawnAction = new DespawnAction(this);
-        despawnAction.execute(this, map);
+        if(!player.hasCapability(Status.RESTING)) {
+            //add despawn action
+            behaviours.clear();
+            DespawnAction despawnAction = new DespawnAction(this);
+            despawnAction.execute(this, map);
+        }
 
     }
 }
