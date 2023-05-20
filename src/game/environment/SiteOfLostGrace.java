@@ -23,12 +23,13 @@ public class SiteOfLostGrace extends Ground {
         Player player = Player.getInstance();
         super.tick(location);
         
-        if (player.lastVisited()[0] == -1 && player.lastVisited()[1] == -1) {
-            player.setLastVisited(location.x(), location.y()) ;
+        if ((player.lastVisited()[0] == -1 && player.lastVisited()[1] == -1) || player.hasCapability(Status.RESTING)) {
+            player.setLastVisited(player.getLocation().x(), player.getLocation().y()) ;
         }
 
         if (player.hasCapability(Status.DEAD)) {
-            location.map().moveActor(player, location);
+            location.map().removeActor(player);
+            location.map().at(player.lastVisited()[0], player.lastVisited()[1]).addActor(player);
             player.removeCapability(Status.DEAD);
         }
  
