@@ -2,12 +2,9 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.DropAction;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Application;
 import game.RandomNumberGenerator;
 import game.Status;
 import game.player.Player;
@@ -25,9 +22,8 @@ import java.util.List;
  *
  */
 
-public class GoldenSeeds extends ConsumeItem{
+public class GoldenSeeds extends ConsumeItem {
 
-    private Location currentLocation;
 
     /**
      * Constructs a new GoldenSeeds object.
@@ -38,66 +34,12 @@ public class GoldenSeeds extends ConsumeItem{
     }
 
     /**
-     * used to update the location so that getAllowableActions can use it
-     * if the player is on it then the PickUpAction would be available
-     * and the number of golden seeds in the player's inventory will increase
-     * @param currentLocation The location of the actor carrying this Item.
-     * @param actor The actor carrying this Item.
-     */
-
-    // NOTE: need make the usesLeft update when picked up
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        this.currentLocation = currentLocation;
-
-        if (actor == Player.getInstance() && currentLocation.containsAnActor()) {
-            Player player = Player.getInstance();
-            List<Item> items = currentLocation.getItems();
-            for (Item item : items)
-                if (item == GoldenSeeds.this) { // Check if the current location have this item
-                    PickUpAction pickUpAction = getPickUpAction(player);
-                    pickUpAction.execute(player, currentLocation.map());
-                    setUsesLeft(getUsesLeft() + 1);
-                    player.addItemToInventory(new GoldenRunes());
-
-                    break;
-                }
-        }
-    }
-
-    /**
-     * Get the number of uses remaining for this potion.
-     */
-    public int getUsesLeft() {
-        return super.getUsesLeft();
-    }
-
-    /**
      * Use this potion, restoring the player's health by a fixed amount.
      * @param actor the player who is using the potion
      */
     @Override
     public void use(Actor actor) {
-        if (getUsesLeft() == 0) {
-            return;
-        }
-        FlaskOfCrimsonTears.maxUses += 1;
-    }
-
-    /**
-     * Set the number of uses remaining for this potion.
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
-    }
-
-    /**
-     * Returns a code representing this potion.
-     * @return
-     */
-    public static Class<? extends Item> seedsCode() {
-        return GoldenSeeds.class;
+        FlaskOfCrimsonTears.getInstance().addMaxCapacity(1) ;
     }
 
     /**
@@ -109,18 +51,11 @@ public class GoldenSeeds extends ConsumeItem{
     public List<Action> getAllowableActions(){
 
         List<Action> res = new ArrayList<>();
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
+        Player player = Player.getInstance() ;
+        if (player.getItemInventory().contains(this)) {
+            res.add(new ConsumeAction(this,1, "increases Flask of Crimson Tears permanently by", " amount", super.getUsesLeft()));
         }
 
-        for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == seedsCode()){
-                res.add(new ConsumeAction(this,1, "increases Flask of Crimson Tears permanently by", " amount", super.getUsesLeft()));
-                break;
-            }
-        }
         return res;
     }
 
@@ -147,12 +82,6 @@ public class GoldenSeeds extends ConsumeItem{
 
             }
         }
-    }
-
-
-    @Override
-    public DropAction getDropAction(Actor actor) {
-        return new DropConsumeItemAction(this) ;
     }
 
     @Override
