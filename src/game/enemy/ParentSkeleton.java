@@ -4,27 +4,37 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.weapon.WeaponStatus;
 
 /**
  * Spooky, spooky skeleton
- *
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- *
  */
 public abstract class ParentSkeleton extends Enemy {
+    /**
+     * The pile of bones counter
+     */
     private int counter;
     private final int counterReset;
     private final int counterMax;
+
+    /**
+     * The runes that this actor can drop
+     */
     private final int SKELETON_MIN_RUNE = 35 ;
     private final int SKELETON_MAX_RUNE = 892 ;
 
 
     public ParentSkeleton(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
+
+        // adding the skill
         this.addCapability(PileOfBones.PILE_OF_BONES);
+
+        // adding the type
         this.addCapability(ActorTypes.PARENTSKELETON);
 
         counterReset = -1;
@@ -38,10 +48,11 @@ public abstract class ParentSkeleton extends Enemy {
      * Select and return an action to perform on the current turn.
      *
      * Approach description:
-     *      1) check if the actor has the ability pile of bones
-     *              if no, then start counter and change to pile of bones
-     *                  if counter == max number of counter,
-     *                      revive
+     *      1) check if the actor does not has the ability pile of bones
+     *              1.1) if no, then start counter and change to pile of bones
+     *                  1.1.1) if counter == max number of counter,
+     *                         1.1.1.1) revive
+     *              1.2) if have, do normal play turn
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -52,10 +63,27 @@ public abstract class ParentSkeleton extends Enemy {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        // to tick every item just in case tick in world does not run
+
+        // because to use weapons' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
         for ( WeaponItem w : this.getWeaponInventory() )
         {
-            w.tick(map.locationOf(this),this);
+            if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                w.tick(map.locationOf(this), this);
+                actions.add(w.getAllowableActions());
+            }
+        }
+
+        // because to use items' get allowableActions,
+        // it needs to know the current locations
+        // so need to tick first
+        for ( Item i: this.getItemInventory() )
+        {
+            if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                i.tick(map.locationOf(this), this);
+                actions.add(i.getAllowableActions());
+            }
         }
 
         // this means that, the HSS has used its skill of pile of bones

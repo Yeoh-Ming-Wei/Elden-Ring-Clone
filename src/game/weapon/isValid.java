@@ -6,6 +6,7 @@ import game.enemy.Roles;
 
 /**
  * A class to check validity between attacker and target
+ * @author Lee Sing Yuan
  */
 public class isValid {
 

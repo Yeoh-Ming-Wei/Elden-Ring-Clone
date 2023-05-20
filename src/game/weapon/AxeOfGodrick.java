@@ -9,6 +9,7 @@ import game.Application;
 import game.TradeManager;
 import game.action.AttackAction;
 import game.action.AttackSurroundingAction;
+import game.action.NearMe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +19,18 @@ import java.util.Random;
  * A weapon used by skeleton
  * It deals 115 damage with 85% hit rate
  * Buying and selling are from the player's POV
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class AxeOfGodrick extends WeaponItem implements Sellable{
-    private final Random random = new Random();
-    // to allow getAllowableActions to check
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
+
+    /**
+     * the selling prices
+     */
     private int sellingPrice;
 
     /**
@@ -69,15 +72,9 @@ public class AxeOfGodrick extends WeaponItem implements Sellable{
      *      1) use currentLocation which is updated by tick
      *      2) check if there is someone at the same location as the weapon
      *      3) if there is someone, proceed
-     *              else, return nothing
-     *      4) checks surrounding
-     *      5) if it has an actor
-     *      6) checks surrounding to see if there is a valid target to use the skill on
-     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
-     *                  they can attack each other
-     *      7) loops once more to add the targets
-     *      8) if all checks pass, add the actions to the resulting list
-     *      9) this part is for player to get attackActions with this weapon
+     *              3.1) else, return nothing
+     *      4) loops through all the targets around this actor and add the attack action
+     *
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      *
@@ -104,34 +101,12 @@ public class AxeOfGodrick extends WeaponItem implements Sellable{
         }
 
 
-        List<Actor> targets;
-        // attacking //
-        // checks all locations around me
-        // check if there is someone of different type to initiate skill
-        isSkill = GetAllowableActions.canSkill(whoHasThis,currentLocation);
+        // get the target and exit information surrounding this actor ( whoHasThis )
+        ArrayList<SurroundingExit> surroundingExitsTargets = NearMe.getSurroundingExitTargets(whoHasThis,currentLocation);
 
-        // add all the targets around this actor
-        targets = GetAllowableActions.getTargets(isSkill,currentLocation);
-
-        // if got targets nearby
-        // return attack single enemies
-        // used by player
-        if (!targets.isEmpty()) {
-
-            // use exit cause want the direction
-            for (Exit exit : currentLocation.getExits()) {
-                Location l = exit.getDestination();
-
-                // if it has an actor and it is attackable
-                if (l.containsAnActor()) {
-
-                    // get that actor and add the skill action
-                    Actor target = l.getActor();
-                    if (isValid.isValidRole(whoHasThis, target) && isValid.isValidActorType(whoHasThis, target)) {
-                        res.add(new AttackAction(target, exit.getName(), this));
-                    }
-                }
-            }
+        // adding the actions to all the enemies around this actor
+        for ( SurroundingExit s : surroundingExitsTargets ){
+            res.add(new AttackAction(s.getTarget(), s.getExit().getName(), this));
         }
 
         /////////////////////////////////

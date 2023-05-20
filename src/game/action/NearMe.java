@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A util class to get the surroundings of an actor
- * Created By: Lee Sing Yuan
+ * A utilities class to get the surroundings of an actor
  * @author Lee Sing Yuan
  */
 public class NearMe {
@@ -27,10 +26,13 @@ public class NearMe {
      *      3) check if an Actor exist at that location
      *      4) if an actor exist, add the actor the list
      *
+     * Note: cannot be used to get direction which is used for UI purposes
+     *
      * @param actor the Actor we want the surrounding of
      * @param map the map
      * @param radius the radius of the surrounding
      * @return the list of actors around the actor
+     *         list is empty if no actors are around
      */
     public static List<Actor> getSurroundingActors(Actor actor , GameMap map , int radius){
 
@@ -106,20 +108,20 @@ public class NearMe {
 
     /**
      * Approach description:
-     *      1) get the exits around currentLocation
+     *      1) loop through all exits
      *      2) if the exit contains an actor,
-     *              get the actor
-     *                  check whether the attacker and target is of correct types
-     *                      if they are of correct types,
-     *                          add them to the list
-     *
+     *          2.1) get the actor
+     *          2.2) check if the person who called this and the target have different types
+     *              2.2.1) create a SurroundingExit and store it to the list
      *
      * Note: why need a new object called SurroundingExit?
-     *           cause, the whole reason of using exit rather than the above functions is to know the direction
+     *       cause, the whole reason of using exit rather than the above functions is to know the direction
      *
      * @param whoHasThis the attacker
      * @param currentLocation the current location of the attacker
      * @return a list of a new object which holds information regarding the target and exit
+     *         list is empty if there is no actor around
+     * @see SurroundingExit
      */
     public static ArrayList<SurroundingExit> getSurroundingExitTargets( Actor whoHasThis , Location currentLocation ){
         ArrayList<SurroundingExit> res = new ArrayList<>();
@@ -147,14 +149,13 @@ public class NearMe {
 
 
     /**
-     * if the wanted target is in the actor's range, returns the location of the wanted target
+     * Gets a list of actors which have the wanted type around the actor that called this function
      *
      * Approach description:
-     *      1) get the surrounding locations
+     *      1) loop through all the surrounding locations
      *      2) check if there is an actor there
-     *              if yes, get the actor there
-     *                  if the actor there is what we want
-     *                         return this location
+     *          2.2) Get the actor
+     *          2.3) add to list
      *
      * @param actor the actor executing the action
      * @param map the map itself

@@ -2,17 +2,14 @@ package game.weapon;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
 import game.action.*;
-import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A weapon used by skeleton
@@ -24,10 +21,14 @@ import java.util.Random;
  *
  */
 public class Grossmesser extends WeaponItem implements Sellable{
-    private final Random random = new Random();
-    // to allow getAllowableActions to check
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
+    /**
+     * the selling price
+     */
     private int sellingPrice;
 
     /**
@@ -70,15 +71,11 @@ public class Grossmesser extends WeaponItem implements Sellable{
      *      1) use currentLocation which is updated by tick
      *      2) check if there is someone at the same location as the weapon
      *      3) if there is someone, proceed
-     *              else, return nothing
-     *      4) checks surrounding
-     *      5) if it has an actor
-     *      6) checks surrounding to see if there is a valid target to use the skill on
-     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
-     *                  they can attack each other
-     *      7) loops once more to add the targets
-     *      8) if all checks pass, add the actions to the resulting list
-     *      9) this part is for player to get attackActions with this weapon
+     *          3.1) else, return nothing
+     *      4) check if there is a valid target to use skill on
+     *          4.1) if can skill, get all the targets around this actor
+     *          4.2) add surrounding attack action
+     *      7) loop through all valid surrounding targets and add AttackAction
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      *
@@ -86,8 +83,6 @@ public class Grossmesser extends WeaponItem implements Sellable{
      *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
-
-        // attack \\
         boolean isSkill;
 
         // the resulting list of actions
@@ -119,32 +114,17 @@ public class Grossmesser extends WeaponItem implements Sellable{
             res.add(new AttackSurroundingAction(targets, "attacks surrounding", this));
         }
 
-        // if got targets nearby
-        // return attack single enemies
-        // used by player
-        if (!targets.isEmpty()) {
+        // get the target and exit information surrounding this actor
+        ArrayList<SurroundingExit> surroundingExitsTargets = NearMe.getSurroundingExitTargets(whoHasThis,currentLocation);
 
-            // use exit cause want the direction
-            for (Exit exit : currentLocation.getExits()) {
-                Location l = exit.getDestination();
-
-                // if it has an actor and it is attackable
-                if (l.containsAnActor()) {
-
-                    // get that actor and add the skill action
-                    Actor target = l.getActor();
-                    if (isValid.isValidRole(whoHasThis, target) && isValid.isValidActorType(whoHasThis, target)) {
-                        res.add(new AttackAction(target, exit.getName(), this));
-                    }
-                }
-            }
+        // adding the actions to all the enemies around this actor
+        for ( SurroundingExit s : surroundingExitsTargets ){
+            res.add(new AttackAction(s.getTarget(), s.getExit().getName(), this));
         }
 
         /////////////////////////////////
 
         // trading \\
-
-        // trader
 
         // selling called by player
         res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));

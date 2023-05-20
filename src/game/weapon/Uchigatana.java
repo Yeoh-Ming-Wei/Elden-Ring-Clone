@@ -16,15 +16,17 @@ import java.util.List;
  * A long katana that can be used to attack the enemy.
  * It deals 115 damage with 80% hit rate
  * Buying and selling are from the player's POV
- * Created by: Lee Sing Yuan
- * @author Adrian Kristanto
- * Modified by:
- *
+ * @author Lee Sing Yuan
  */
 public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
-    // to allow getAllowableActions to check
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
+    /**
+     * the buying and selling prices
+     */
     private int buyingPrice;
     private int sellingPrice;
 
@@ -85,13 +87,8 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
      *      1) use currentLocation which is updated by tick
      *      2) check if there is someone at the same location as the weapon
      *      3) if there is someone, proceed
-     *              else, return nothing
-     *      4) checks surrounding
-     *      5) if it has an actor
-     *              check type between the wielder of the weapon and the target which is in the surrounding
-     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
-     *                  they can attack each other
-     *      6) if all checks pass, add the actions to the resulting list
+     *              3.1) else, return nothing
+     *      4) loops through all the targets around this actor and add the actions
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon
@@ -136,50 +133,3 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         return res;
     }
 }
-/*
-        Location traderLocation = null;
-        Actor trader = null;
-
-        // player
-        Location playerLocation = null;
-
-        // if player is the one holding this weapon
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) ){
-            ArrayList<Location> listOfTraderLocation = NearMe.trial()
-        }
-
-
-        // this would be for the player to check if he is in the range of the trader
-        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) ) {
-            traderLocation = NearMe.isSpecificActorTypeInMyRange(whoHasThis, Application.staticGameMap, 1, ActorTypes.TRADER);
-            trader = Application.staticGameMap.getActorAt(traderLocation);
-        }
-
-        // this would be for the trader to check if the player is in the range of the trader
-        playerLocation = NearMe.isSpecificActorTypeInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
-
-        // if trader is null, means this method is called by the trader so must set the trader to itself
-        if ( trader== null ){
-            trader = whoHasThis;
-        }
-
-
-        // selling //
-        // this res will be for the player, means this weapon is in the player
-        // if the player has this weapon and trader is within range
-        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) )
-        {
-            res.add(new SellAction(trader,this,this.getSellingPrice()));
-        }
-
-        // buying //
-        // this means that the res is for trader
-        // checks if the player is in the range of the trader
-        if ( playerLocation != null && whoHasThis.hasCapability(ActorTypes.TRADER) ){
-
-            // use a new uchigatana because if use the "this", will have bug caused by reference
-            res.add(new PurchaseAction(trader,new Uchigatana(),this.buyingPrice) ) ;
-            System.out.println(whoHasThis);
-            System.out.println(trader);
-        }
- */

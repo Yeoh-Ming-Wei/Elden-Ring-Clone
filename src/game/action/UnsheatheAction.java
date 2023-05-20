@@ -9,11 +9,8 @@ import game.enemy.PileOfBones;
 import java.util.Random;
 
 /**
- * An Action to double the damage to another Actor.
- * Created by:
- * @author Adrian Kristanto
- * Modified by: Lee Sing Yuan
- *
+ * An Action to double the damage to the target
+ * @author Lee Sing Yuan
  */
 public class UnsheatheAction extends Action {
 
@@ -43,7 +40,7 @@ public class UnsheatheAction extends Action {
 	private int skillChance;
 
 	/**
-	 * Constructor.
+	 * Constructor with weapon that can use the skill
 	 *
 	 * @param target the Actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)

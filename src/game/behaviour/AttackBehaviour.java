@@ -1,30 +1,21 @@
 package game.behaviour;
 
 import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.action.NearMe;
 import game.action.AttackAction;
-import game.action.AttackSurroundingAction;
-import game.enemy.ActorTypes;
-import game.enemy.Roles;
 import game.weapon.WeaponSkill;
 import game.weapon.isValid;
-
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Random;
 
 
 import java.util.List;
 
 /**
- * Created by: Loo Li Shen
- * @author Loo Li Shen
- * Modified by: Lee Sing Yuan
- *
  * Decides whether an enemy should attack another actor or not
+ * @author Lee Sing Yuan
  *
  */
 public class AttackBehaviour implements Behaviour {
@@ -35,19 +26,15 @@ public class AttackBehaviour implements Behaviour {
      * Decides whether an enemy should attack another actor or not
      *
      * Approach description:
-     *      1) get the list of targets
-     *      2) check if the actor performing the behaviour has the capability to perform the attack surrounding skill
-     *              check everyone in the surrounding
-     *              check if there is anyone in the surrounding that is of different type so that can have reason to execute skill
-     *                  get the chance
-     *                      if chance is yes, return AttackSurroundingAction
-     *      3) else, just get a random actor to attack
-     *      4) check the types, if not same, only return AttackAction
+     *      1) check if the attacker can perform a skill
+     *          1.1) if can set skill to true
+     *      2) if the skill is true, get allowable actions of that weapon
+     *      3) if the attacker cannot perform skill, check if got weapon with no skill
+     *          3.1) if have, then get the allowable actions
+     *          3.2) choose random action and return
+     *      4) if no weapon, perform an intrinsic attack to anyone that is valid within range
      *
-     * Note: if the enemy A wants to attack single targets and there are enemies of the same type around enemy A,
-     *       the random may choose a target which has the same type as enemy A and will not return an AttackAction.
-     *       Hence, it will execute other behaviours
-     *       There are 3 scenarios:
+     * Note: There are 3 scenarios:
      *              1) enemy has weapon with skill
      *              2) enemy has weapon with no skill
      *              3) enemy has no weapon
@@ -90,6 +77,8 @@ public class AttackBehaviour implements Behaviour {
                 // actually can straight away return null, since if there is nothing the sword can do
                 // means no attacking can be done
                 if ( listOfActions.size() > 0 ){
+
+                    // cause attackSurroundingActions is always first
                     return listOfActions.get(0);
                 }
             }
@@ -136,11 +125,6 @@ public class AttackBehaviour implements Behaviour {
                 }
             }
         }
-
-
-
-
-
 
         return null;
     }

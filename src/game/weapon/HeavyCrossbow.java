@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
 import game.action.*;
-import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +15,17 @@ import java.util.List;
  * A heavy crossbow
  * It deals 64 damage with 57% hit rate
  * Buying and selling are from the player's POV
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
-    // to allow getAllowableActions to check
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
+    /**
+     * the buying and selling prices
+     */
     private int buyingPrice;
     private int sellingPrice;
 
@@ -79,13 +80,10 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
      *      1) use currentLocation which is updated by tick
      *      2) check if there is someone at the same location as the weapon
      *      3) if there is someone, proceed
-     *              else, return nothing
-     *      4) checks surrounding
-     *      5) if it has an actor
-     *              check type between the wielder of the weapon and the target which is in the surrounding
-     *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
-     *                  they can attack each other
-     *      6) if all checks pass, add the actions to the resulting list
+     *              3.1) else, return nothing
+     *      4) get all actors
+     *      5) check if valid
+     *          5.1) if valid, add attack action
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
      * @return a list of actions that the wielder can do with this weapon

@@ -1,6 +1,5 @@
 package game.player;
 
-import edu.monash.fit2099.engine.capabilities.CapabilitySet;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 
@@ -11,6 +10,7 @@ import java.util.Set;
 
 /**
  * A class to hold the information of the archetypes or roles
+ * @author Lee Sing Yuan
  */
 public class PlayerRole {
     /**
@@ -32,10 +32,12 @@ public class PlayerRole {
      * A bag of items
      */
     private List<Item> itemInventory = new ArrayList<>();
+
     /**
      * Current capabilities/statuses
      */
     private Set<Enum<?>> capabilitySet = new HashSet<>();
+
     /**
      * A weapon inventory, making it possible to have more than two active weapons
      * (not limited to right-hand and left-hand weapons)
@@ -44,8 +46,8 @@ public class PlayerRole {
 
     /**
      * A constructor for no weapons and no capabilities
-     * @param initName
-     * @param initHp
+     * @param initName name of the role
+     * @param initHp hp of the role
      */
     public PlayerRole(String initName,int initHp){
         setName(initName);

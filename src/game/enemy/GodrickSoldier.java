@@ -6,19 +6,26 @@ import game.weapon.HeavyCrossbow;
 
 /**
  * a long range attacker
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- * Modified by:
  */
 public class GodrickSoldier extends GodrickCastleInhabitants {
 
+    /**
+     * The runes that this actor can drop
+     */
     private final int GODRICK_SOLDIER_MIN_RUNE = 38 ;
     private final int GODRICK_SOLDIER_MAX_RUNE = 70 ;
 
+    /**
+     * Constructor
+     */
     public GodrickSoldier() {
         super("Godrick Soldier", 'p', 198);
+
+        // adding the weapon
         this.addWeaponToInventory(new HeavyCrossbow());
 
+        // adding to the rune manager
         RuneManager.addEnemyDropRune(name, GODRICK_SOLDIER_MIN_RUNE, GODRICK_SOLDIER_MAX_RUNE) ;
     }
 
