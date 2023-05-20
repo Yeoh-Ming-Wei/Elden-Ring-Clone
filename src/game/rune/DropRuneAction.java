@@ -5,10 +5,21 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.player.Player;
 
+/**
+ * Oh no! You accidentally drop your rune on the ground!
+ * Created by: Yeoh Ming Wei
+ * @author Yeoh Ming Wei
+ */
 public class DropRuneAction extends Action {
 
+    /**
+     * A rune class. 
+     */
     private Rune rune ;
 
+    /**
+     * A constructor for DropRuneAction class. 
+     */
     public DropRuneAction() {
         this.rune = new Rune() ;
     }
@@ -32,7 +43,7 @@ public class DropRuneAction extends Action {
         RuneManager.getInstance().setRune(0) ;
         rune.setLocation(player.getLocation().x(), player.getLocation().y());
 
-        String str =  String.format("%s with a value of %d", menuDescription(actor), rune.getRune()) ;
+        String str = String.format("%s with a value of %d", menuDescription(actor), rune.getRune()) ;
         return str;
     }
 

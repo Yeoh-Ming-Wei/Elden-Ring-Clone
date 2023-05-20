@@ -73,6 +73,9 @@ public class RuneManager{
         
     }
 
+    /**
+     * A method to set the rune value. 
+     */
     public void setRune(int value) {
         rune.setRune(value) ;
     }
@@ -121,6 +124,11 @@ public class RuneManager{
         runeRange.put(name, temp);
     }
 
+    /**
+     * A method to add drop rune with its value into the hash map
+     * @param item The rune
+     * @param value the amount of the rune
+     */
     public static void addRuneDropValue(Item item, int value) {
         dropRuneAmount.put(item, value) ;
     }

@@ -11,7 +11,7 @@ import game.player.Player;
  * It extends the Action class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
+ * Modified by: Yeoh Ming Wei
  */
 
 public class ConsumeAction extends Action {

@@ -26,15 +26,14 @@ public class GoldenSeeds extends ConsumeItem {
 
 
     /**
-     * Constructs a new GoldenSeeds object.
-     * The golden seeds are represented by the character 'S'.
+     * A contructor fo GoldenSeeds class
      */
     public GoldenSeeds() {
         super("Golden Seeds", 'S', true, 0);
     }
 
     /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * A method to use the item. (Increase the capacity of Flask of Crimson Tears by 1)
      * @param actor the player who is using the potion
      */
     @Override
@@ -84,6 +83,11 @@ public class GoldenSeeds extends ConsumeItem {
         }
     }
 
+    /**
+     * A pick up action for GoldenSeed.
+     * Note: I use this method so that I can know the amount of golden seed.
+     *       It is used at consume action which requires the amount. 
+     */
     @Override
     public PickUpAction getPickUpAction(Actor actor) {
         return new PickUpConsumeItemAction(this) ;

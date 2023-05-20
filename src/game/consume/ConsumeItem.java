@@ -10,7 +10,7 @@ import edu.monash.fit2099.engine.items.Item;
  * It extends the Item class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
+ * Modified by: Yeoh Ming Wei
  */
 
 public abstract class ConsumeItem extends Item{
@@ -30,14 +30,24 @@ public abstract class ConsumeItem extends Item{
         super(name, displayChar, portable);
         this.usesLeft = usesLeft;
     }
-
+    /**
+     * A function to get the amount of items
+     * @return An integer represents the amount of items
+     */
     public int getUsesLeft() {
         return usesLeft;
     }
 
+    /**
+     * A function to set the number of items
+     * @param usesLeft the number of items to be added
+     */
     public void setUsesLeft(int usesLeft) {
         this.usesLeft = usesLeft;
     }
 
+    /**
+     * A method to execute the usage of the item.
+     */
     public abstract void use(Actor actor) ;
 }

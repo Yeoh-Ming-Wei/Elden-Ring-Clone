@@ -9,14 +9,24 @@ import game.action.RestAction;
 import game.enemy.ActorTypes;
 import game.player.Player;
 
+/**
+ * Does this looks like teleport waypoints in Genshin Impact? It looks similar
+ * but the Site of Lost Grace have different functionality. It can rest?
+ * Created by: Yeoh Ming Wei
+ * @author Yeoh Ming Wei
+ */
 public class SiteOfLostGrace extends Ground {
 
-    public static boolean isVisited = false;
-
+    /**
+     * A constructor for Site of Lost Grace class. 
+     */
     public SiteOfLostGrace() {
         super('U') ;
     }
 
+    /**
+     * A tick function that perform various actions every game turn. 
+     */
     @Override
     public void tick(Location location) {
 
@@ -36,6 +46,9 @@ public class SiteOfLostGrace extends Ground {
         player.removeCapability(Status.RESTING);
     }
 
+    /**
+     * A list of allowable actions available when the player is near the Site of Lost Grace. 
+     */
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
         

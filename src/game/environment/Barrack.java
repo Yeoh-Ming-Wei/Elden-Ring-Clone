@@ -6,9 +6,16 @@ import game.Application;
 import game.RandomNumberGenerator;
 import game.enemy.GodrickSoldier;
 
+/**
+ * Did you heard of Clash of Clans barracks? It can trains Barbarians, Archers
+ * and many more. However, this barrack can only spawn Godrick Soldiers, can we
+ * have more armies?
+ * Created by: Yeoh Ming Wei
+ * @author Yeoh Ming Wei 
+ */
 public class Barrack extends Ground {
     /**
-     * Constructor.
+     * A constructor for barrack class. 
      *
      * @param displayChar character to display for this type of terrain
      */
@@ -16,6 +23,9 @@ public class Barrack extends Ground {
         super('B');
     }
 
+    /**
+     * A method to spawn Goldrick Soldier every game turn. 
+     */
     @Override
 	public void tick(Location location) {
 		super.tick(location) ;

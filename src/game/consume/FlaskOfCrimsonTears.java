@@ -17,18 +17,29 @@ import java.util.List;
  * It extends the ConsumeItem class and implements the Resettable interface.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
- *
+ * Modified by: Yeoh Ming Wei
  */
 
 public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
 
+    /**
+     * An integer represents the healing amount when Flask of Crimson Tears
+     * is used. 
+     */
     private int healAmount = 250;
+
+    /**
+     * The max capacity of Flask of Crimson Tears
+     */
     private int maxCapacity = 2 ;
+
+    /**
+     * Initial initialization for Flask of Crimson Tears, it is set to null.
+     */
     private static FlaskOfCrimsonTears flaskOfCrimsonTears = null ;
 
     /**
-     * Constructor.
+     * Constructor for Flask of Crimson Tears.
      */
     protected FlaskOfCrimsonTears() {
         super("Flask Of Crimson Tears", 'C', false, 2) ;
@@ -37,6 +48,10 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
+    /**
+     * A method to assigned new FlaskOfCrimsonTears class
+     * @return a FlaskOfCrimsonTears object
+     */
     public static FlaskOfCrimsonTears getInstance() {
         ResetManager.registerResettable(flaskOfCrimsonTears) ;
         
@@ -48,7 +63,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     }
 
     /**
-     * used to update the location so that getAllowableActions can use it
+     * A method to perform an action every game turn. 
      * @param currentLocation The location of the actor carrying this Item.
      * @param actor The actor carrying this Item.
      */
@@ -58,7 +73,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     }
 
     /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * A method to use the item. (Heal the player's HP by 250)
      * @param actor the player who is using the potion
      */
     @Override
@@ -89,7 +104,7 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     }
 
     /**
-     * Resets the flask to its initial state.
+     * Resets the flask amount by its maximum capacity.
      *
      * @param map the game map
      */
