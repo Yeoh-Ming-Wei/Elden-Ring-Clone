@@ -18,7 +18,8 @@ import game.potion.ConsumeAction;
 import game.potion.FlaskOfCrimsonTears;
 import game.potion.Heal;
 import game.rune.RuneManager;
-import game.weapon.WeaponStatus;
+import game.specialItems.RemembranceOfTheGrafted;
+import game.weapon.*;
 
 import java.util.Set;
 
@@ -38,6 +39,8 @@ public class Player extends Actor implements Resettable {
 	private int[] lastSiteOfLostGrace ;
 	private Location location ;
 
+	public static String playerName = "";
+
 
 	/**
 	 * Constructor that allows the children to use, but not the public to use
@@ -52,6 +55,10 @@ public class Player extends Actor implements Resettable {
 		this.lastSiteOfLostGrace = new int[2] ;
 		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
 
+		playerName = name;
+
+		// test
+		this.addItemToInventory(new RemembranceOfTheGrafted());
 	}
 
 	/**
@@ -103,6 +110,17 @@ public class Player extends Actor implements Resettable {
 			if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
 				w.tick(map.locationOf(this), this);
 				actions.add(w.getAllowableActions());
+			}
+		}
+
+		// because to use items' get allowableActions,
+		// it needs to know the current locations
+		// so need to tick first
+		for ( Item  i: this.getItemInventory() )
+		{
+			if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+				i.tick(map.locationOf(this), this);
+				actions.add(i.getAllowableActions());
 			}
 		}
 

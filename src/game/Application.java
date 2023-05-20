@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
@@ -73,14 +74,18 @@ public class Application {
 
 		staticGameMap = gameMap;
 
-		gameMap.at(15, 17).addActor(new Trader());
+		// currently got bug that enia could have weapons to buy when 2 traders are present
+		gameMap.at(15, 17).addActor(Trader.getMerchantKale());
+		gameMap.at(14, 16).addActor(Trader.getFingerReaderEnia());
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
 		int x = 15;
-		int y = 15;
+		int y = 16;
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
+
+
 
 		gameMap.at(15, 14).addActor(new LoneWolf());
 

@@ -2,13 +2,12 @@ package game.weapon;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
+import game.TradeManager;
 import game.action.*;
 import game.enemy.ActorTypes;
-import game.enemy.Roles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +114,7 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         {
             return res;
         }
+
         // get the target and exit information surrounding this actor ( whoHasThis )
         ArrayList<SurroundingExit> surroundingExitsTargets = NearMe.getSurroundingExitTargets(whoHasThis,currentLocation);
 
@@ -127,25 +127,42 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
         /////////////////////////////////
 
         // trading \\
+        // selling called by player
+        res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
-        // trader
+        // purchasing called by trader
+        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new Uchigatana(),this.getPurchasePrice()));
+
+        return res;
+    }
+}
+/*
         Location traderLocation = null;
         Actor trader = null;
 
         // player
         Location playerLocation = null;
 
+        // if player is the one holding this weapon
+        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) ){
+            ArrayList<Location> listOfTraderLocation = NearMe.trial()
+        }
+
+
         // this would be for the player to check if he is in the range of the trader
-        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
-        trader = Application.staticGameMap.getActorAt(traderLocation);
+        if ( whoHasThis.hasCapability(ActorTypes.PLAYER) ) {
+            traderLocation = NearMe.isSpecificActorTypeInMyRange(whoHasThis, Application.staticGameMap, 1, ActorTypes.TRADER);
+            trader = Application.staticGameMap.getActorAt(traderLocation);
+        }
 
         // this would be for the trader to check if the player is in the range of the trader
-        playerLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
+        playerLocation = NearMe.isSpecificActorTypeInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
 
         // if trader is null, means this method is called by the trader so must set the trader to itself
         if ( trader== null ){
             trader = whoHasThis;
         }
+
 
         // selling //
         // this res will be for the player, means this weapon is in the player
@@ -162,7 +179,7 @@ public class Uchigatana extends WeaponItem implements Purchasable,Sellable{
 
             // use a new uchigatana because if use the "this", will have bug caused by reference
             res.add(new PurchaseAction(trader,new Uchigatana(),this.buyingPrice) ) ;
+            System.out.println(whoHasThis);
+            System.out.println(trader);
         }
-        return res;
-    }
-}
+ */

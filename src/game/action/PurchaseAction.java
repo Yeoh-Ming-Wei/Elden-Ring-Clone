@@ -41,7 +41,7 @@ public class PurchaseAction extends Action {
 	/**
 	 * Constructor. to buy weapons
 	 *
-	 * @param trader the Actor to attack
+	 * @param trader the trader
 	 * @param w the weapon to be bought
 	 * @param buyingPrice the price of the weapon
 	 */
@@ -54,7 +54,7 @@ public class PurchaseAction extends Action {
 	/**
 	 * Constructor. to buy items
 	 *
-	 * @param trader the Actor to attack
+	 * @param trader the trader
 	 * @param i the item to be bought
 	 * @param buyingPrice the price of the weapon
 	 */

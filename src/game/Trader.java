@@ -20,21 +20,56 @@ import java.util.ArrayList;
  * All trading will be instantiated by player
  */
 public class Trader extends Actor {
+    // the names of the merchants so that the items can use it
+    public static final String nameMerchantKale = "Merchant Kale";
+    public static final String nameFingerReaderEnia = "Finger Reader Enia";
+
+
     /**
      * Constructor.
      *
      */
-    public Trader() {
-        super("Merchant Kale", 'K', 999);
+    public Trader(String initName , char initDisplayChar , int initHp) {
+        super(initName,initDisplayChar,initHp);
         this.addCapability(ActorTypes.TRADER);
         this.addCapability(Roles.NEUTRAL);
 
-        // have to instantiate the weapon here cause if not cannot get the option to buy
-        this.addWeaponToInventory(new Uchigatana());
-        this.addWeaponToInventory(new GreatKnife());
-        this.addWeaponToInventory(new Club());
-        this.addWeaponToInventory(new Grossmesser());
-        this.addWeaponToInventory(new Scimitar());
+
+    }
+
+    /**
+     * Gets merchantKale that players can buy things from
+     * @return merchant Kale
+     */
+    public static Trader getMerchantKale(){
+        Trader t =  new Trader(nameMerchantKale, 'K', 999);
+
+        // add the weapons that can be bought by player here
+        t.addWeaponToInventory(new Uchigatana());
+        t.addWeaponToInventory(new GreatKnife());
+        t.addWeaponToInventory(new Club());
+        t.addWeaponToInventory(new Scimitar());
+        t.addWeaponToInventory(new HeavyCrossbow());
+        t.addWeaponToInventory(new AstrologerStaff());
+
+
+        return t;
+
+    }
+
+    /**
+     * Get finger reader enia which players cannot buy from but can sell to
+     *
+     * Apporach description:
+     *      as long as this trader does not have any weapons,
+     *      it would never invoke any weapon's get allowable actions
+     *      which will never give the player the option to buy weapons from this trader
+     *
+     * @return Finger Reader Enia
+     */
+    public static Trader getFingerReaderEnia(){
+        Trader t = new Trader(nameFingerReaderEnia, 'E', 999);
+        return t;
     }
 
 

@@ -7,36 +7,34 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
-import game.action.*;
-import game.enemy.ActorTypes;
+import game.action.AttackAction;
+import game.action.AttackSurroundingAction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A weapon used by skeleton
- * It deals 118 damage with 88% hit rate
+ * It deals 115 damage with 85% hit rate
  * Buying and selling are from the player's POV
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  * Modified by:
  *
  */
-public class Scimitar extends WeaponItem implements Purchasable,Sellable{
+public class AxeOfGodrick extends WeaponItem implements Sellable{
+    private final Random random = new Random();
     // to allow getAllowableActions to check
     private Location currentLocation;
 
-    private int buyingPrice;
     private int sellingPrice;
-
 
     /**
      * Constructor
      */
-    public Scimitar() {
-        super("Scimitar", 's', 118, "slashes", 88);
-        addCapability(WeaponSkill.AREA_ATTACK);
-        buyingPrice = 600;
+    public AxeOfGodrick() {
+        super("Axe of Godrick", 'T', 142, "deals brute force damage to", 84);
         sellingPrice = 100;
 
         // to avoid the bug where in the first round
@@ -53,15 +51,6 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
         this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
-    }
-
-    /**
-     * Gets the buying price
-     * @return int buying price
-     */
-    @Override
-    public int getPurchasePrice() {
-        return buyingPrice;
     }
 
     /**
@@ -96,7 +85,9 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
      *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
-        boolean isSkill = false;
+
+        // attack \\
+        boolean isSkill;
 
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
@@ -112,19 +103,15 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
             return res;
         }
 
+
+        List<Actor> targets;
         // attacking //
         // checks all locations around me
         // check if there is someone of different type to initiate skill
-        List<Actor> targets;
         isSkill = GetAllowableActions.canSkill(whoHasThis,currentLocation);
 
         // add all the targets around this actor
         targets = GetAllowableActions.getTargets(isSkill,currentLocation);
-
-        // adding the attack surrounding actions after getting all the actors
-        if ( targets.size() > 0 ) {
-            res.add(new AttackSurroundingAction(targets, "attacks surrounding", this));
-        }
 
         // if got targets nearby
         // return attack single enemies
@@ -151,11 +138,12 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
 
         // trading \\
 
+        // trader
+
         // selling called by player
         res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
-        // purchasing called by trader
-        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new Scimitar(),this.getPurchasePrice()));
         return res;
     }
 }
+

@@ -41,7 +41,7 @@ public class SellAction extends Action {
 	/**
 	 * Constructor. for weapons to be sold
 	 *
-	 * @param trader the Actor to attack
+	 * @param trader the trader
 	 * @param w the weapon to be sold
 	 * @param sellingPrice the selling price
 	 */
@@ -54,7 +54,7 @@ public class SellAction extends Action {
 	/**
 	 * Constructor. for weapons to be sold
 	 *
-	 * @param trader the Actor to attack
+	 * @param trader the trader
 	 * @param i the item to be sold
 	 * @param sellingPrice the selling price
 	 */
