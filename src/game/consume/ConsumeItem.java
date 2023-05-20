@@ -39,8 +39,5 @@ public abstract class ConsumeItem extends Item{
         this.usesLeft = usesLeft;
     }
 
-
-    public void use(Actor actor){
-
-    }
+    public abstract void use(Actor actor) ;
 }
