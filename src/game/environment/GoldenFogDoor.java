@@ -11,24 +11,47 @@ import game.action.DeathAction;
 import game.enemy.ActorTypes;
 import game.player.Player;
 
+/**
+ *The GoldenFogDoor class represents a special type of ground in the game environment.
+ *It acts as a door that allows only the player actor to enter.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Loo Li Shen
+ *
+ */
+
 public class GoldenFogDoor extends Ground {
     /**
-     * A constructor for the GoldenFogDoor class
+     * Constructs a new GoldenFogDoor object.
+     * The door is represented by the character 'D'.
      */
     public GoldenFogDoor() {
         super('D');
 
     }
 
+    /**
+     * Determines whether an actor is allowed to enter the GoldenFogDoor.
+     *
+     * @param actor the actor to check
+     * @return true if the actor has the capability of ActorTypes.PLAYER, false otherwise
+     */
     @Override
     public boolean canActorEnter(Actor actor) {
         return actor.hasCapability(ActorTypes.PLAYER);
     }
 
+    /**
+     * Performs the tick action for the GoldenFogDoor.
+     * This method is called once per turn.
+     *
+     * @param location the location of the GoldenFogDoor
+     */
     @Override
     public void tick(Location location) {
         Player player = Player.getInstance();
         GameMap mapIsAt = location.map();
+        Display display = new Display();
         int x = location.x();
 
         // staticGameMap is limgrave currently
@@ -36,8 +59,10 @@ public class GoldenFogDoor extends Ground {
         if (mapIsAt == Application.limGrave && location.containsAnActor() && Application.staticGameMap == Application.limGrave) {
             if (x == 0) {
                 transitionToMap(Application.castle, player, location);
+                display.println("You have entered StormVeil Castle");
             } else {
                 transitionToMap(Application.table, player, location);
+                display.println("You have entered Roundtable Hold");
             }
         }
 
@@ -46,14 +71,17 @@ public class GoldenFogDoor extends Ground {
         if (mapIsAt == Application.castle && location.containsAnActor() && Application.staticGameMap == Application.castle) {
             if (x == 0) {
                 transitionToMap(Application.limGrave, player, location);
+                display.println("You have entered LimGrave");
             } else {
                 transitionToMap(Application.boss, player, location);
+                display.println("You have entered the Boss Room");
             }
         }
 
         // if player at roundtable then they will return to limgrave
         if (mapIsAt == Application.table && location.containsAnActor()){
             transitionToMap(Application.limGrave, player, location);
+            display.println("You have entered LimGrave");
         }
 
     }

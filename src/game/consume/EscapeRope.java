@@ -13,6 +13,15 @@ import game.weapon.WeaponStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The EscapeRope class represents a potion item called "Teleport to RoundTable" that can be consumed only once by actors in the game.
+ * It extends the ConsumeItem class.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Loo Li Shen
+ *
+ */
+
 public class EscapeRope extends ConsumeItem {
 
     private Location currentLocation;
@@ -53,10 +62,19 @@ public class EscapeRope extends ConsumeItem {
 
     }
 
+    /**
+     * Returns a code representing this potion.
+     * @return the EscapeRope class
+     */
     public static Class<? extends Item> consumableCode() {
         return EscapeRope.class;
     }
 
+    /**
+     * Returns a list of allowable actions for the EscapeRope.
+     *
+     * @return a list of allowable actions
+     */
     @Override
     public List<Action> getAllowableActions(){
 

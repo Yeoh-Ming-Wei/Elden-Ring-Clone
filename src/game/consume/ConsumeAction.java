@@ -2,8 +2,18 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.player.Player;
+
+/**
+
+ * The ConsumeAction class represents an action where an actor consumes a consumable item.
+ * It extends the Action class.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Loo Li Shen
+ */
 
 public class ConsumeAction extends Action {
     private ConsumeItem consumable;
@@ -12,6 +22,15 @@ public class ConsumeAction extends Action {
     private String actionName;
     private int usesLeft ;
 
+    /**
+     * Constructs a new ConsumeAction object.
+     *
+     * @param consumable  the consumable item to be consumed
+     * @param action      the action value
+     * @param verb        the verb describing the action
+     * @param actionName  the name of the action
+     * @param usesLeft    the number of uses remaining for the consumable item
+     */
     public ConsumeAction(ConsumeItem consumable, int action, String verb, String actionName, int usesLeft) {
         this.consumable = consumable;
         this.action = action;
@@ -30,19 +49,22 @@ public class ConsumeAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         Player player = Player.getInstance();
+        Display display = new Display();
 
-        if (consumable.getUsesLeft() != 1){
+        // check if the item that's being consumed isn't 0
+        if (consumable.getUsesLeft() != 0){
             //call ConsumeItem.use here
             consumable.use(player);
 
             consumable.setUsesLeft(consumable.getUsesLeft() - 1);
-            player.removeItemFromInventory(consumable);
-            
-        } else {
-            consumable.use(player);
-            actor.removeItemFromInventory(consumable);
-            
+
+            // if after -1 and the uses left is 0 then the item will get removed from inventory
+            if (consumable.getUsesLeft() == 0) {
+                player.removeItemFromInventory(consumable);
+            }
+
         }
+
         String result = this.consumable + " " + this.verb + " " + this.action + this.actionName;
         return result;
 
