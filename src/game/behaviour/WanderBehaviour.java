@@ -10,13 +10,13 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
 /**
- * Created by:
- * @author Riordan D. Alfredo
- * Modified by: Lee Sing Yuan
- *
+ * A class to allow the actors to wander
+ * @author Lee Sing Yuan
  */
 public class WanderBehaviour implements Behaviour {
-	
+	/**
+	 * To choose random location
+	 */
 	private final Random random = new Random();
 
 	/**

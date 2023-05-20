@@ -14,11 +14,7 @@ import java.util.List;
 
 /**
  * A class to check if the player is nearby and should the enemy follow the actor or not
- *
- * Created by:
- * @author Riordan D. Alfredo
- * Modified by: Lee Sing Yuan
- *
+ * @author Lee Sing Yuan
  */
 public class FollowBehaviour implements Behaviour {
 
@@ -28,18 +24,19 @@ public class FollowBehaviour implements Behaviour {
 	/**
 	 * Decide wheter to follow player or not
 	 *
-	 * Apporach description:
+	 * Approach description:
 	 * 		1) get the current location of the actor
 	 * 		2) check if the player is within my Follow range
-	 * 				if yes, get the current distance between player and actor
-	 * 				loop through all the possible exits that the actor can go to
-	 * 					get the new distance
-	 * 					compare if the new distance is shorter compared to the current distance
-	 * 						if yes, return the new Move Action
+	 * 				2.1) if yes, get the current distance between player and actor
+	 * 				2.2) loop through all the possible exits that the actor can go to
+	 * 					 2.2.1) get the new distance
+	 * 					 2.2.2) compare if the new distance is shorter compared to the current distance
+	 * 						   2.2.2.1) if yes, return the new Move Action
 	 *
 	 * @param actor the Actor acting
 	 * @param map the GameMap containing the Actor
 	 * @return 	an Action object if the player is within range
+	 * 			null, if distance is not changed
 	 * 			null if not in range
 	 */
 	@Override
@@ -48,15 +45,6 @@ public class FollowBehaviour implements Behaviour {
 		Location here = map.locationOf(actor);
 
 		// to see if player is near this actor
-		/*
-		ArrayList<Location> listOfLocations = NearMe.isSpecificActorTypeInMyRange(actor,map,2, ActorTypes.PLAYER );
-		for ( Location l : listOfLocations ){
-			if ( map.getActorAt(l).hasCapability(ActorTypes.PLAYER) ){
-				playerLocation = l;
-			}
-		}
-
-		 */
 		List<Location> playerLocations = NearMe.isSpecificActorTypeInMyRange(actor, Application.staticGameMap,2,ActorTypes.PLAYER);
 
 		// because we can get an empty list if there is no player

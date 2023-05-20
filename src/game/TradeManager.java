@@ -14,6 +14,10 @@ import game.enemy.ActorTypes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utils class for trading
+ * @author Lee Sing Yuan
+ */
 public class TradeManager {
 
     /**
@@ -132,7 +136,8 @@ public class TradeManager {
      * @param i the item that can be bought from trader
      * @param purchasingPrice the purchase price of the item
      *         list is of length 0 if no possible actions are possible
-     * @return
+     * @return a list of actions
+     *          list is of length 0 if no possible actions are possible
      */
     public static List<Action> getPurchasingAction(Actor whoHasThis , Item i , int purchasingPrice ){
 
@@ -166,6 +171,8 @@ public class TradeManager {
      * @param i the item to be swapped with
      * @param nameOfTradableTraders the list of all traders this item can be used to swap for another item/weapon with
      * @param tradableWeapons the list of all weapons this can be traded for
+     * @return a list of actions
+     *          list is of length 0 if no possible actions are possible
      */
     public static List<Action> getTradeAction(Actor whoHasThis , Item i , ArrayList<String> nameOfTradableTraders , ArrayList<WeaponItem>  tradableWeapons){
 

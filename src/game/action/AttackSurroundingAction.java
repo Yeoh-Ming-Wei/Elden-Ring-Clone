@@ -8,13 +8,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 
 /**
- * An Action to allow the actor to perfom a surrounding attack on other Actors within the area.
- * Acts like a wrapper that wraps a lot of other actions together
- *
- * Created by: Lee Sing Yuan
+ * An Action to allow the actor to perform a surrounding attack on other Actors within the area.
+ * Acts like a wrapper that wraps a lot of attack actions together
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class AttackSurroundingAction extends Action {
 
@@ -39,7 +35,7 @@ public class AttackSurroundingAction extends Action {
     private Actor player;
 
     /**
-     * Constructor. for enemies attack behaviour
+     * Constructor for enemies attack behaviour
      *
      * @param initTargets is the list of targets around the area
      * @param direction the direction where the attack should be performed (only used for display purposes)
@@ -52,7 +48,7 @@ public class AttackSurroundingAction extends Action {
     }
 
     /**
-     * Constructor. for player
+     * Constructor for player
      *
      * @param player the player
      * @param direction the direction where the attack should be performed (only used for display purposes)

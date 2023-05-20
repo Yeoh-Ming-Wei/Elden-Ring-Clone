@@ -140,12 +140,17 @@ public class Application {
 		boss = newGameMap3;
 
 
-		gameMap.at(1, 13).addActor(Trader.getFingerReaderEnia());
+		/*
+		gameMap.at(1, 9).addActor(Trader.getFingerReaderEnia());
+		gameMap.at(1, 12).addActor(new HeavySkeletonSwordsman());
+		gameMap.at(2, 12).addActor(new SkeletalBandit());
+
+		 */
 		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
 		int x = 1;
-		int y = 14;
+		int y = 10;
 		Location l = new Location(gameMap,x,y);
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));

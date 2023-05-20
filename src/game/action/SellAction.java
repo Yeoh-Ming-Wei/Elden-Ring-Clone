@@ -10,11 +10,8 @@ import game.weapon.*;
 import java.util.HashMap;
 
 /**
- * An Action to allow trading between player and trader
- * Created by: Lee Sing Yuan
+ * An Action to allow the player to sell the weapon to trader
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class SellAction extends Action {
 
@@ -39,7 +36,7 @@ public class SellAction extends Action {
 	private int sellingPrice;
 
 	/**
-	 * Constructor. for weapons to be sold
+	 * Constructor for weapons to be sold
 	 *
 	 * @param trader the trader
 	 * @param w the weapon to be sold
@@ -52,7 +49,7 @@ public class SellAction extends Action {
 	}
 
 	/**
-	 * Constructor. for weapons to be sold
+	 * Constructor for weapons to be sold
 	 *
 	 * @param trader the trader
 	 * @param i the item to be sold
@@ -70,6 +67,8 @@ public class SellAction extends Action {
 	 * 		1) the weapon that wants to be sold will be instantiated with this class
 	 * 		2) add the selling price to the player's runes
 	 * 		3) remove the weapon from the player inventory
+	 *
+	 * Note: when using this class, pass a new instance of the weapon/item to allow trader to have unlimited inventory
 	 *
 	 * @param actor The player
 	 * @param map The map the actor is on.

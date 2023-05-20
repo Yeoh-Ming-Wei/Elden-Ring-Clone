@@ -2,11 +2,9 @@ package game.action;
 import java.util.Scanner;
 
 /**
- * Created by: Lee Sing Yuan
- * @author Lee Sing Yuan
- *
  * A class to accept and verify input.
  * To make player and tester's life easier instead of having to type names
+ * @author Lee Sing Yuan
  */
 public class ChoiceInput {
 
@@ -30,6 +28,7 @@ public class ChoiceInput {
         int choice = start - 1;
         // allows single buy  ( choice > exit || choice < start )
         do {
+
             // if the user did not put a number
             try {
                 String input = sel.nextLine();

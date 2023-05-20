@@ -8,31 +8,50 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
 import game.Trader;
-import game.action.NearMe;
-import game.action.SellAction;
-import game.action.TradeItemAction;
-import game.enemy.ActorTypes;
 import game.weapon.AxeOfGodrick;
 import game.weapon.GraftedDragon;
-import game.weapon.Uchigatana;
 import game.weapon.WeaponStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An item that is supposedly dropped by the demi god
+ * @author Lee Sing Yuan
+ */
 public class RemembranceOfTheGrafted extends Item {
-    // to allow getAllowableActions to check
+
+    /**
+     * For getAllowableAction() to work
+     */
     private Location currentLocation;
+
+    /**
+     * The list of weapons this item can be traded for
+     */
     private ArrayList<WeaponItem> tradableWeapons;
+
+    /**
+     * The traders which this item can be traded with
+     */
     private ArrayList<String> nameOfTradableTraders;
 
+
+    /**
+     * The selling price
+     */
     private int sellingPrice;
 
+    /**
+     * Constructor
+     */
     public RemembranceOfTheGrafted(){
         super("Remembrance of the Grafted",'O',true);
 
+        // setting the selling price
         this.sellingPrice = 20000;
 
+        // add all the weapons here
         tradableWeapons = new ArrayList<>();
         tradableWeapons.add(new AxeOfGodrick());
         tradableWeapons.add(new GraftedDragon());
@@ -41,6 +60,7 @@ public class RemembranceOfTheGrafted extends Item {
         // cannot get allowable actions
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
 
+        // add traders here
         nameOfTradableTraders = new ArrayList<>();
         nameOfTradableTraders.add(Trader.nameFingerReaderEnia);
     }
@@ -65,6 +85,11 @@ public class RemembranceOfTheGrafted extends Item {
         this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
+    /**
+     * All the possible actions that can be done with this item at the current round
+     * @return a list of actions
+     *         list size 0 if no actions possible
+     */
     @Override
     public List<Action> getAllowableActions(){
 
@@ -87,35 +112,3 @@ public class RemembranceOfTheGrafted extends Item {
         return res;
     }
 }
-/*
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
-
-        // checks who has this item
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
-        }
-
-        // this would be for the player to check if he is in the range of the trader
-        traderLocation = NearMe.isSpecificActorTypeInMyRange(whoHasThis, Application.staticGameMap,1, ActorTypes.TRADER );
-        trader = Application.staticGameMap.getActorAt(traderLocation);
-
-
-        // if the trader is in range
-        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) )
-        {
-            // check if can trade with this trader
-            if ( trader.toString() == Trader.nameFingerReaderEnia ){
-                TradeItemAction a = new TradeItemAction(trader,this);
-                a.setTradableWeapons(tradableWeapons);
-                res.add(a);
-            }
-
-            // adding the ability to sell to any trader
-            res.add(new SellAction(trader,this,this.sellingPrice));
-
-        }
- */

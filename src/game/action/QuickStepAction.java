@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * An Action to attack another Actor with some dodging maneuver .
- * Created by: Lee Sing Yuan
+ * An Action to attack another Actor and then choose a random location to relocate to
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class QuickStepAction extends Action {
 
@@ -41,7 +38,7 @@ public class QuickStepAction extends Action {
 	private Weapon weapon;
 
 	/**
-	 * Constructor.
+	 * Constructor with weapons that can do quick step action
 	 *
 	 * @param target the Actor to attack
 	 * @param direction the direction where the attack should be performed (only used for display purposes)
@@ -55,38 +52,43 @@ public class QuickStepAction extends Action {
 
 	/**
 	 * Approach description:
-	 * 		1) perform normal attacking
-	 * 		2) then relocate the player by getting all the exits
-	 * 		3) choosing a random exit to go to
+	 * 		1) perform normal attacking like Attack action
+	 * 		2) get all the possible location the actor can relocate to
+	 * 		3) choose a random exit to go to
 	 *
 	 * @param actor The Player
 	 * @param map The map the actor is on.
 	 * @return the result of the attack, e.g. whether the target is killed, etc.
-	 * @see DeathAction
+	 * @see edu.monash.fit2099.engine.actions.MoveActorAction
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
-
+		// attacking \\
+		// check if the attacker miss the target
 		if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
 			return actor + " misses " + target + ".";
 		}
 
+		// hurt the target
 		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
 		// this is for the HSS, because if he dies the first time, he actually uses the skill
 		if (!target.isConscious() && target.hasCapability(PileOfBones.PILE_OF_BONES)){
+
+			// consume the skill by removing it
 			target.removeCapability(PileOfBones.PILE_OF_BONES);
 			System.out.println(target + " turns to a pile of bones!");
 
 		}
 
+		// if it is a normal target and hp is gone, just kill the target
 		else if (!target.isConscious()) {
 			result += new DeathAction(actor, target).execute(target, map);
 		}
 
-		// repositioning actor
+		// repositioning actor \\
 		// code taken from wander behavior
 		ArrayList<Action> actions = new ArrayList<>();
 

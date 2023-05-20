@@ -11,12 +11,12 @@ import java.util.List;
  * A weapon used by GiantCrab to slam the area
  * It deals 208 damage with 90% hit rate
  * not droppable
- * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class CrabSlam extends WeaponItem {
+    /**
+     * used by getAllowableActions
+     */
     private Location currentLocation;
 
     /**

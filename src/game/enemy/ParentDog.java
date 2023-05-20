@@ -2,9 +2,7 @@ package game.enemy;
 
 /**
  * BEHOLD, DOG!
- *
- * Created by: Adrian Kristanto
- * Modified by:
+ * @author Lee Sing Yuan
  */
 public abstract class ParentDog extends Enemy {
 
@@ -16,6 +14,8 @@ public abstract class ParentDog extends Enemy {
      */
     public ParentDog(String initName, char initDisplay, int initHp) {
         super(initName,initDisplay,initHp);
+
+        // adding the type
         this.addCapability(ActorTypes.PARENTDOG);
     }
 

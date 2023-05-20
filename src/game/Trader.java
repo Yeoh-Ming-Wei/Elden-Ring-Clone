@@ -7,20 +7,19 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.action.PurchaseAction;
-import game.action.SellAction;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
 import game.weapon.*;
 
-import java.util.ArrayList;
 
 /**
  * A class for trader
  * All trading will be instantiated by player
  */
 public class Trader extends Actor {
-    // the names of the merchants so that the items can use it
+    /**
+     * The name of the merchants
+     */
     public static final String nameMerchantKale = "Merchant Kale";
     public static final String nameFingerReaderEnia = "Finger Reader Enia";
 

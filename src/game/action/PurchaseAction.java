@@ -6,15 +6,10 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
-import game.weapon.*;
-import java.util.HashMap;
 
 /**
- * An Action to allow trading between player and trader
- * Created by: Lee Sing Yuan
+ * A class to allow the trader to give purchase actions to the player
  * @author Lee Sing Yuan
- * Modified by:
- *
  */
 public class PurchaseAction extends Action {
 
@@ -39,7 +34,7 @@ public class PurchaseAction extends Action {
 	private int buyingPrice;
 
 	/**
-	 * Constructor. to buy weapons
+	 * Constructor to buy weapons
 	 *
 	 * @param trader the trader
 	 * @param w the weapon to be bought
@@ -52,7 +47,7 @@ public class PurchaseAction extends Action {
 	}
 
 	/**
-	 * Constructor. to buy items
+	 * Constructor to buy items
 	 *
 	 * @param trader the trader
 	 * @param i the item to be bought
@@ -66,11 +61,11 @@ public class PurchaseAction extends Action {
 
 
 	/**
-	 * Apporach description:
+	 * Approach description:
 	 * 		1) the class will be instantiated with the weapon that wants to be bought
 	 * 		2) call the rune manager to get the player's runes
 	 * 		3) check if the player can buy this weapon
-	 * 		4) if can buy, add this weapon to the player's inventory and deduct the player's runes
+	 * 			3.1) if can buy, add this weapon/item to the player's inventory and deduct the player's runes
 	 *
 	 * Assumption:
 	 * 		the weapons are already instantiated once, in order to be available to buy
