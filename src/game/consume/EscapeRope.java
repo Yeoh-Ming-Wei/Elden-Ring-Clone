@@ -27,7 +27,7 @@ public class EscapeRope extends ConsumeItem {
     private Location currentLocation;
 
     public EscapeRope() {
-        super("Teleport to RoundTable", 'T', true, 1);
+        super("Location Displacement", 'T', true, 1);
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
@@ -87,7 +87,7 @@ public class EscapeRope extends ConsumeItem {
 
         for(Item item : whoHasThis.getItemInventory()){
             if (item.getClass() == consumableCode()){
-                res.add(new ConsumeAction(this,1, "teleport to", "st RoundTable", super.getUsesLeft()));
+                res.add(new ConsumeAction(this,1, "teleports to", "st RoundTable", super.getUsesLeft()));
                 break;
             }
         }
