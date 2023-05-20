@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
+import game.TradeManager;
 import game.action.*;
 import game.enemy.ActorTypes;
 
@@ -37,7 +38,9 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
         this.buyingPrice = 1500;
         this.sellingPrice = 100;
 
-
+        // to avoid the bug where in the first round
+        // cannot get allowable actions
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -48,6 +51,7 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -110,7 +114,7 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
         // adding the actions to all the enemies around this actor
         for ( Actor target : targets ){
             if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
-                res.add(new AttackAction(target,"In range",this));
+                res.add(new AttackAction(target,"target within range",this));
             }
         }
 
@@ -118,42 +122,12 @@ public class HeavyCrossbow extends WeaponItem implements Purchasable,Sellable{
 
         // trading \\
 
-        // trader
-        Location traderLocation = null;
-        Actor trader = null;
+        // selling called by player
+        res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
-        // player
-        Location playerLocation = null;
-        Actor player = null;
+        // purchasing called by trader
+        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new HeavyCrossbow(),this.getPurchasePrice()));
 
-        // this would be for the player to check if he is in the range of the trader
-        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
-        trader = Application.staticGameMap.getActorAt(traderLocation);
-
-        // this would be for the trader to check if the player is in the range of the trader
-        playerLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.PLAYER);
-
-        // if trader is null, means this method is called by the trader so must set the trader to itself
-        if ( trader== null ){
-            trader = whoHasThis;
-        }
-
-        // selling //
-        // this res will be for the player, means this weapon is in the player
-        // if the player has this weapon and trader is within range
-        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) )
-        {
-            res.add(new SellAction(trader,this,this.getSellingPrice()));
-        }
-
-        // buying //
-        // this means that the res is for trader
-        // checks if the player is in the range of the trader
-        if ( playerLocation != null && whoHasThis.hasCapability(ActorTypes.TRADER) ){
-
-            // use a new uchigatana because if use the "this", will have bug caused by reference
-            res.add(new PurchaseAction(trader,new HeavyCrossbow(),this.buyingPrice) ) ;
-        }
         return res;
     }
 }

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class AttackBehaviour implements Behaviour {
     private final Random random = new Random();
-    private int skillChance = 0;
+    private int skillChance = 50;
 
     /**
      * Decides whether an enemy should attack another actor or not
@@ -117,16 +117,23 @@ public class AttackBehaviour implements Behaviour {
         // this is to get a random action
         if (!targets.isEmpty()) {
 
-            // because we use random, sometimes the target can be of the same type and this makes the
-            // enemy not attack and perform other behaviours instead
-            Actor target = targets.get(random.nextInt(targets.size()));
+            // loop until no more targets or return an AttackAction with an attackable target
+            while (targets.size() > 0) {
+                // because we use random, sometimes the target can be of the same type and this makes the
+                // enemy not attack and perform other behaviours instead
+                Actor target = targets.get(random.nextInt(targets.size()));
 
-            // after deciding who to attack, return a new AttackAction
-            if ( isValid.isValidRole(actor,target) && isValid.isValidActorType(actor,target) ){
+                // after deciding who to attack, return a new AttackAction
+                if (isValid.isValidRole(actor, target) && isValid.isValidActorType(actor, target)) {
 
-                // _ means no direction
-                return new AttackAction(target, "_",
-                        actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
+                    // _ means no direction
+                    return new AttackAction(target, "_",
+                            actor.getWeaponInventory().size() > 0 ? actor.getWeaponInventory().get(0) : actor.getIntrinsicWeapon());
+                } else {
+                    // to remove the target
+                    // because if cannot attack means the whole while loop will run until its empty
+                    targets.remove(target);
+                }
             }
         }
 

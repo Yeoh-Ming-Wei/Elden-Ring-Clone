@@ -2,46 +2,49 @@ package game.weapon;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
-import game.action.*;
+import game.action.AttackAction;
+import game.action.NearMe;
+import game.action.PurchaseAction;
+import game.action.SellAction;
 import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A weapon used by skeleton
- * It deals 118 damage with 88% hit rate
+ * A staff used for magic
+ * It deals 64 damage with 57% hit rate
  * Buying and selling are from the player's POV
  * Created by: Lee Sing Yuan
  * @author Lee Sing Yuan
  * Modified by:
  *
  */
-public class Scimitar extends WeaponItem implements Purchasable,Sellable{
+public class AstrologerStaff extends WeaponItem implements Purchasable,Sellable{
     // to allow getAllowableActions to check
     private Location currentLocation;
 
     private int buyingPrice;
     private int sellingPrice;
 
-
     /**
      * Constructor
      */
-    public Scimitar() {
-        super("Scimitar", 's', 118, "slashes", 88);
-        addCapability(WeaponSkill.AREA_ATTACK);
-        buyingPrice = 600;
-        sellingPrice = 100;
+    public AstrologerStaff() {
+        super("Staff", 'f', 274 , "avakadabra", 50);
+
+        // to not return hardcode values
+        this.buyingPrice = 800;
+        this.sellingPrice = 100;
 
         // to avoid the bug where in the first round
         // cannot get allowable actions
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
+
     }
 
     /**
@@ -83,21 +86,19 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
      *              else, return nothing
      *      4) checks surrounding
      *      5) if it has an actor
-     *      6) checks surrounding to see if there is a valid target to use the skill on
+     *              check type between the wielder of the weapon and the target which is in the surrounding
      *              eg: Lone Wolf is of type enemy and Dog, Heavy Skeleton Swordsman is of type enemy and Skeleton
      *                  they can attack each other
-     *      7) loops once more to add the targets
-     *      8) if all checks pass, add the actions to the resulting list
-     *      9) this part is for player to get attackActions with this weapon
+     *      6) if all checks pass, add the actions to the resulting list
      *
      * Assumption: needs tick to be executed at least once in order to have the available actions
-     *
      * @return a list of actions that the wielder can do with this weapon
      *          list will be empty if no actions are possible
      */
+    @Override
     public List<Action> getAllowableActions(){
-        boolean isSkill = false;
 
+        // attack \\
         // the resulting list of actions
         List<Action> res = new ArrayList<>();
 
@@ -111,39 +112,13 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
         {
             return res;
         }
+        // get the target and exit information surrounding this actor ( whoHasThis )
+        List<Actor> targets = NearMe.getSurroundingActors(whoHasThis,Application.staticGameMap,3);
 
-        // attacking //
-        // checks all locations around me
-        // check if there is someone of different type to initiate skill
-        List<Actor> targets;
-        isSkill = GetAllowableActions.canSkill(whoHasThis,currentLocation);
-
-        // add all the targets around this actor
-        targets = GetAllowableActions.getTargets(isSkill,currentLocation);
-
-        // adding the attack surrounding actions after getting all the actors
-        if ( targets.size() > 0 ) {
-            res.add(new AttackSurroundingAction(targets, "attacks surrounding", this));
-        }
-
-        // if got targets nearby
-        // return attack single enemies
-        // used by player
-        if (!targets.isEmpty()) {
-
-            // use exit cause want the direction
-            for (Exit exit : currentLocation.getExits()) {
-                Location l = exit.getDestination();
-
-                // if it has an actor and it is attackable
-                if (l.containsAnActor()) {
-
-                    // get that actor and add the skill action
-                    Actor target = l.getActor();
-                    if (isValid.isValidRole(whoHasThis, target) && isValid.isValidActorType(whoHasThis, target)) {
-                        res.add(new AttackAction(target, exit.getName(), this));
-                    }
-                }
+        // adding the actions to all the enemies around this actor
+        for ( Actor target : targets ){
+            if ( isValid.isValidRole(whoHasThis,target) && isValid.isValidActorType(whoHasThis,target) ){
+                res.add(new AttackAction(target,"target within range",this));
             }
         }
 
@@ -155,7 +130,7 @@ public class Scimitar extends WeaponItem implements Purchasable,Sellable{
         res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
         // purchasing called by trader
-        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new Scimitar(),this.getPurchasePrice()));
+        res.addAll(TradeManager.getPurchasingAction(whoHasThis,new AstrologerStaff(),this.getPurchasePrice()));
         return res;
     }
 }

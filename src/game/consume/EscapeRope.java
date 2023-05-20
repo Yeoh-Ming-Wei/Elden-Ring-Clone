@@ -3,42 +3,32 @@ package game.consume;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Application;
-import game.ResetManager;
-import game.Resettable;
+
+import game.environment.GoldenFogDoor;
+import game.player.Player;
 import game.weapon.WeaponStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The FlaskOfCrimsonTears class represents a potion item called "Flask Of Crimson Tears" that can be consumed by actors in the game.
- * It extends the ConsumeItem class and implements the Resettable interface.
+ * The EscapeRope class represents a potion item called "Teleport to RoundTable" that can be consumed only once by actors in the game.
+ * It extends the ConsumeItem class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
  * Modified by: Loo Li Shen
  *
  */
 
-public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
-    static int ogUse = 2;
-    static int maxUses = 2;
-    static int action = 250;
+public class EscapeRope extends ConsumeItem {
 
     private Location currentLocation;
 
-    /**
-     * Constructor.
-     */
-    public FlaskOfCrimsonTears() {
-        super("Flask Of Crimson Tears", 'C', false, maxUses) ;
-
-        ResetManager.registerResettable(this);
+    public EscapeRope() {
+        super("Teleport to RoundTable", 'T', true, 1);
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
-
-
     }
 
     /**
@@ -53,14 +43,14 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
     }
 
     /**
-     * Get the number of uses remaining for this potion.
+     * Get the number of uses remaining for this consumable.
      */
     public int getUsesLeft() {
         return super.getUsesLeft();
     }
 
     /**
-     * Use this potion, restoring the player's health by a fixed amount.
+     * Use this consumable, teleporting player to solg.
      * @param actor the player who is using the potion
      */
     @Override
@@ -68,36 +58,20 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         if (getUsesLeft() == 0) {
             return;
         }
-        actor.heal(action);
-    }
+        GoldenFogDoor.transitionToMap(Application.table, Player.getInstance(), currentLocation);
 
-    /**
-     * Set the number of uses remaining for this potion.
-     * @param usesLeft the number of uses remaining
-     */
-    public void setUsesLeft(int usesLeft) {
-        super.setUsesLeft(usesLeft);
-    }
-
-    /**
-     * Returns the name of this potion.
-     * @return the name of this potion
-     */
-    public static String getName() {
-        return "Flask Of Crimson Tears";
     }
 
     /**
      * Returns a code representing this potion.
-     * @return the FlaskOfCrimsonTears class
+     * @return the EscapeRope class
      */
-    public static Class<? extends Item> potionCode() {
-        return FlaskOfCrimsonTears.class;
+    public static Class<? extends Item> consumableCode() {
+        return EscapeRope.class;
     }
 
-
     /**
-     * Returns a list of allowable actions for the flask.
+     * Returns a list of allowable actions for the EscapeRope.
      *
      * @return a list of allowable actions
      */
@@ -112,21 +86,11 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         }
 
         for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == potionCode()){
-                res.add(new ConsumeAction(this,250, "Heal for", " Health", super.getUsesLeft()));
+            if (item.getClass() == consumableCode()){
+                res.add(new ConsumeAction(this,1, "teleport to", "st RoundTable", super.getUsesLeft()));
                 break;
             }
         }
         return res;
-    }
-
-    /**
-     * Resets the flask to its initial state.
-     *
-     * @param map the game map
-     */
-    @Override
-    public void reset(GameMap map) {
-        setUsesLeft(ogUse);
     }
 }

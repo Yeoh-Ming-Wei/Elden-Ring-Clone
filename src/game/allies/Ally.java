@@ -1,4 +1,4 @@
-package game.enemy;
+package game.allies;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -6,48 +6,68 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.Application;
 import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
-import game.action.*;
+import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
-import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
-import game.weapon.WeaponSkill;
-import game.weapon.isValid;
+import game.enemy.ActorTypes;
+import game.enemy.Roles;
+import game.player.PlayerRole;
+import game.player.RoleManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-public abstract class Enemy extends Actor implements Resettable {
+public class Ally extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
      * Constructor.
      *
      * @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the display
      * @param hitPoints   the Actor's starting hit points
      */
-    public Enemy(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints);
+    private Ally(String name, int hitPoints) {
+        super("Ally: " + name, 'A', hitPoints);
 
-        // to add enemies capabilities
-        this.addCapability(Roles.ENEMIES);
+        // to add the respective capabilities
+        this.addCapability(ActorTypes.ALLY);
+        this.addCapability(Roles.ALLIES);
 
         // putting in all the behaviours
-        behaviours.put(FollowBehaviour.behaviorCode(), new FollowBehaviour());
-
         behaviours.put(AttackBehaviour.behaviorCode(), new AttackBehaviour());
 
         behaviours.put(WanderBehaviour.behaviorCode(), new WanderBehaviour());
 
         ResetManager.registerResettable(this);
+    }
+
+    /**
+     * The method to obtain an instance of this class,
+     *
+     * Note: the reason we need this method is because, the constructor has different parameters,
+     *      so we need another level before calling the constructor which will decide the parameters
+     *
+     * @return an Ally instance
+     */
+    public static Ally getAllyInstance(){
+        // to select a random role
+        Random random = new Random();
+        int choice = random.nextInt(RoleManager.playerRoles.size());
+
+        // get the role information
+        PlayerRole wantedRole = RoleManager.playerRoles.get(choice);
+
+        // create the player
+        Ally ally = new Ally(wantedRole.getName(),wantedRole.getHp());
+
+        RoleManager.addCapabilityItemWeapon(ally,wantedRole);
+
+        return ally;
     }
 
     /**
@@ -67,12 +87,6 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-
-        // to only allow player to use this function
-        if (otherActor.hasCapability(ActorTypes.PLAYER)) {
-            // adding the intrinsic weapon choice
-            actions.add(new AttackAction(this, direction));
-        }
         return actions;
     }
 
@@ -99,27 +113,10 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // because to use weapons' get allowableActions,
-        // it needs to know the current locations
-        // so need to tick first
-        // does not need any check, cause all of the weapon's get allowable actions
-        // is done during play turn
+        // to tick every item just in case tick in world does not run before the enemy's turn
         for ( WeaponItem w : this.getWeaponInventory() )
         {
             w.tick(map.locationOf(this),this);
-        }
-
-
-        // follow has the highest precedence
-        // checks if giant crab has this behaviour
-        if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
-            Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
-
-            // if the behaviour exist but cant do anything like follow anyone or player
-            // it will return null so that can execute other behaviors
-            if (action != null) {
-                return action;
-            }
         }
 
         // attack has the second-highest precedence
@@ -147,6 +144,8 @@ public abstract class Enemy extends Actor implements Resettable {
                 return action;
             }
         }
+
+
 
 
 

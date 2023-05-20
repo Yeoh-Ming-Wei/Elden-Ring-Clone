@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
+import game.TradeManager;
 import game.action.*;
 import game.enemy.ActorTypes;
 
@@ -36,6 +37,10 @@ public class Grossmesser extends WeaponItem implements Sellable{
         super("Grossmesser", '?', 115, "slashes", 85);
         addCapability(WeaponSkill.AREA_ATTACK);
         sellingPrice = 100;
+
+        // to avoid the bug where in the first round
+        // cannot get allowable actions
+        this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -46,6 +51,7 @@ public class Grossmesser extends WeaponItem implements Sellable{
     @Override
     public void tick(Location currentLocation, Actor actor) {
         this.currentLocation = currentLocation;
+        this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
     /**
@@ -139,19 +145,9 @@ public class Grossmesser extends WeaponItem implements Sellable{
         // trading \\
 
         // trader
-        Location traderLocation = null;
-        Actor trader = null;
 
-        // this would be for the player to check if he is in the range of the trader
-        traderLocation = NearMe.whoInMyRange(whoHasThis,Application.staticGameMap,1,ActorTypes.TRADER);
-        trader = Application.staticGameMap.getActorAt(traderLocation);
-
-        // selling //
-        // this res will be for the player, means this weapon is in the player
-        // if the player has this weapon and trader is within range
-        if ( traderLocation != null && trader != null && whoHasThis.hasCapability(ActorTypes.PLAYER) ){
-            res.add(new SellAction(trader,this,this.getSellingPrice()));
-        }
+        // selling called by player
+        res.addAll(TradeManager.getSellingAction(whoHasThis,this,this.getSellingPrice()));
 
         return res;
     }
