@@ -2,6 +2,7 @@ package game.environment;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.Application;
 import game.RandomNumberGenerator;
 import game.enemy.Dog;
 
@@ -21,7 +22,7 @@ public class Cage extends Ground {
 
         int p = RandomNumberGenerator.getRandomInt(100) ;
 
-        if (p < 37 && !location.map().isAnActorAt(location)) {
+        if (p < 37 && !location.map().isAnActorAt(location) && Application.staticGameMap == Application.castle) {
             location.map().at(location.x(), location.y()).addActor(new Dog()) ;
         }
 	}
