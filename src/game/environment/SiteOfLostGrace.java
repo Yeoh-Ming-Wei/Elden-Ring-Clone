@@ -20,7 +20,7 @@ public class SiteOfLostGrace extends Ground {
     @Override
     public void tick(Location location) {
 
-        Player player = Player.getInstance() ;
+        Player player = Player.getInstance();
         super.tick(location);
         
         if (player.lastVisited()[0] == -1 && player.lastVisited()[1] == -1) {

@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.displays.Menu;
@@ -12,11 +11,11 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.ResetManager;
 import game.Resettable;
 import game.action.ChoiceInput;
+import game.consume.EscapeRope;
+import game.consume.GoldenRunes;
 import game.enemy.ActorTypes;
 import game.enemy.Roles;
-import game.potion.ConsumeAction;
-import game.potion.FlaskOfCrimsonTears;
-import game.potion.Heal;
+import game.consume.FlaskOfCrimsonTears;
 import game.rune.RuneManager;
 import game.specialItems.RemembranceOfTheGrafted;
 import game.weapon.*;
@@ -52,6 +51,8 @@ public class Player extends Actor implements Resettable {
 		super(name, '@', hitPoints);
 		this.addCapability(ActorTypes.PLAYER);
 		this.addCapability(Roles.ALLIES);
+		this.addItemToInventory(new FlaskOfCrimsonTears());
+		this.addItemToInventory(new EscapeRope());
 		this.lastSiteOfLostGrace = new int[2] ;
 		this.lastSiteOfLostGrace[0] = -1 ; this.lastSiteOfLostGrace[1] = -1 ;
 
@@ -124,20 +125,11 @@ public class Player extends Actor implements Resettable {
 			}
 		}
 
+		this.location = map.locationOf(player) ;
+
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
-
-		// Create a new action to consume a potion if the player has one in their inventory
-		for (Item item : this.getItemInventory()) {
-			if (item.hasCapability(Heal.HEAL)){
-				actions.add(new ConsumeAction(item));
-			}
-		
-		// To collect the location of the player
-		this.location = map.locationOf(player) ;
-
-	}
 
 		// to print the HP before printing all the available options
 		System.out.printf("HP: %s, Rune: %d\n", this.printHp(), RuneManager.getInstance().returnRune()) ;
