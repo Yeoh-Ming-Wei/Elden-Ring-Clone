@@ -14,6 +14,16 @@ import game.rune.RuneManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+
+ * The GoldenRunes class represents a consumable item called "Golden Seeds" in the game.
+ * It extends the ConsumeItem class.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Yeoh Ming Wei
+ *
+ */
+
 public class GoldenRunes extends ConsumeItem {
 
     private final int MIN = 200;
@@ -52,6 +62,11 @@ public class GoldenRunes extends ConsumeItem {
         RuneManager.getInstance().addRune(player, runesAdded);
     }
 
+    /**
+     * Returns a list of allowable actions for the golden runes.
+     *
+     * @return a list of allowable actions
+     */
     @Override
     public List<Action> getAllowableActions() {
 
@@ -65,6 +80,13 @@ public class GoldenRunes extends ConsumeItem {
   
     }
 
+    /**
+     * Adds golden runes to random locations on the given game map for the specified actor.
+     * gets the size of the map and then the item is added if that map doesn't have any collusion
+     *
+     * @param map   the game map
+     * @param actor the actor to add the seeds for
+     */
     public void addGoldenRunesToRandomLocation(GameMap map, Actor actor) {
 
 		int width = map.getXRange().max();

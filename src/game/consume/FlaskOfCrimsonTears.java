@@ -13,7 +13,17 @@ import game.weapon.WeaponStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The FlaskOfCrimsonTears class represents a potion item called "Flask Of Crimson Tears" that can be consumed by actors in the game.
+ * It extends the ConsumeItem class and implements the Resettable interface.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Loo Li Shen
+ *
+ */
+
 public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
+    static int ogUse = 2;
     static int maxUses = 2;
     static int action = 250;
 
@@ -79,12 +89,18 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
 
     /**
      * Returns a code representing this potion.
-     * @return
+     * @return the FlaskOfCrimsonTears class
      */
     public static Class<? extends Item> potionCode() {
         return FlaskOfCrimsonTears.class;
     }
 
+
+    /**
+     * Returns a list of allowable actions for the flask.
+     *
+     * @return a list of allowable actions
+     */
     @Override
     public List<Action> getAllowableActions(){
 
@@ -104,8 +120,13 @@ public class FlaskOfCrimsonTears extends ConsumeItem implements Resettable {
         return res;
     }
 
+    /**
+     * Resets the flask to its initial state.
+     *
+     * @param map the game map
+     */
     @Override
     public void reset(GameMap map) {
-        setUsesLeft(maxUses);
+        setUsesLeft(ogUse);
     }
 }

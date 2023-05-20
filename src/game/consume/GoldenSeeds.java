@@ -15,16 +15,32 @@ import game.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+
+ * The GoldenSeeds class represents a consumable item called "Golden Seeds" in the game.
+ * It extends the ConsumeItem class.
+ * Created by: Loo Li Shen
+ * @author Loo Li Shen
+ * Modified by: Loo Li Shen
+ *
+ */
+
 public class GoldenSeeds extends ConsumeItem{
 
     private Location currentLocation;
 
+    /**
+     * Constructs a new GoldenSeeds object.
+     * The golden seeds are represented by the character 'S'.
+     */
     public GoldenSeeds() {
         super("Golden Seeds", 'S', true, 0);
     }
 
     /**
      * used to update the location so that getAllowableActions can use it
+     * if the player is on it then the PickUpAction would be available
+     * and the number of golden seeds in the player's inventory will increase
      * @param currentLocation The location of the actor carrying this Item.
      * @param actor The actor carrying this Item.
      */
@@ -84,6 +100,11 @@ public class GoldenSeeds extends ConsumeItem{
         return GoldenSeeds.class;
     }
 
+    /**
+     * Returns a list of allowable actions for the golden seeds.
+     *
+     * @return a list of allowable actions
+     */
     @Override
     public List<Action> getAllowableActions(){
 
@@ -96,13 +117,20 @@ public class GoldenSeeds extends ConsumeItem{
 
         for(Item item : whoHasThis.getItemInventory()){
             if (item.getClass() == seedsCode()){
-                res.add(new ConsumeAction(this,1, "Flask of Crimson Tears permanently increased by", " amount", super.getUsesLeft()));
+                res.add(new ConsumeAction(this,1, "increases Flask of Crimson Tears permanently by", " amount", super.getUsesLeft()));
                 break;
             }
         }
         return res;
     }
 
+    /**
+     * Adds golden seeds to random locations on the given game map for the specified actor.
+     * gets the size of the map and then the item is added if that map doesn't have any collusion
+     *
+     * @param map   the game map
+     * @param actor the actor to add the seeds for
+     */
     public void addGoldenSeedsToRandomLocation(GameMap map, Actor actor) {
 
         int width = map.getXRange().max();
