@@ -32,7 +32,8 @@ public class Application {
 
 		World world = new World(new Display());
 
-		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack());
+		FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt() , new Floor() , new Wall() , new Graveyard(), new GustOfWind(), 
+			new PuddleOfWater(), new SiteOfLostGrace(), new Cliff(), new GoldenFogDoor(), new Cage(), new Barrack(), new Sign());
 
 		List<String> map = Arrays.asList(
 				"D.D...................#.............#..........................+++.........",
@@ -48,7 +49,7 @@ public class Application {
 				"........+++++++...................________#................................",
 				"..........+++.....................#________................................",
 				"............+++...................#_______#................................",
-				".............+....................###___###................................",
+				"....=........+....................###___###................................",
 				"..U.........++......................#___#..................................",
 				"DDD...........+.U.............................D............................",
 				"..............++...........................................................",
