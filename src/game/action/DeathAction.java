@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.FancyMessage;
 import game.ResetManager;
 import game.enemy.ActorTypes;
 import game.rune.DropRuneAction;
@@ -73,9 +74,8 @@ public class DeathAction extends Action {
             
             target.addCapability(Status.DEAD) ;
             ResetManager.run(map) ;
-            result = new DropRuneAction().execute(target, map) ;
-            
-
+            result = new DropRuneAction().execute(target, map) + '\n' + FancyMessage.YOU_DIED;
+        
         }
         return result;
     }

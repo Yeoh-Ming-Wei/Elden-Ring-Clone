@@ -1,17 +1,13 @@
 package game;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
-import game.allies.Ally;
 import game.consume.GoldenRunes;
 import game.consume.GoldenSeeds;
-import game.enemy.*;
 import game.environment.*;
 import game.player.Player;
 
@@ -39,22 +35,22 @@ public class Application {
 		List<String> map = Arrays.asList(
 				"D.D...................#.............#..........................+++.........",
 				"......................#.............#.......................+++++..........",
-				"......................#..___....____#.........................+++++........",
-				"......................#...........__#............................++........",
-				"......................#_____........#.............................+++......",
-				"......................#............_#..............................+++.....",
-				"......................######...######......................................",
-				"...........................................................................",
-				"...........................................................................",
+				".......nnnn...........#..___....____#.........................+++++........",
+				".......nnnn...........#...........__#.............~~~~~~~........++........",
+				"......................#_____........#..........~~~~~~~~~~~~~......+++......",
+				"......................#............_#.......~~~~~~~~~~~~~~~........+++.....",
+				"......................######...######........~~~~~~~~~~~...................",
+				"................................................................&&.........",
+				"................................................................&&.........",
 				"........++++......................###___###................................",
-				"........+++++++...................________#................................",
-				"..........+++.....................#________................................",
-				"............+++...................#_______#................................",
-				"....=........+....................###___###................................",
-				"..U.........++......................#___#..................................",
-				"DDD...........+.U.............................D............................",
-				"..............++...........................................................",
-				"..............................................++...........................",
+				"~~~~~..+++++++....................________#................................",
+				"~~~~~~....+++..............=......#___U____....nnnn........................",
+				"~~~~~~~~....+++...................#_______#....nnnn........................",
+				"~~~~~~~~~....+....................###___###................................",
+				"............++......................#___#..................................",
+				"DDD...........+............................................................",
+				"..............++......&&...................................................",
+				"......................&&.....................D++...........................",
 				"..................++++......................+++...............######..##...",
 				"#####___######....++...........................+++............#....____....",
 				"_____________#.....++++..........................+..............__.....#...",
@@ -142,27 +138,19 @@ public class Application {
 		boss = newGameMap3;
 
 
-		/*
-		gameMap.at(1, 9).addActor(Trader.getFingerReaderEnia());
-		gameMap.at(1, 12).addActor(new HeavySkeletonSwordsman());
-		gameMap.at(2, 12).addActor(new SkeletalBandit());
+		
+		gameMap.at(8, 21).addActor(Trader.getFingerReaderEnia());
+		gameMap.at(4, 21).addActor(Trader.getMerchantKale());
 
-		 */
+
 		// HINT: what does it mean to prefer composition to inheritance?
-		// use x = 38 and y = 10 to spawn at site of lost grace
-		int x = 1;
-		int y = 10;
-		Location l = new Location(gameMap,x,y);
+		// use x = 38 and y = 11 to spawn at site of lost grace
+		int x = 38;
+		int y = 11;
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
-		gameMap.at(2, 7).addActor(Invader.getInvaderInstance());
-		gameMap.at(2, 8).addActor(Ally.getAllyInstance());
 		// Adding golden runes
-		// GoldenRunes goldenRunes = new GoldenRunes();
-
-
-				// Adding golden runes
 		GoldenRunes goldenRunes = new GoldenRunes();
 		goldenRunes.addGoldenRunesToRandomLocation(gameMap, player);
 		goldenRunes.addGoldenRunesToRandomLocation(newGameMap, player);
@@ -170,8 +158,6 @@ public class Application {
 		GoldenSeeds goldenSeeds = new GoldenSeeds();
 		goldenSeeds.addGoldenSeedsToRandomLocation(gameMap, player);
 		goldenSeeds.addGoldenSeedsToRandomLocation(newGameMap, player);
-
-
 
 		world.run();
 	}
