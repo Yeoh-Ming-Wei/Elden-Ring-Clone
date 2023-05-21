@@ -30,7 +30,7 @@ public class Cage extends Ground {
 
         int p = RandomNumberGenerator.getRandomInt(100) ;
 
-        if (p < 37 && !location.map().isAnActorAt(location) && Application.staticGameMap == Application.castle) {
+        if (p < 37 && !location.map().isAnActorAt(location)) {
             location.map().at(location.x(), location.y()).addActor(new Dog()) ;
         }
 	}
