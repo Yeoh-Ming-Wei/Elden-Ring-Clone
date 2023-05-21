@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.Application;
 import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
@@ -25,6 +26,9 @@ import java.util.Map;
  * The parent class for the enemy
  */
 public abstract class Enemy extends Actor implements Resettable {
+
+    private GameMap map = null;
+
     // all the behaviours
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
@@ -92,65 +96,77 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-        // because to use weapons' get allowableActions,
-        // it needs to know the current locations
-        // so need to tick first
-        for ( WeaponItem w : this.getWeaponInventory() )
-        {
-            if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
-                w.tick(map.locationOf(this), this);
-                actions.add(w.getAllowableActions());
+        if (this.map == null) {
+            this.map = map ;
+        }
+
+        if (Application.staticGameMap == this.map) {        
+            // because to use weapons' get allowableActions,
+            // it needs to know the current locations
+            // so need to tick first
+            for ( WeaponItem w : this.getWeaponInventory() )
+            {
+                if ( w.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                    w.tick(map.locationOf(this), this);
+                    actions.add(w.getAllowableActions());
+                }
             }
-        }
 
-        // because to use items' get allowableActions,
-        // it needs to know the current locations
-        // so need to tick first
-        for ( Item i: this.getItemInventory() )
-        {
-            if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
-                i.tick(map.locationOf(this), this);
-                actions.add(i.getAllowableActions());
+            // because to use items' get allowableActions,
+            // it needs to know the current locations
+            // so need to tick first
+            for ( Item i: this.getItemInventory() )
+            {
+                if ( i.hasCapability(WeaponStatus.HAVE_NOT_TICKED) ) {
+                    i.tick(map.locationOf(this), this);
+                    actions.add(i.getAllowableActions());
+                }
             }
-        }
 
-        // follow has the highest precedence
-        if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
-            Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
+            // follow has the highest precedence
+            if(behaviours.containsKey(FollowBehaviour.behaviorCode())){
+                Action action = behaviours.get(FollowBehaviour.behaviorCode()).getAction(this, map);
 
-            // if the behaviour exist but cant do anything like follow anyone or player
-            // it will return null so that can execute other behaviors
-            if (action != null) {
-                return action;
+                // if the behaviour exist but cant do anything like follow anyone or player
+                // it will return null so that can execute other behaviors
+                if (action != null) {
+                    return action;
+                }
             }
-        }
 
-        // attack has the second-highest precedence
-        if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
-            Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
+            // attack has the second-highest precedence
+            if(behaviours.containsKey(AttackBehaviour.behaviorCode())){
+                Action action = behaviours.get(AttackBehaviour.behaviorCode()).getAction(this, map);
 
-            // if the behaviour exist but cant do anything like attack anyone,
-            // it will return null so that can execute other behaviors
-            if (action != null) {
-                return action;
+                // if the behaviour exist but cant do anything like attack anyone,
+                // it will return null so that can execute other behaviors
+                if (action != null) {
+                    return action;
+                }
             }
-        }
 
-        // check if can despawn
-        if (RandomNumberGenerator.getRandomInt(100) < 10) {
-            return new DespawnAction(this);
-        }
-
-        // wander is the lowest precedence
-        if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
-        {
-            Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
-            if (action != null) {
-                return action;
+            // check if can despawn
+            if (RandomNumberGenerator.getRandomInt(100) < 10) {
+                return new DespawnAction(this);
             }
-        }
 
-        return new DoNothingAction();
+            // wander is the lowest precedence
+            if(behaviours.containsKey(WanderBehaviour.behaviorCode()))
+            {
+                Action action = behaviours.get(WanderBehaviour.behaviorCode()).getAction(this, map);
+                if (action != null) {
+                    return action;
+                }
+            }
+
+            return new DoNothingAction();
+        } else {
+            // check if can despawn
+            if (RandomNumberGenerator.getRandomInt(100) < 10) {
+                return new DespawnAction(this);
+            }
+            return new DoNothingAction();
+        } 
     }
 
     /**
@@ -161,6 +177,5 @@ public abstract class Enemy extends Actor implements Resettable {
         behaviours.clear();
         DespawnAction despawnAction = new DespawnAction(this);
         despawnAction.execute(this, map);
-
     }
 }

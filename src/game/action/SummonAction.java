@@ -2,8 +2,12 @@ package game.action;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.RandomNumberGenerator;
 import game.allies.Ally;
+import game.enemy.Invader;
 import game.player.Player;
 
 /**
@@ -14,18 +18,40 @@ import game.player.Player;
  */
 public class SummonAction extends Action {
 
+    private Location groundLocation ;
+    /**
+     * A constructor for SummonAction class. 
+     */
+    public SummonAction(Location location) {
+        groundLocation = location ;
+    }
+
     /**
      * A function to execute the action.
-     * A new ally will be summoned and located at the left side of the player.
+     * A new ally will be summoned at the surrounding area of the summon sign.
+     * The summon sign will not work if its surrounding area is occupied.
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        int p = RandomNumberGenerator.getRandomInt(100) ;
 
-        Ally ally = Ally.getAllyInstance() ;
-        Player player = Player.getInstance() ;
-        map.at(player.getLocation().x() - 1, player.getLocation().y()).addActor(ally) ;
+        for (Exit exit : groundLocation.getExits()) {
+            Location destination = exit.getDestination() ;
 
-        return String.format("%s summoned %s", actor, ally) ;
+            if (!destination.containsAnActor()) {
+                if (p < 50) {
+                    Ally ally = Ally.getAllyInstance() ;
+                    destination.addActor(ally) ;
+                    return String.format("%s summoned %s", actor, ally) ;
+                } else {
+                    Invader invader = Invader.getInvaderInstance() ;
+                    destination.addActor(invader) ;
+                    return String.format("%s summoned %s", actor, invader) ;
+                }
+            }
+        }
+        return "The surrounding of summon sign is occupied." ;
+        
     }
 
     /**

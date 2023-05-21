@@ -1,7 +1,9 @@
 package game.environment;
 
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.Application;
 import game.RandomNumberGenerator;
 import game.enemy.GiantCrab;
 import game.enemy.HeavySkeletonSwordsman;
@@ -39,6 +41,7 @@ public class WestMapEnemyFactory implements EnemyFactory {
      * A method to add new West side enemy into the map.
      */
     public void addEnemy(Ground ground, Location location) {
+
         int p = RandomNumberGenerator.getRandomInt(100) ;
 
         if (p < 27 && !location.map().isAnActorAt(location) && ground.getDisplayChar() == 'n') {
@@ -51,7 +54,7 @@ public class WestMapEnemyFactory implements EnemyFactory {
 
         if (p < 2 && !location.map().isAnActorAt(location) && ground.getDisplayChar() == '~') {
             location.map().at(location.x(), location.y()).addActor(new GiantCrab()) ;
-        }
+        } 
 
     }
 }
