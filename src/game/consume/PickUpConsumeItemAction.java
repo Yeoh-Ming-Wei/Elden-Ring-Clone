@@ -38,7 +38,7 @@ public class PickUpConsumeItemAction extends PickUpAction {
         if(!actor.getItemInventory().contains(item)) {
 		    actor.addItemToInventory(item);
         } 
-        
+        map.locationOf(actor).removeItem(item);
         item.setUsesLeft(item.getUsesLeft() + 1);
 
 		return String.format("%s picked up %s", actor, item) ;
