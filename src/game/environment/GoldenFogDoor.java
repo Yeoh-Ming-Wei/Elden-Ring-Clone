@@ -5,10 +5,9 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import edu.monash.fit2099.engine.positions.World;
 import game.Application;
-import game.action.DeathAction;
 import game.enemy.ActorTypes;
+import game.enemy.Roles;
 import game.player.Player;
 
 /**
@@ -95,6 +94,18 @@ public class GoldenFogDoor extends Ground {
      */
     public static void transitionToMap(GameMap newMap, Actor player, Location location) {
         GameMap currentGameMap = location.map();
+        int x = currentGameMap.getXRange().max() ;
+        int y = currentGameMap.getYRange().max() ;
+        
+        for (int i = 0; i <= x; i++) {
+            for (int j = 0; j <= y ; j++) {
+
+                Actor actor = currentGameMap.getActorAt(currentGameMap.at(i, j));
+                if(!(actor == null) && actor.hasCapability(Roles.ENEMIES)) {
+                    currentGameMap.removeActor(actor);
+                }
+            }
+        }
         currentGameMap.removeActor(player);
         newMap.addActor(player, newMap.at(1, 2));
         Application.staticGameMap = newMap;
