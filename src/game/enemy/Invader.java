@@ -84,9 +84,8 @@ public class Invader extends Actor implements Resettable {
         PlayerRole wantedRole = RoleManager.playerRoles.get(choice);
 
         // create the player
-        //Invader invader = new Invader(wantedRole.getName(),wantedRole.getHp());
+        Invader invader = new Invader("Invader: " + wantedRole.getName(),wantedRole.getHp());
 
-        Invader invader = new Invader("Invader: " + wantedRole.getName(),1);
         // adding the weapons,items and capabilities of the role
         RoleManager.addCapabilityItemWeapon(invader,wantedRole);
 

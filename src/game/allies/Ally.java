@@ -40,7 +40,7 @@ public class Ally extends Actor implements Resettable {
      * @param hitPoints   the Actor's starting hit points
      */
     private Ally(String name, int hitPoints) {
-        super("Ally: " + name, 'A', hitPoints);
+        super( name, 'A', hitPoints);
 
         // to add the respective capabilities
         this.addCapability(ActorTypes.ALLY);
@@ -72,7 +72,7 @@ public class Ally extends Actor implements Resettable {
         PlayerRole wantedRole = RoleManager.playerRoles.get(choice);
 
         // create the player
-        Ally ally = new Ally(wantedRole.getName(),wantedRole.getHp());
+        Ally ally = new Ally("Ally: " + wantedRole.getName(),wantedRole.getHp());
 
         // add the weapons, items and capabilities of that role
         RoleManager.addCapabilityItemWeapon(ally,wantedRole);

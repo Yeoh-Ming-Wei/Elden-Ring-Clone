@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
+import game.allies.Ally;
 import game.consume.GoldenRunes;
 import game.consume.GoldenSeeds;
 import game.enemy.*;
@@ -154,7 +155,8 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
-		gameMap.at(2, 9).addActor(Invader.getInvaderInstance());
+		gameMap.at(2, 7).addActor(Invader.getInvaderInstance());
+		gameMap.at(2, 8).addActor(Ally.getAllyInstance());
 		// Adding golden runes
 		// GoldenRunes goldenRunes = new GoldenRunes();
 
