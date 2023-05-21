@@ -146,7 +146,6 @@ public class Application {
 		gameMap.at(2, 12).addActor(new SkeletalBandit());
 
 		 */
-		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
 		int x = 1;
@@ -155,6 +154,7 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
+		gameMap.at(2, 9).addActor(Invader.getInvaderInstance());
 		// Adding golden runes
 		// GoldenRunes goldenRunes = new GoldenRunes();
 

@@ -59,6 +59,7 @@ public class Ally extends Actor implements Resettable {
      *
      * Note: the reason we need this method is because, the constructor has different parameters,
      *      so we need another level before calling the constructor which will decide the parameters
+     *      Also, needs to be instantiated after player cause of the role manager instantiation inside
      *
      * @return an Ally instance
      */
