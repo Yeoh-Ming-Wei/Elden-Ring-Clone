@@ -2,7 +2,6 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Application;
 
@@ -14,20 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The EscapeRope class represents a potion item called "Teleport to RoundTable" that can be consumed only once by actors in the game.
+ * The EscapeRope class represents an item called "Escape Rope" that can be consumed only once by actors in the game.
  * It extends the ConsumeItem class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
+ * Modified by: Yeoh Ming Wei
  *
  */
 
 public class EscapeRope extends ConsumeItem {
 
-    private Location currentLocation;
-
     public EscapeRope() {
-        super("Teleport to RoundTable", 'T', true, 1);
+        super("Escape Rope", 'T', true, 1);
         this.addCapability(WeaponStatus.HAVE_NOT_TICKED);
     }
 
@@ -38,15 +35,7 @@ public class EscapeRope extends ConsumeItem {
      */
     @Override
     public void tick(Location currentLocation, Actor actor) {
-        this.currentLocation = currentLocation;
         this.removeCapability(WeaponStatus.HAVE_NOT_TICKED);
-    }
-
-    /**
-     * Get the number of uses remaining for this consumable.
-     */
-    public int getUsesLeft() {
-        return super.getUsesLeft();
     }
 
     /**
@@ -55,19 +44,8 @@ public class EscapeRope extends ConsumeItem {
      */
     @Override
     public void use(Actor actor) {
-        if (getUsesLeft() == 0) {
-            return;
-        }
-        GoldenFogDoor.transitionToMap(Application.table, Player.getInstance(), currentLocation);
-
-    }
-
-    /**
-     * Returns a code representing this potion.
-     * @return the EscapeRope class
-     */
-    public static Class<? extends Item> consumableCode() {
-        return EscapeRope.class;
+        Player player = Player.getInstance() ;
+        GoldenFogDoor.transitionToMap(Application.table, player, player.getLocation());
     }
 
     /**
@@ -77,19 +55,10 @@ public class EscapeRope extends ConsumeItem {
      */
     @Override
     public List<Action> getAllowableActions(){
-
         List<Action> res = new ArrayList<>();
-        Actor whoHasThis = Application.staticGameMap.getActorAt(currentLocation);
-        if ( whoHasThis == null )
-        {
-            return res;
-        }
-
-        for(Item item : whoHasThis.getItemInventory()){
-            if (item.getClass() == consumableCode()){
-                res.add(new ConsumeAction(this,1, "teleport to", "st RoundTable", super.getUsesLeft()));
-                break;
-            }
+        Player player = Player.getInstance() ;
+        if (player.getItemInventory().contains(this)) {
+            res.add(new ConsumeAction(this,1, "teleport to", "st RoundTable", super.getUsesLeft())) ;
         }
         return res;
     }
