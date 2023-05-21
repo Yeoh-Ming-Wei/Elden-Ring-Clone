@@ -28,7 +28,7 @@ public class Sign extends Ground {
     public ActionList allowableActions(Actor actor, Location location, String direction){
         ActionList actions = new ActionList();
 
-        actions.add(new SummonAction()) ;
+        actions.add(new SummonAction(location)) ;
 		return actions ;
 	}
 
