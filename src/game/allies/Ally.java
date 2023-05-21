@@ -42,7 +42,7 @@ public class Ally extends Actor implements Resettable {
      * @param hitPoints   the Actor's starting hit points
      */
     private Ally(String name, int hitPoints) {
-        super("Ally: " + name, 'A', hitPoints);
+        super( name, 'A', hitPoints);
 
         // to add the respective capabilities
         this.addCapability(ActorTypes.ALLY);
@@ -61,6 +61,7 @@ public class Ally extends Actor implements Resettable {
      *
      * Note: the reason we need this method is because, the constructor has different parameters,
      *      so we need another level before calling the constructor which will decide the parameters
+     *      Also, needs to be instantiated after player cause of the role manager instantiation inside
      *
      * @return an Ally instance
      */
@@ -73,7 +74,7 @@ public class Ally extends Actor implements Resettable {
         PlayerRole wantedRole = RoleManager.playerRoles.get(choice);
 
         // create the player
-        Ally ally = new Ally(wantedRole.getName(),wantedRole.getHp());
+        Ally ally = new Ally("Ally: " + wantedRole.getName(),wantedRole.getHp());
 
         // add the weapons, items and capabilities of that role
         RoleManager.addCapabilityItemWeapon(ally,wantedRole);

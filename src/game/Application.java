@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
+import game.allies.Ally;
 import game.consume.GoldenRunes;
 import game.consume.GoldenSeeds;
 import game.enemy.*;
@@ -147,7 +148,6 @@ public class Application {
 		gameMap.at(2, 12).addActor(new SkeletalBandit());
 
 		 */
-		
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 10 to spawn at site of lost grace
 		int x = 1;
@@ -156,6 +156,8 @@ public class Application {
 		Player player = Player.getInstance();
 		world.addPlayer(player, gameMap.at(x, y));
 
+		gameMap.at(2, 7).addActor(Invader.getInvaderInstance());
+		gameMap.at(2, 8).addActor(Ally.getAllyInstance());
 		// Adding golden runes
 		// GoldenRunes goldenRunes = new GoldenRunes();
 

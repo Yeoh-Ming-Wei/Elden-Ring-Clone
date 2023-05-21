@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.RandomNumberGenerator;
 import game.ResetManager;
 import game.Resettable;
+import game.action.AttackAction;
 import game.action.DespawnAction;
 import game.behaviour.AttackBehaviour;
 import game.behaviour.Behaviour;
@@ -18,6 +19,7 @@ import game.behaviour.FollowBehaviour;
 import game.behaviour.WanderBehaviour;
 import game.player.PlayerRole;
 import game.player.RoleManager;
+import game.rune.RuneManager;
 import game.weapon.WeaponStatus;
 
 import java.util.HashMap;
@@ -32,6 +34,13 @@ import java.util.Random;
  */
 public class Invader extends Actor implements Resettable {
     protected final Map<Integer, Behaviour> behaviours = new HashMap<>();
+
+    /**
+     * The runes that this actor can drop
+     */
+    private final int INVADER_MIN_RUNE = 1358  ;
+    private final int INVADER_MAX_RUNE = 5578  ;
+
     /**
      * Constructor.
      *
@@ -39,7 +48,7 @@ public class Invader extends Actor implements Resettable {
      * @param hitPoints   the Actor's starting hit points
      */
     private Invader(String name, int hitPoints) {
-        super("Invader: " + name, 'ඞ', hitPoints);
+        super(name, 'ඞ', hitPoints);
 
         // to add the respective capabilities
         this.addCapability(ActorTypes.INVADER);
@@ -52,6 +61,9 @@ public class Invader extends Actor implements Resettable {
 
         // making this enemy resettable
         ResetManager.registerResettable(this);
+
+        // adding to the rune manager
+        RuneManager.addEnemyDropRune(name, INVADER_MIN_RUNE, INVADER_MAX_RUNE);
     }
 
     /**
@@ -59,6 +71,7 @@ public class Invader extends Actor implements Resettable {
      *
      * Note: the reason we need this method is because, the constructor has different parameters,
      *      so we need another level before calling the constructor which will decide the parameters
+     *      Also, needs to be instantiated after player cause of the role manager instantiation inside
      *
      * @return an Invader instance
      */
@@ -71,7 +84,7 @@ public class Invader extends Actor implements Resettable {
         PlayerRole wantedRole = RoleManager.playerRoles.get(choice);
 
         // create the player
-        Invader invader = new Invader(wantedRole.getName(),wantedRole.getHp());
+        Invader invader = new Invader("Invader: " + wantedRole.getName(),wantedRole.getHp());
 
         // adding the weapons,items and capabilities of the role
         RoleManager.addCapabilityItemWeapon(invader,wantedRole);
@@ -90,6 +103,13 @@ public class Invader extends Actor implements Resettable {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
+
+        // to only allow player to use this function
+        if (otherActor.hasCapability(ActorTypes.PLAYER)) {
+            // adding the intrinsic weapon choice
+            actions.add(new AttackAction(this, direction));
+        }
+
         return actions;
     }
 
