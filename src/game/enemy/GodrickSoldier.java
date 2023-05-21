@@ -1,6 +1,5 @@
 package game.enemy;
 
-import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.rune.RuneManager;
 import game.weapon.HeavyCrossbow;
 

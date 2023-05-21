@@ -142,7 +142,6 @@ public class Application {
 		gameMap.at(8, 21).addActor(Trader.getFingerReaderEnia());
 		gameMap.at(4, 21).addActor(Trader.getMerchantKale());
 
-
 		// HINT: what does it mean to prefer composition to inheritance?
 		// use x = 38 and y = 11 to spawn at site of lost grace
 		int x = 38;

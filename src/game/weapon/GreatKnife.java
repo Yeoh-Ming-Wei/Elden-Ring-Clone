@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
 import game.action.*;
-import game.enemy.ActorTypes;
 
 import java.util.ArrayList;
 import java.util.List;

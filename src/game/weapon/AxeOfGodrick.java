@@ -2,18 +2,15 @@ package game.weapon;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.Application;
 import game.TradeManager;
 import game.action.AttackAction;
-import game.action.AttackSurroundingAction;
 import game.action.NearMe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A weapon used by skeleton
@@ -82,9 +79,6 @@ public class AxeOfGodrick extends WeaponItem implements Sellable{
      *          list will be empty if no actions are possible
      */
     public List<Action> getAllowableActions(){
-
-        // attack \\
-        boolean isSkill;
 
         // the resulting list of actions
         List<Action> res = new ArrayList<>();

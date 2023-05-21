@@ -8,7 +8,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.RandomNumberGenerator;
 import game.allies.Ally;
 import game.enemy.Invader;
-import game.player.Player;
 
 /**
  * A summon action is an action that allows player to summon an Ally. It can

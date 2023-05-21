@@ -6,8 +6,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.enemy.ActorTypes;
-import game.player.RoleManager;
-import game.rune.RuneManager;
 
 import java.util.ArrayList;
 

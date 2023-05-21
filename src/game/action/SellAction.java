@@ -6,8 +6,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.rune.RuneManager;
-import game.weapon.*;
-import java.util.HashMap;
 
 /**
  * An Action to allow the player to sell the weapon to trader
