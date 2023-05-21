@@ -2,7 +2,6 @@ package game.consume;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.DropAction;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -95,7 +94,7 @@ public class GoldenRunes extends ConsumeItem {
 
                 int p = RandomNumberGenerator.getRandomInt(100) ;
                 Location location = map.at(i, j) ;
-                if (p < 2 && location.canActorEnter(actor) && !location.getGround().hasCapability(Status.ITEM_NOT_SPAWNABLE)) {
+                if (p < 1 && location.canActorEnter(actor) && !location.getGround().hasCapability(Status.ITEM_NOT_SPAWNABLE)) {
                     map.at(i, j).addItem(new GoldenRunes()); 
                 }
 

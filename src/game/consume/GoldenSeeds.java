@@ -18,7 +18,7 @@ import java.util.List;
  * It extends the ConsumeItem class.
  * Created by: Loo Li Shen
  * @author Loo Li Shen
- * Modified by: Loo Li Shen
+ * Modified by: Yeoh Ming Wei
  *
  */
 
@@ -75,7 +75,7 @@ public class GoldenSeeds extends ConsumeItem {
 
                 int p = RandomNumberGenerator.getRandomInt(100) ;
                 Location location = map.at(i, j) ;
-                if (p < 2 && location.canActorEnter(actor) && !location.getGround().hasCapability(Status.ITEM_NOT_SPAWNABLE)) {
+                if (p < 1 && location.canActorEnter(actor) && !location.getGround().hasCapability(Status.ITEM_NOT_SPAWNABLE)) {
                     map.at(i, j).addItem(new GoldenSeeds());
                 }
 
